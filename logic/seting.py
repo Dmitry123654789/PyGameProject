@@ -15,7 +15,7 @@ screen.fill(pygame.Color('black'))
 
 def load_image(name, colorkey=None):
     """Превращает одно изображение в surface"""
-    fullname = os.path.join('data', 'images', name)
+    fullname = os.path.join('data', name)
     if not os.path.isfile(fullname):
         sys.exit()
     image = pygame.image.load(fullname)

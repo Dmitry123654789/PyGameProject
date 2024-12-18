@@ -1,9 +1,9 @@
 from logic.seting import *
-import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    image = load_image("dog_sprites.png")
+    image = load_image("images/dog_sprites.png")
+
     def __init__(self, x, y, *group):
         super().__init__(*group)
         self.rect = self.image.get_rect()
@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
         self.step = 8
         self.direction = 0
 
-    def input(self, events):
+    def input(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_UP]:
             self.image = self.up_sprite[self.ind_sprite]
@@ -42,23 +42,9 @@ class Player(pygame.sprite.Sprite):
         else:
             self.image = self.lst_start_img[self.direction]
 
-
-        for event in events:
-            if event.type == pygame.KEYUP:
-                print('a')
-                if event.key == pygame.K_UP:
-                    self.image = self.up_sprite[1]
-                elif event.key == pygame.K_DOWN:
-                    self.image = self.down_sprite[1]
-                elif event.key == pygame.K_RIGHT:
-                    self.image = self.right_sprite[1]
-                elif event.key == pygame.K_LEFT:
-                    self.image = self.left_sprite[1]
-
-
-    def update(self, tick, events):
+    def update(self, tick):
         if tick - self.animation_timer >= self.animation_interval:
             self.ind_sprite += 1
             self.ind_sprite %= len(self.right_sprite)
             self.animation_timer = tick
-            self.input(events)
+            self.input()

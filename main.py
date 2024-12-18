@@ -1,6 +1,5 @@
-from logic.seting import *
+from logic.field import *
 from logic.players import *
-import pygame
 
 
 class Game:
@@ -11,20 +10,20 @@ class Game:
         self.player = pygame.sprite.Group()
         Player(32, 32, self.player)
 
+        self.field = Field()
+
     def main(self):
 
         running = True
         clock = pygame.time.Clock()
         while running:
             screen.fill(pygame.Color('black'))
-            events = []
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                events.append(event)
 
-
-            self.player.update(pygame.time.get_ticks(), events)
+            self.field.update()
+            self.player.update(pygame.time.get_ticks())
             self.player.draw(screen)
             pygame.display.flip()
             clock.tick(FPS)
