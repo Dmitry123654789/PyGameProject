@@ -7,10 +7,15 @@ SIZE = WIDTH, HEIGHT = 800, 600
 FPS = 120
 CELL_SIZE = 50
 
+pygame.init()
+pygame.display.set_caption('Castle')
+screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
+screen.fill(pygame.Color('black'))
+
 
 def load_image(name, colorkey=None):
     """Превращает одно изображение в surface"""
-    fullname = os.path.join('../data', name)
+    fullname = os.path.join('data', 'images', name)
     if not os.path.isfile(fullname):
         sys.exit()
     image = pygame.image.load(fullname)
@@ -23,17 +28,17 @@ def load_image(name, colorkey=None):
         image = image.convert_alpha()
     return image
 
-def split_image_to_surfaces(image, sprite_height_width, cell_size, count_row, count_colm, row, colm):
+
+def split_image_to_surfaces(image, sprite_height_width, cell_size, count_colm, row, colm):
     """Разделяет изображение на список surface"""
-    """Путь к файлу, ширина одного спрайта, высота одного спрайта, итоговый размер спрайта, количество строк, 
+    """Surface, ширина одного спрайта, высота одного спрайта, итоговый размер спрайта, количество строк, 
     количество колон, какая строка, сколько колон ну жно вырезать"""
-    fullname = os.path.join('../data', image)
-    image = pygame.image.load(fullname)
+
     image_width, image_height = image.get_size()
     sprites = []
-    for y in range(0, image_height // count_row * row, sprite_height_width):
-        for x in range(0, image_width // count_colm * colm, sprite_height_width):
-            rect = pygame.Rect(x, y, sprite_height_width, sprite_height_width)
-            sprite = pygame.transform.scale(fullname.subsurface(rect).copy(), (cell_size, cell_size))
-            sprites.append(sprite)
+    y = sprite_height_width * row
+    for x in range(0, image_width // count_colm * colm, sprite_height_width):
+        rect = pygame.Rect(x, y, sprite_height_width, sprite_height_width)
+        sprite = pygame.transform.scale(image.subsurface(rect).copy(), (cell_size, cell_size))
+        sprites.append(sprite)
     return sprites
