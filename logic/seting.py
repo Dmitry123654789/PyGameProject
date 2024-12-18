@@ -1,15 +1,16 @@
 import os
-import pygame
 import sys
 
-SIZE = WIDTH, HEIGHT = 800, 600
+import pygame
 
+SIZE = WIDTH, HEIGHT = 800, 600
+FPS = 120
 CELL_SIZE = 50
 
 
 def load_image(name, colorkey=None):
     """Превращает одно изображение в surface"""
-    fullname = os.path.join('data', name)
+    fullname = os.path.join('../data', name)
     if not os.path.isfile(fullname):
         sys.exit()
     image = pygame.image.load(fullname)
@@ -26,7 +27,7 @@ def split_image_to_surfaces(image, sprite_height_width, cell_size, count_row, co
     """Разделяет изображение на список surface"""
     """Путь к файлу, ширина одного спрайта, высота одного спрайта, итоговый размер спрайта, количество строк, 
     количество колон, какая строка, сколько колон ну жно вырезать"""
-    fullname = os.path.join('data', image)
+    fullname = os.path.join('../data', image)
     image = pygame.image.load(fullname)
     image_width, image_height = image.get_size()
     sprites = []
