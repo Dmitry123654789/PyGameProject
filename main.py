@@ -8,10 +8,10 @@ class Game:
 
     def create_group_sprite(self):
         self.player = pygame.sprite.Group()
-        Player(32, 32, self.player)
+        Player(64, 32, self.player)
 
     def update_sprites(self):
-        self.player.update()
+        self.player.update(field)
 
     def draw_sprites(self):
         field.draw(screen)

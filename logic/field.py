@@ -7,10 +7,11 @@ tmx_map = load_pygame('data/world.tmx')
 
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, pos, surf, *groups):
+    def __init__(self, pos, surf, layer, *groups):
         super().__init__(*groups)
         self.image = surf
         self.rect = self.image.get_rect(topleft=pos)
+        self.name_layer = layer
 
 
 class Field(pygame.sprite.Group):
@@ -42,4 +43,4 @@ for layer in tmx_map.visible_layers:
     if hasattr(layer, 'data'):
         for x, y, surf in layer.tiles():
             pos = (x * CELL_SIZE, y * CELL_SIZE)
-            Tile(pos, pygame.transform.scale(surf, (CELL_SIZE, CELL_SIZE)), field)
+            Tile(pos, pygame.transform.scale(surf, (CELL_SIZE, CELL_SIZE)), layer.name, field)
