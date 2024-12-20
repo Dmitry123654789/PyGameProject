@@ -10,10 +10,14 @@ class Game:
         self.player = pygame.sprite.Group()
         Player(32, 32, self.player)
 
-        self.field = Field()
+    def update_sprites(self):
+        self.player.update()
+
+    def draw_sprites(self):
+        field.draw(screen)
+        self.player.draw(screen)
 
     def main(self):
-
         running = True
         clock = pygame.time.Clock()
         while running:
@@ -22,9 +26,8 @@ class Game:
                 if event.type == pygame.QUIT:
                     running = False
 
-            self.field.update()
-            self.player.update(pygame.time.get_ticks())
-            self.player.draw(screen)
+            self.update_sprites()
+            self.draw_sprites()
             pygame.display.flip()
             clock.tick(FPS)
 

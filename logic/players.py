@@ -55,7 +55,8 @@ class Player(pg.sprite.Sprite):
             self.rect.x += self.step * self.dict_direction[self.direction][0]
             self.rect.y += self.step * self.dict_direction[self.direction][1]
 
-    def update(self, tick):
+    def update(self):
+        tick = pygame.time.get_ticks()
         if tick - self.animation_timer >= self.animation_interval:
             self.ind_sprite += 1
             self.ind_sprite %= len(self.lst_sprites[0])
