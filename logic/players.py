@@ -1,14 +1,14 @@
 import pygame as pg
 
 from logic.seting import *
-
+from logic.field import *
 
 class Player(pg.sprite.Sprite):
     image = load_image("images/dog_sprites.png")
 
     def __init__(self, x, y, *group):
         super().__init__(*group)
-        self.rect = pygame.Rect(x, y, self.image.get_width() // 11, self.image.get_height() // 8)
+        self.rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
         self.lst_sprites = []
         for i in range(8):
             self.lst_sprites.append(split_image_to_surfaces(self.image, 32, CELL_SIZE, 11, i, 5))
@@ -53,15 +53,24 @@ class Player(pg.sprite.Sprite):
 
 
         if self.go:
-            self.image = self.lst_sprites[self.direction][self.ind_sprite]
-            self.rect.x += self.step * self.dict_direction[self.direction][0]
-            self.rect.y += self.step * self.dict_direction[self.direction][1]
+            for step in range(self.step, 0, -1):
+                print(step)
+                if self.going(group_sprites, step):
+                    return
 
-            collision_obj = pygame.sprite.spritecollide(self, group_sprites, False)
-            if any(sprite.name_layer == "Sprites" for sprite in collision_obj):
-                self.image = self.lst_sprites[self.direction][self.ind_sprite]
-                self.rect.x -= self.step * self.dict_direction[self.direction][0]
-                self.rect.y -= self.step * self.dict_direction[self.direction][1]
+    def going(self, group_sprites, step):
+        self.image = self.lst_sprites[self.direction][self.ind_sprite]
+        self.rect.x += step * self.dict_direction[self.direction][0]
+        self.rect.y += step * self.dict_direction[self.direction][1]
+
+        collision_obj = pygame.sprite.spritecollide(self, group_sprites, False)
+        if any(isinstance(sprite, TileObject) for sprite in collision_obj):
+            self.image = self.lst_sprites[self.direction][self.ind_sprite]
+            self.rect.x -= step * self.dict_direction[self.direction][0]
+            self.rect.y -= step * self.dict_direction[self.direction][1]
+            return False
+        return True
+
 
 
     def update(self, group_sprites):
@@ -72,3 +81,4 @@ class Player(pg.sprite.Sprite):
             self.ind_sprite %= len(self.lst_sprites[0])
             self.animation_timer = tick
             self.input(group_sprites)
+        pg.draw.rect(screen, 'green', self.rect)

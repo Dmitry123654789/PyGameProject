@@ -7,28 +7,23 @@ tmx_map = load_pygame('data/world.tmx')
 
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, pos, surf, layer, *groups):
+    def __init__(self, pos, surf, *groups):
         super().__init__(*groups)
         self.image = surf
         self.rect = self.image.get_rect(topleft=pos)
-        self.name_layer = layer
+
+
+class TileObject(pygame.sprite.Sprite):
+    def __init__(self, pos, surf, *groups):
+        super().__init__(*groups)
+        self.image = surf
+        self.rect = self.image.get_rect(topleft=pos)
 
 
 class Field(pygame.sprite.Group):
 
     def __init__(self):
         super().__init__()
-
-    # def update(self, delt_x=0, delt_y=0):
-    #     title_img = self.tmx_map.get_tile_image_by_gid
-    #     for layer in self.tmx_map.visible_layers:
-    #         if isinstance(layer, TiledTileLayer):
-    #             for x, y, serf in layer:
-    #                 title = title_img(serf)
-    #
-    #                 if title:
-    #                     title = pygame.transform.scale(title, (CELL_SIZE, CELL_SIZE))
-    #                     screen.blit(title, (x * CELL_SIZE - delt_x, y * CELL_SIZE - delt_y))
 
     def set_darkness(self):
         """Затемнение"""
@@ -43,4 +38,10 @@ for layer in tmx_map.visible_layers:
     if hasattr(layer, 'data'):
         for x, y, surf in layer.tiles():
             pos = (x * CELL_SIZE, y * CELL_SIZE)
-            Tile(pos, pygame.transform.scale(surf, (CELL_SIZE, CELL_SIZE)), layer.name, field)
+            Tile(pos, pygame.transform.scale(surf, (CELL_SIZE, CELL_SIZE)), field)
+            # pygame.draw.rect(screen, 'yellow', (pos[0], pos[1], CELL_SIZE, CELL_SIZE))
+
+for obj in tmx_map.objects:
+    pos = (obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE)
+    TileObject(pos, pygame.transform.scale(obj.image, (CELL_SIZE, CELL_SIZE)), field)
+    # pygame.draw.rect(screen, 'red', (pos[0], pos[1], CELL_SIZE, CELL_SIZE))

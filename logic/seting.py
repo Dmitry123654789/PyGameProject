@@ -5,7 +5,7 @@ import pygame
 
 SIZE = WIDTH, HEIGHT = 800, 600
 FPS = 120
-CELL_SIZE = 50
+CELL_SIZE = 64
 
 pygame.init()
 pygame.display.set_caption('Castle')
