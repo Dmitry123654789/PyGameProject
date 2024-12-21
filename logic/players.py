@@ -1,3 +1,4 @@
+import pygame
 import pygame as pg
 
 from logic.seting import *
@@ -10,7 +11,7 @@ class Player(pg.sprite.Sprite):
         super().__init__(*group)
         self.rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
         self.lst_sprites = []
-        for i in range(8):
+        for i in range(7):
             self.lst_sprites.append(split_image_to_surfaces(self.image, 32, CELL_SIZE, 11, i, 5))
 
         self.ind_sprite = 0
@@ -51,7 +52,6 @@ class Player(pg.sprite.Sprite):
             self.image = self.lst_sprites[self.direction][1]
 
 
-
         if self.go:
             for step in range(self.step, 0, -1):
                 print(step)
@@ -63,13 +63,18 @@ class Player(pg.sprite.Sprite):
         self.rect.x += step * self.dict_direction[self.direction][0]
         self.rect.y += step * self.dict_direction[self.direction][1]
 
+        # old_center = self.rect.center
+        # self.image = self.lst_sprites[self.direction][self.ind_sprite]
+        # self.rect = self.image.get_rect(center=old_center)
+
         collision_obj = pygame.sprite.spritecollide(self, group_sprites, False)
-        if any(isinstance(sprite, TileObject) for sprite in collision_obj):
-            self.image = self.lst_sprites[self.direction][self.ind_sprite]
+        if [sprite for sprite in collision_obj if isinstance(sprite, TileObject)]:
+            self.image = self.lst_sprites[self.direction][1]
             self.rect.x -= step * self.dict_direction[self.direction][0]
             self.rect.y -= step * self.dict_direction[self.direction][1]
             return False
         return True
+
 
 
 
