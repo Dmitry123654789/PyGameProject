@@ -20,8 +20,7 @@ class Game:
                     pos = (x * CELL_SIZE, y * CELL_SIZE)
                     Tile(pos, pygame.transform.scale(surf, (CELL_SIZE, CELL_SIZE)), self.field)
 
-        for obj in tmx_map.objects:
-            print(obj)
+        for obj in tmx_map.get_layer_by_name('Polygon'):
             pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
             size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
             TileObject(pos, size, self.collision_sprite)
