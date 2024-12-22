@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="30" height="20" tilewidth="8" tileheight="8" infinite="0" nextlayerid="7" nextobjectid="12">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="26">
  <tileset firstgid="1" source="castle/tile_castle/Bridges.tsx"/>
  <tileset firstgid="13" source="castle/tile_castle/Garden.tsx"/>
- <tileset firstgid="17" source="castle/tile_castle/Decor.tsx"/>
+ <tileset firstgid="17" name="Decor" tilewidth="16" tileheight="16" tilecount="20" columns="5">
+  <image source="castle/Others/Decor.png" width="80" height="64"/>
+ </tileset>
  <tileset firstgid="37" source="castle/tile_castle/Tree.tsx"/>
  <tileset firstgid="46" source="castle/tile_castle/Road.tsx"/>
  <tileset firstgid="62" name="Castle_1" tilewidth="16" tileheight="16" tilecount="18" columns="6">
@@ -14,9 +16,8 @@
  <tileset firstgid="108" name="Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="castle/Others/Grass.png" width="96" height="96"/>
  </tileset>
- <tileset firstgid="144" name="Water" tilewidth="16" tileheight="16" tilecount="18" columns="6">
-  <image source="castle/Others/Water.png" width="96" height="48"/>
- </tileset>
+ <tileset firstgid="144" source="castle/tile_castle/Decor2.tsx"/>
+ <tileset firstgid="164" source="castle/tile_castle/Water2.tsx"/>
  <layer id="2" name="Wals" width="30" height="20">
   <data encoding="csv">
 87,88,88,88,88,88,88,88,88,88,88,88,88,88,88,88,88,88,88,89,0,0,0,0,0,0,88,88,88,88,
@@ -117,7 +118,7 @@
   <data encoding="csv">
 79,0,0,0,0,0,0,0,0,0,0,0,0,79,0,0,0,0,0,79,0,0,0,0,0,0,0,0,0,0,
 79,0,0,0,0,0,0,0,0,0,0,0,0,79,0,0,0,0,0,79,0,0,0,0,0,0,0,0,0,0,
-79,18,18,18,0,0,0,0,0,0,0,0,0,79,28,0,0,0,34,79,0,0,0,0,0,0,0,0,0,0,
+79,18,18,18,0,151,152,152,152,153,0,0,0,79,28,0,0,0,34,79,0,0,0,0,0,0,0,0,0,0,
 79,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,79,0,0,0,0,0,0,0,0,0,0,
 79,0,0,0,0,0,0,0,0,0,0,0,0,79,0,0,0,0,0,0,0,5,6,6,6,6,7,0,0,0,
 79,0,21,0,0,0,0,0,0,0,0,0,0,79,0,0,0,0,0,79,0,0,0,0,0,0,0,0,0,0,
@@ -138,9 +139,6 @@
 </data>
  </layer>
  <objectgroup id="6" name="Слой объектов 1">
-  <object id="1" gid="18" x="79" y="47.5" width="16" height="16"/>
-  <object id="5" gid="18" x="90.9091" y="47.6364" width="16" height="16"/>
-  <object id="6" gid="18" x="102.909" y="47.8182" width="16" height="16"/>
-  <object id="11" gid="32" x="52" y="25.5" width="16" height="16"/>
+  <object id="25" x="89" y="36.3125" width="62" height="9.875"/>
  </objectgroup>
 </map>
