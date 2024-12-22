@@ -3,7 +3,7 @@ import sys
 
 import pygame
 
-SIZE = WIDTH, HEIGHT = 800, 600
+SIZE = WIDTH, HEIGHT = 1920, 1080
 FPS = 120
 CELL_SIZE = 64
 

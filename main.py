@@ -24,17 +24,21 @@ class Game:
     # функция для переключения сцены
     def switch_scene(self, scene):
         self.current_scene = scene
+        self.main()
 
     def main(self):
+
         # переключает сцены
-        self.switch_scene(menu_scene)
-        if self.current_scene is menu_scene:
-            self.switch_scene(menu_scene)
+        # if self.current_scene is menu_scene:
+        #     self.switch_scene(menu_scene)
+        # if self.current_scene is setting_scene:
+        #     self.switch_scene()
         # elif self.current_scene is game_scene
         if self.current_scene is None:
             pygame.quit()
-        # запуск текущей сцены
-        self.current_scene(screen)
+        else:
+            # запуск текущей сцены
+            self.current_scene()
 
     # while running:
     #     screen.fill(pygame.Color('black'))
@@ -50,4 +54,4 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    game.main()
+    game.switch_scene(menu_scene)
