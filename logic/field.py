@@ -1,5 +1,5 @@
 import pygame
-from pytmx import load_pygame, TiledTileLayer
+from pytmx import load_pygame
 
 from logic.seting import *
 

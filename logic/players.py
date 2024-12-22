@@ -4,6 +4,24 @@ import pygame as pg
 from logic.seting import *
 from logic.field import *
 
+
+def split_image_to_surfaces(image, sprite_height_width, cell_size, count_colm, row, colm):
+    """Разделяет изображение на список surface"""
+    """Surface, ширина одного спрайта, высота одного спрайта, итоговый размер спрайта, количество строк, 
+    количество колон, какая строка, сколько колон ну жно вырезать, пустое пространство между строками, пустое пространство между колонами"""
+
+    image_width, image_height = image.get_size()
+
+    sprites = []
+    y = sprite_height_width * row
+    for x in range(0, image_width // count_colm * colm, sprite_height_width):
+        rect = pygame.Rect(x, y, sprite_height_width, sprite_height_width)
+        sprite = pygame.transform.scale(image.subsurface(rect).copy(), (cell_size, cell_size))
+        sprites.append(sprite)
+
+    return sprites
+
+
 class Player(pg.sprite.Sprite):
     image = load_image("images/dog_sprites.png")
 
@@ -11,7 +29,7 @@ class Player(pg.sprite.Sprite):
         super().__init__(*group)
         self.rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
         self.lst_sprites = []
-        for i in range(7):
+        for i in range(8):
             self.lst_sprites.append(split_image_to_surfaces(self.image, 32, CELL_SIZE, 11, i, 5))
 
         self.ind_sprite = 0
@@ -51,32 +69,21 @@ class Player(pg.sprite.Sprite):
             self.go = False
             self.image = self.lst_sprites[self.direction][1]
 
-
         if self.go:
-            for step in range(self.step, 0, -1):
-                print(step)
-                if self.going(group_sprites, step):
-                    return
+            self.going(group_sprites)
 
-    def going(self, group_sprites, step):
+    def going(self, group_sprites):
         self.image = self.lst_sprites[self.direction][self.ind_sprite]
-        self.rect.x += step * self.dict_direction[self.direction][0]
-        self.rect.y += step * self.dict_direction[self.direction][1]
-
-        # old_center = self.rect.center
-        # self.image = self.lst_sprites[self.direction][self.ind_sprite]
-        # self.rect = self.image.get_rect(center=old_center)
+        self.rect.x += self.step * self.dict_direction[self.direction][0]
+        self.rect.y += self.step * self.dict_direction[self.direction][1]
 
         collision_obj = pygame.sprite.spritecollide(self, group_sprites, False)
         if [sprite for sprite in collision_obj if isinstance(sprite, TileObject)]:
             self.image = self.lst_sprites[self.direction][1]
-            self.rect.x -= step * self.dict_direction[self.direction][0]
-            self.rect.y -= step * self.dict_direction[self.direction][1]
+            self.rect.x -= self.step * self.dict_direction[self.direction][0]
+            self.rect.y -= self.step * self.dict_direction[self.direction][1]
             return False
         return True
-
-
-
 
     def update(self, group_sprites):
 
@@ -86,4 +93,4 @@ class Player(pg.sprite.Sprite):
             self.ind_sprite %= len(self.lst_sprites[0])
             self.animation_timer = tick
             self.input(group_sprites)
-        pg.draw.rect(screen, 'green', self.rect)
+        # pg.draw.rect(screen, 'green', self.rect)

@@ -14,7 +14,7 @@ class Game:
         self.player.update(field)
 
     def draw_sprites(self):
-        # field.draw(screen)
+        field.draw(screen)
         self.player.draw(screen)
 
     def main(self):
