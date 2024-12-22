@@ -57,8 +57,8 @@ start_game = Game()
 def menu_scene():
     # инициализация для переключения сцен
     pygame.init()
-    pygame.display.set_caption('Castle')
-
+    pygame.display.set_caption('Bark and Battle')
+    pygame.display.set_icon(load_image('images/icon_app.jpg'))
     menu = Menu()
     running = True
     while running:
