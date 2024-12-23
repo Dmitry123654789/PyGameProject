@@ -68,15 +68,17 @@ class Player(Entity):
             return False
         return True
 
-    def going(self, group_sprites):
+    def going(self, group_sprites, step):
         self.vect_hitbox()
-        self.rect.x += self.step * self.dict_direction[self.direction][0]
-        self.rect.y += self.step * self.dict_direction[self.direction][1]
+        self.rect.x += step * self.dict_direction[self.direction][0]
+        self.rect.y += step * self.dict_direction[self.direction][1]
         self.hitbox.center = self.rect.center
         if self.collisions(group_sprites):
-            self.rect.x -= self.step * self.dict_direction[self.direction][0]
-            self.rect.y -= self.step * self.dict_direction[self.direction][1]
+            self.rect.x -= step * self.dict_direction[self.direction][0]
+            self.rect.y -= step * self.dict_direction[self.direction][1]
             self.hitbox.center = self.rect.center
+            return False
+        return True
 
     def collisions(self, group_sprites):
         for obj in group_sprites:
@@ -93,4 +95,6 @@ class Player(Entity):
     def update(self, group_sprites):
         if self.input() and self.is_animated():
             self.animate()
-            self.going(group_sprites)
+            for step in range(self.step, -1, -1):
+                if self.going(group_sprites, step):
+                    break
