@@ -160,9 +160,9 @@
   <object id="57" x="278.909" y="134.727" width="35.6364" height="34.9091"/>
   <object id="58" x="255.636" y="176.182" width="16.3636" height="15.4545"/>
   <object id="59" x="224" y="159.818" width="15.8182" height="16.1818"/>
-  <object id="62" x="359" y="0.5" width="48.5" height="64.4167"/>
+  <object id="62" x="359" y="3" width="48.5" height="61.9167"/>
   <object id="63" x="361" y="77.4375" width="47" height="98.5625"/>
-  <object id="64" x="360" y="170" width="121" height="32.5"/>
-  <object id="66" x="-5" y="198.5" width="485.5" height="123"/>
+  <object id="64" x="360" y="170" width="116.5" height="32.5"/>
+  <object id="66" x="2.5" y="198.5" width="474.5" height="116.25"/>
  </objectgroup>
 </map>
