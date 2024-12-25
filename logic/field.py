@@ -50,17 +50,22 @@ class Field(pygame.sprite.Group):
     def update_coord(self, pos_player, rect_player, delta_x=0, delta_y=0):
         self.now_coord[0] += delta_x
         self.now_coord[1] += delta_y
-        # Находится ли персонаж в своем квадрате
-        if delta_x > 0 and pos_player.x + pos_player.width < rect_player.x + rect_player.width or delta_x < 0 and pos_player.x > rect_player.x:
-            return True
+
         # Подошел ли персонаж к концу карты
-        if self.now_coord[0] - screen.get_size()[0] / 2 < 0 or self.now_coord[0] + screen.get_size()[0] / 2 > self.rect.width:
+        # if self.now_coord[0] - screen.get_size()[0] / 2 < 0 or self.now_coord[0] + screen.get_size()[0] / 2 > self.rect.width:
+        #     print( self.now_coord[0], pos_player.centerx)
+        #     return True
+
+        # Находится ли персонаж в своем квадрате
+        if delta_x > 0 and pos_player.x + pos_player.width < rect_player.x + rect_player.width or delta_x < 0 and pos_player.x > rect_player.x or \
+                delta_y > 0 and pos_player.y + pos_player.height < rect_player.y + rect_player.height or delta_y < 0 and pos_player.y > rect_player.y:
             return True
-        print(delta_x, delta_y)
+
+        print( self.now_coord[0], pos_player.centerx)
         for sprite in self.sprites():
             sprite.rect.center = (sprite.rect.centerx - delta_x, sprite.rect.centery - delta_y)
 
-
+        return False
 
 
 

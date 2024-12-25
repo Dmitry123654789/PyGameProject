@@ -37,7 +37,7 @@ class Entity(pg.sprite.Sprite):
 class Player(Entity):
     def __init__(self, pos, sprites, *group):
         super().__init__(pos, sprites, *group)
-        self.step = 32
+        self.step = 8
         self.dict_direction = {0: (0, 1), 1: (-1, 0), 2: (1, 0), 3: (0, -1)}
         self.go = False
         self.dict_key = {'down': (pg.K_DOWN, pg.K_s), 'up': (pg.K_UP, pg.K_w), 'right': (pg.K_RIGHT, pg.K_d),
