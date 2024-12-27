@@ -45,26 +45,27 @@ class Field(pygame.sprite.Group):
         for obj in tmx_map.get_layer_by_name('Polygon'):
             pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
             size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
-            TileObject(pos, size, self)
+            TileObject(pos, size, self, collision_group)
 
     def update_coord(self, pos_player, rect_player, delta_x=0, delta_y=0):
         self.now_coord[0] += delta_x
         self.now_coord[1] += delta_y
-
-        # Подошел ли персонаж к концу карты
-        # if self.now_coord[0] - screen.get_size()[0] / 2 < 0 or self.now_coord[0] + screen.get_size()[0] / 2 > self.rect.width:
-        #     print( self.now_coord[0], pos_player.centerx)
-        #     return True
 
         # Находится ли персонаж в своем квадрате
         if delta_x > 0 and pos_player.x + pos_player.width < rect_player.x + rect_player.width or delta_x < 0 and pos_player.x > rect_player.x or \
                 delta_y > 0 and pos_player.y + pos_player.height < rect_player.y + rect_player.height or delta_y < 0 and pos_player.y > rect_player.y:
             return True
 
-        print( self.now_coord[0], pos_player.centerx)
+        # Подошел ли персонаж к концу карты
+        if (self.now_coord[0] - pos_player.right <= 0 and delta_x < 0) or \
+                (self.now_coord[0] + (screen.get_size()[0] - pos_player.left) > self.rect.width and delta_x > 0) or \
+                (self.now_coord[1] - pos_player.bottom <= 0 and delta_y < 0) or \
+                (self.now_coord[1] + (screen.get_size()[1] - pos_player.top) > self.rect.height and delta_y > 0):
+            return True
+
+        # Передвигаем все спрайты
         for sprite in self.sprites():
             sprite.rect.center = (sprite.rect.centerx - delta_x, sprite.rect.centery - delta_y)
-
         return False
 
 

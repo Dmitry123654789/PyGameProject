@@ -37,7 +37,7 @@ class Entity(pg.sprite.Sprite):
 class Player(Entity):
     def __init__(self, pos, sprites, *group):
         super().__init__(pos, sprites, *group)
-        self.step = 8
+        self.step = 1
         self.dict_direction = {0: (0, 1), 1: (-1, 0), 2: (1, 0), 3: (0, -1)}
         self.go = False
         self.dict_key = {'down': (pg.K_DOWN, pg.K_s), 'up': (pg.K_UP, pg.K_w), 'right': (pg.K_RIGHT, pg.K_d),
@@ -45,8 +45,12 @@ class Player(Entity):
 
         self.hitbox = self.rect.inflate(0, -self.rect.height / 2)
         self.vect = 'horizontal'
-        side_rect = 120
-        self.rect_player = pg.rect.Rect(screen.get_size()[0] / 2 - side_rect / 2, screen.get_size()[1] / 2 - side_rect / 2, side_rect, side_rect)
+        self.side_rect = 120
+        self.update_player_rect()
+        
+    def update_player_rect(self):
+        self.rect_player = pg.rect.Rect(screen.get_size()[0] / 2 - self.side_rect / 2,
+                                        screen.get_size()[1] / 2 - self.side_rect / 2, self.side_rect, self.side_rect)
 
     def side(self, key, side):
         return any(key[i] for i in self.dict_key[side])
@@ -79,10 +83,8 @@ class Player(Entity):
             self.rect.center = (self.rect.centerx - ofset_x_y[0], self.rect.centery - ofset_x_y[1])
             self.hitbox.center = self.rect.center
             return False
-        self.rect.center = (self.rect.centerx - ofset_x_y[0], self.rect.centery - ofset_x_y[1])
-        self.hitbox.center = self.rect.center
-        if field.update_coord(self.hitbox, self.rect_player, *ofset_x_y):
-            self.rect.center = (self.rect.centerx + ofset_x_y[0], self.rect.centery + ofset_x_y[1])
+        if not field.update_coord(self.hitbox, self.rect_player, *ofset_x_y):
+            self.rect.center = (self.rect.centerx - ofset_x_y[0], self.rect.centery - ofset_x_y[1])
         self.hitbox.center = self.rect.center
         return True
 
