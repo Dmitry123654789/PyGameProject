@@ -6,7 +6,7 @@ import pygame
 SIZE = WIDTH, HEIGHT = 1920, 1080
 FPS = 120
 CELL_SIZE = 64
-
+LANGUAGE = True  # True - Русский. False - английский. TRUE/FALSE сделано для удобства и чтобы не писать много if-ов
 pygame.init()
 pygame.display.set_caption('Castle')
 screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
