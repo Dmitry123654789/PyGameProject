@@ -1,6 +1,6 @@
 import pygame
-from pytmx import load_pygame
 
+from pytmx import load_pygame
 from logic.seting import *
 from logic.field.Tiles import *
 
@@ -24,43 +24,54 @@ class Field(pygame.sprite.Group):
 
         # Добавляем слой спрайтов
         for obj in tmx_map.get_layer_by_name('Sprites'):
-            print(obj.image)
             pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
             size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
             Tile(pos, pygame.transform.scale(obj.image, size), self, draw_field)
 
         # Добавляем слой полигонов (хитбоксов)
         for obj in tmx_map.get_layer_by_name('Polygon'):
+
             pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
             size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
-            TileObject(pos, size, self)
+            TileObject(pos, size, self, collision_group)
 
+    def end_field(self, pos_player, delta_x=0, delta_y=0):
+        if delta_x > 0 and self.now_coord[0] + delta_x + (screen.get_size()[0] - pos_player.x) > self.rect.width:
+            return False
+        return True
 
+    def shift_sprites(self, delta_x, delta_y):
+        for sprite in self.sprites():
+            sprite.rect.center = (sprite.rect.centerx - delta_x, sprite.rect.centery - delta_y)
 
     def update_coord(self, pos_player, rect_player, delta_x=0, delta_y=0):
         # Обновляем наши фактические координаты на поле
         self.now_coord[0] += delta_x
         self.now_coord[1] += delta_y
-        # if self.now_coord[0] >= tmx_map.width or self.now_coord[0] < 0 or self.now_coord[1] >= tmx_map.height or self.now_coord[1] < 0:
-        #     return
-        print(self.now_coord, pos_player)
+
         # Находится ли персонаж в своем квадрате
         if not ((delta_x > 0 and pos_player.right > rect_player.right) or
                 (delta_x < 0 and pos_player.left < rect_player.left) or
                 (delta_y > 0 and pos_player.bottom > rect_player.bottom) or
                 (delta_y < 0 and pos_player.top < rect_player.top)):
-            return True
+            return 1
 
         # Подошел ли персонаж к концу карты
+        if delta_x > 0 and self.now_coord[0] + (screen.get_size()[0] - pos_player.x) == self.rect.width or \
+                delta_y > 0 and self.now_coord[1] + (screen.get_size()[1] - pos_player.y) == self.rect.height or \
+                delta_x < 0 and self.now_coord[0] - pos_player.centerx == 0 or \
+                delta_y < 0 and self.now_coord[1] - pos_player.centery == 0:
+            return 1
 
-        if (pos_player.left >= self.now_coord[0] - pos_player.width / 2 and delta_x < 0) or \
-                (screen.get_size()[0] - pos_player.right >= self.now_coord[0] / 2 and delta_x > 0) or \
-                (pos_player.top >= self.now_coord[1] - pos_player.height / 2 and delta_y < 0) or \
-                (self.now_coord[1] + (screen.get_size()[1] - pos_player.bottom) > self.rect.height and delta_y > 0):
 
-            return True
+        if delta_x > 0 and self.now_coord[0] + (screen.get_size()[0] - pos_player.x) > self.rect.width or \
+                delta_y > 0 and self.now_coord[1] + (screen.get_size()[1] - pos_player.y) > self.rect.height or \
+                delta_x < 0 and self.now_coord[0] - pos_player.centerx < 0 or \
+                delta_y < 0 and self.now_coord[1] - pos_player.centery < 0:
+            self.now_coord[0] -= delta_x
+            self.now_coord[1] -= delta_y
+            return 2
 
         # Передвигаем все спрайты
-        for sprite in self.sprites():
-            sprite.rect.center = (sprite.rect.centerx - delta_x, sprite.rect.centery - delta_y)
-        return False
+        self.shift_sprites(delta_x, delta_y)
+        return 0

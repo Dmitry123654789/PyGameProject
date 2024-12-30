@@ -1,5 +1,5 @@
 import pygame as pg
-from logic.field.field import *
+from logic.seting import *
 
 
 class Entity(pg.sprite.Sprite):
@@ -12,7 +12,7 @@ class Entity(pg.sprite.Sprite):
         self.rect = self.image.get_rect(center=pos)
         self.sprites = sprites
         self.animation_timer = 0
-        self.animation_interval = 10
+        self.animation_interval = 20
         self.str_direction = {0: 'down', 1: 'left', 2: 'right', 3: 'up'}
 
     def animate(self):
@@ -34,16 +34,15 @@ class Entity(pg.sprite.Sprite):
 
 class Player(Entity):
     """Основной класс игрока"""
-    def __init__(self, pos, sprites, *group):
-        super().__init__(pos, sprites, *group)
-        self.step = 1 # Количество ходов за одно нажатие клавиши
+    sprites = split_image(load_image('images/dog_sprites.png'), 32, CELL_SIZE)
+    def __init__(self, pos, *group):
+        super().__init__(pos, self.sprites, *group)
+        self.step = 8 # Количество ходов за одно нажатие клавиши
         self.dict_direction = {0: (0, 1), 1: (-1, 0), 2: (1, 0), 3: (0, -1)} # Направление движения персонажа
         self.dict_key = {'down': (pg.K_DOWN, pg.K_s), 'up': (pg.K_UP, pg.K_w), 'right': (pg.K_RIGHT, pg.K_d),
                          'left': (pg.K_LEFT, pg.K_a)}
 
-        self.vect = 'horizontal'
-        self.hitbox = self.rect.inflate(-self.rect.width / 2, -self.rect.height / 5 * 2)
-        # self.vect_hitbox()
+        self.hitbox = self.rect.inflate(-self.rect.width / 2, -self.rect.height / 5 * 2 + 1)
         self.side_rect = 120 # Размер квадрата персонажа
         self.create_player_rect()
         
@@ -59,25 +58,13 @@ class Player(Entity):
         """Отслеживание нажатия клавиш"""
         key = pg.key.get_pressed()
         if self.side(key, 'up'):
-            if self.vect == 'horizontal':
-                self.vect = 'vertical'
-                self.vect_hitbox()
             self.direction = 3
         elif self.side(key, 'down'):
-            if self.vect == 'horizontal':
-                self.vect = 'vertical'
-                self.vect_hitbox()
             self.direction = 0
         elif self.side(key, 'right'):
-            if self.vect == 'vertical':
-                self.vect = 'horizontal'
-                self.vect_hitbox()
             self.direction = 2
         elif self.side(key, 'left'):
             self.direction = 1
-            if self.vect == 'vertical':
-                self.vect = 'horizontal'
-                self.vect_hitbox()
         else:
             self.image = self.sprites[self.get_stste()][1]
             return False
@@ -89,8 +76,16 @@ class Player(Entity):
         if self.collisions(group_sprites):
             self.hitbox.center = (self.hitbox.centerx - ofset_x_y[0], self.hitbox.centery - ofset_x_y[1])
             return False
-        if not field.update_coord(self.hitbox, self.rect_player, *ofset_x_y):
+        if not field.end_field(self.hitbox, *ofset_x_y):
             self.hitbox.center = (self.hitbox.centerx - ofset_x_y[0], self.hitbox.centery - ofset_x_y[1])
+            return False
+
+        res = field.update_coord(self.hitbox, self.rect_player, *ofset_x_y)
+        if not res:
+            self.hitbox.center = (self.hitbox.centerx - ofset_x_y[0], self.hitbox.centery - ofset_x_y[1])
+        elif res == 2:
+            self.rect.center = self.hitbox.center
+            return False
         self.rect.center = self.hitbox.center
         return True
 
@@ -98,15 +93,13 @@ class Player(Entity):
         """Проверка коллизии нащего хитбокса"""
         for obj in group_sprites:
             if obj.rect.colliderect(self.hitbox):
+
                 return True
         return False
 
-    def vect_hitbox(self):
-        """Поворот хитбокса, взависимости от направления"""
-        # if self.vect == 'horizontal':
-        #     self.hitbox = self.rect.inflate(-self.rect.width / 5, -self.rect.height / 5 * 2)
-        # else:
-        #     self.hitbox = self.rect.inflate(-self.rect.width / 1.8, -self.rect.height / 5 * 2)
+    def shift_player(self, delta_x, delta_y):
+        self.hitbox.center = (self.hitbox.centerx + delta_x, self.hitbox.centery + delta_y)
+        self.rect.center = self.hitbox.center
 
 
     def update(self, group_sprites, field):

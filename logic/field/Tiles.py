@@ -1,7 +1,5 @@
 import pygame
 
-from logic.seting import screen
-
 
 class Tile(pygame.sprite.Sprite):
     """Клас клетки хранит изображение"""
