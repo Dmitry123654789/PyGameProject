@@ -12,7 +12,7 @@ class Entity(pg.sprite.Sprite):
         self.rect = self.image.get_rect(center=pos)
         self.sprites = sprites
         self.animation_timer = 0
-        self.animation_interval = 20
+        self.animation_interval = 40
         self.str_direction = {0: 'down', 1: 'left', 2: 'right', 3: 'up'}
 
     def animate(self):
@@ -35,6 +35,7 @@ class Entity(pg.sprite.Sprite):
 class Player(Entity):
     """Основной класс игрока"""
     sprites = split_image(load_image('images/dog_sprites.png'), 32, CELL_SIZE)
+    attack_sprites = split_image(load_image('images/dog_sprites_attack.png'), 32, CELL_SIZE)
     def __init__(self, pos, *group):
         super().__init__(pos, self.sprites, *group)
         self.step = 8 # Количество ходов за одно нажатие клавиши
@@ -76,12 +77,9 @@ class Player(Entity):
         if self.collisions(group_sprites):
             self.hitbox.center = (self.hitbox.centerx - ofset_x_y[0], self.hitbox.centery - ofset_x_y[1])
             return False
-        if not field.end_field(self.hitbox, *ofset_x_y):
-            self.hitbox.center = (self.hitbox.centerx - ofset_x_y[0], self.hitbox.centery - ofset_x_y[1])
-            return False
 
         res = field.update_coord(self.hitbox, self.rect_player, *ofset_x_y)
-        if not res:
+        if res == 0:
             self.hitbox.center = (self.hitbox.centerx - ofset_x_y[0], self.hitbox.centery - ofset_x_y[1])
         elif res == 2:
             self.rect.center = self.hitbox.center
@@ -108,4 +106,4 @@ class Player(Entity):
             self.animate()
             for step in range(self.step, 0, -1):
                 if self.going(group_sprites, step, field):
-                    break
+                        break

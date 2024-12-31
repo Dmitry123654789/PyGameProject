@@ -30,15 +30,10 @@ class Field(pygame.sprite.Group):
 
         # Добавляем слой полигонов (хитбоксов)
         for obj in tmx_map.get_layer_by_name('Polygon'):
-
             pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
             size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
             TileObject(pos, size, self, collision_group)
 
-    def end_field(self, pos_player, delta_x=0, delta_y=0):
-        if delta_x > 0 and self.now_coord[0] + delta_x + (screen.get_size()[0] - pos_player.x) > self.rect.width:
-            return False
-        return True
 
     def shift_sprites(self, delta_x, delta_y):
         for sprite in self.sprites():
@@ -57,20 +52,11 @@ class Field(pygame.sprite.Group):
             return 1
 
         # Подошел ли персонаж к концу карты
-        if delta_x > 0 and self.now_coord[0] + (screen.get_size()[0] - pos_player.x) == self.rect.width or \
-                delta_y > 0 and self.now_coord[1] + (screen.get_size()[1] - pos_player.y) == self.rect.height or \
-                delta_x < 0 and self.now_coord[0] - pos_player.centerx == 0 or \
-                delta_y < 0 and self.now_coord[1] - pos_player.centery == 0:
+        if delta_x > 0 and self.now_coord[0] + (screen.get_size()[0] - pos_player.x) >= self.rect.width or \
+                delta_y > 0 and self.now_coord[1] + (screen.get_size()[1] - pos_player.y) >= self.rect.height or \
+                delta_x < 0 and self.now_coord[0] - pos_player.centerx <= 0 or \
+                delta_y < 0 and self.now_coord[1] - pos_player.centery <= 0:
             return 1
-
-
-        if delta_x > 0 and self.now_coord[0] + (screen.get_size()[0] - pos_player.x) > self.rect.width or \
-                delta_y > 0 and self.now_coord[1] + (screen.get_size()[1] - pos_player.y) > self.rect.height or \
-                delta_x < 0 and self.now_coord[0] - pos_player.centerx < 0 or \
-                delta_y < 0 and self.now_coord[1] - pos_player.centery < 0:
-            self.now_coord[0] -= delta_x
-            self.now_coord[1] -= delta_y
-            return 2
 
         # Передвигаем все спрайты
         self.shift_sprites(delta_x, delta_y)
