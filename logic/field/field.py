@@ -8,13 +8,14 @@ tmx_map = load_pygame('data/world.tmx')
 
 
 class Field(pygame.sprite.Group):
-
+    """Основной класс поля игры"""
     def __init__(self, now_x, now_y):
         super().__init__()
         self.rect = pygame.rect.Rect(0, 0, tmx_map.width * CELL_SIZE, tmx_map.height * CELL_SIZE)
-        self.now_coord = [now_x, now_y]
+        self.now_coord = [now_x, now_y] # Фактические координаты игрока на поле
 
     def create_field(self, collision_group, draw_field):
+        """Создание поля"""
         # Добавляем все видимые слои тайтлов
         for layer in tmx_map.visible_layers:
             if hasattr(layer, 'data'):
@@ -36,28 +37,20 @@ class Field(pygame.sprite.Group):
 
 
     def shift_sprites(self, delta_x, delta_y):
+        """Сдвиг всех спрайтов на определенную делльту"""
         for sprite in self.sprites():
             sprite.rect.center = (sprite.rect.centerx - delta_x, sprite.rect.centery - delta_y)
 
-    def update_coord(self, pos_player, rect_player, delta_x=0, delta_y=0):
+    def update_coord(self, pos_player, delta_x=0, delta_y=0):
         # Обновляем наши фактические координаты на поле
         self.now_coord[0] += delta_x
         self.now_coord[1] += delta_y
-
-        # Находится ли персонаж в своем квадрате
-        if not ((delta_x > 0 and pos_player.right > rect_player.right) or
-                (delta_x < 0 and pos_player.left < rect_player.left) or
-                (delta_y > 0 and pos_player.bottom > rect_player.bottom) or
-                (delta_y < 0 and pos_player.top < rect_player.top)):
-            return 1
 
         # Подошел ли персонаж к концу карты
         if delta_x > 0 and self.now_coord[0] + (screen.get_size()[0] - pos_player.x) >= self.rect.width or \
                 delta_y > 0 and self.now_coord[1] + (screen.get_size()[1] - pos_player.y) >= self.rect.height or \
                 delta_x < 0 and self.now_coord[0] - pos_player.centerx <= 0 or \
                 delta_y < 0 and self.now_coord[1] - pos_player.centery <= 0:
-            return 1
+            return True
 
-        # Передвигаем все спрайты
-        self.shift_sprites(delta_x, delta_y)
-        return 0
+        return False

@@ -277,13 +277,13 @@
  <objectgroup id="7" name="Sprites"/>
  <objectgroup id="6" name="Polygon">
   <object id="74" x="223.333" y="154" width="40.6667" height="218.667"/>
-  <object id="75" x="328" y="137.5" width="140.667" height="217.167"/>
+  <object id="75" x="328" y="124.834" width="140.667" height="229.833"/>
   <object id="76" x="460.667" y="280" width="83.3333" height="79.3333"/>
   <object id="77" x="388.667" y="357.333" width="115.333" height="39.3333"/>
   <object id="78" x="265.333" y="154" width="62.6667" height="202"/>
   <object id="79" x="559.333" y="282.667" width="80.6667" height="75.3333"/>
   <object id="80" x="617.333" y="0.666667" width="25.3333" height="282.667"/>
-  <object id="81" x="326" y="39.3333" width="147.333" height="60"/>
+  <object id="81" x="326" y="39.3333" width="147.333" height="69.6667"/>
   <object id="82" x="0" y="-712.667" width="649.333" height="750.667"/>
   <object id="83" x="-339.333" y="-586.667" width="396.667" height="1199.33"/>
   <object id="84" x="-231.333" y="608" width="272.667" height="154"/>

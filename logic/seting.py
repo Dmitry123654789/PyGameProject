@@ -31,12 +31,12 @@ def load_image(name, colorkey=None):
 
 
 def split_image(image, sprite_height_width, cell_size):
-    """Разделяет изображение на список surface"""
-    """Surface, ширина одного спрайта, высота одного спрайта, итоговый размер спрайта"""
+    """Разделяет изображение на словарь surface"""
+    """Surface, ширина и длина одного спрайта, итоговый размер спрайта"""
     sprites = {'down': [], 'left': [], 'right': [], 'up': []}
     for y, key in enumerate(sprites.keys()):
         for x in range(6):
-            rect = pygame.Rect(x * sprite_height_width, y * sprite_height_width + 7, sprite_height_width,
+            rect = pygame.Rect(x * sprite_height_width, y * sprite_height_width, sprite_height_width,
                                sprite_height_width)
             frame = pygame.transform.scale(image.subsurface(rect).copy(), (cell_size, cell_size))
             sprites[key].append(frame)
