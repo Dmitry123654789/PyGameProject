@@ -4,6 +4,10 @@ from logic.menu import menu_scene
 
 current_scene = None
 
+pygame.mixer.music.load('data/sounds/music_menu.mp3')
+pygame.mixer.music.play()
+is_music_play = True
+pygame.mixer.music.set_volume(volume_sound_background)
 
 
 def switch_scene(scene):
@@ -14,6 +18,9 @@ def switch_scene(scene):
 switch_scene(menu_scene)
 while current_scene is not None:
     if current_scene == 'menu_scene':
+        if is_music_play is False:
+            is_music_play = True
+            pygame.mixer.music.play()
         switch_scene(menu_scene)
 
     # запуск текущей сцены

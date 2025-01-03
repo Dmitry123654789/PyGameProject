@@ -11,7 +11,8 @@ pygame.init()
 pygame.display.set_caption('Castle')
 screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
 screen.fill(pygame.Color('black'))
-
+is_music_play = False
+volume_sound_background = -0.1
 
 def load_image(name, colorkey=None):
     """Превращает одно изображение в surface"""

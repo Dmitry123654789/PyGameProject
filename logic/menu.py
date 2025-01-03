@@ -65,6 +65,10 @@ def menu_scene(switch_scene):
             menu.buttons_tasks = menu.language()
             menu.draw()
         elif elem == menu.buttons_poses[3]:
+            if menu.im_speaker:
+                pygame.mixer.music.pause()
+            else:
+                pygame.mixer.music.unpause()
             menu.im_speaker = not menu.im_speaker
             menu.draw()
             # выключает музыку
@@ -79,7 +83,9 @@ def menu_scene(switch_scene):
             if event.type == pygame.WINDOWRESIZED:
                 place_background()
             if menu.another_scene:
-                menu.another_scene()
+                if not menu.another_scene():
+                    menu.another_scene = None
+                    menu.draw()
             if event.type == pygame.WINDOWRESIZED:
                 place_background()
                 menu.draw()
