@@ -1,24 +1,24 @@
 import pygame
 
-from logic.field.field import Field
+from logic.field.field import Field, DrawField
 from logic.players import Player
 from logic.seting import HEIGHT, WIDTH, screen, FPS
 
 
 class Game:
     def __init__(self):
-        self.start_pos = (WIDTH / 2, HEIGHT / 2) # Начальное положение персонажа
+        self.start_pos = (WIDTH / 2 + 40, HEIGHT / 2) # Начальное положение персонажа
         self.player_group = pygame.sprite.Group() # Группа персонажа
         self.field = Field(*self.start_pos) # Группа поля
-        self.draw_field = pygame.sprite.Group() # Группа объектов поля которые нужно отрисовывать на экране
+        self.draw_obj = DrawField() # Группа объектов поля которые нужно отрисовывать на экране
         self.collision_sprite = pygame.sprite.Group() # Группа спрайтов с которыми взамидействует персонаж
         self.x_player, self.y_player = self.start_pos # Положение персонажа на карте до изменения размеров экрана
         self.add_group_sprite()
 
     def add_group_sprite(self):
         """Добаваляет объект в группу"""
-        self.player = Player(self.start_pos, self.player_group)
-        self.field.create_field(self.collision_sprite, self.draw_field)
+        self.player = Player(self.start_pos, self.player_group, self.draw_obj)
+        self.field.create_field(self.collision_sprite, self.draw_obj)
 
     def update_sprites(self):
         """Обновление груп спрайтов"""
@@ -27,8 +27,8 @@ class Game:
 
     def draw_sprites(self):
         """Отрисовка груп спрайтов"""
-        self.draw_field.draw(screen)
         self.player_group.draw(screen)
+        self.draw_obj.draw()
 
     def main(self):
         running = True

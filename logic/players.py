@@ -37,8 +37,8 @@ class Entity(pg.sprite.Sprite):
 
 class Player(Entity):
     """Основной класс игрока"""
-    sprites = split_image(load_image('images/dog_sprites.png'), 32, CELL_SIZE)
-    attack_sprites = split_image(load_image('images/dog_sprites_attack.png'), 32, CELL_SIZE)
+    sprites = split_image(load_image('images/dog_sprites.png'), 32, CELL_SIZE * 2)
+    attack_sprites = split_image(load_image('images/dog_sprites_attack.png'), 32, CELL_SIZE * 2)
     def __init__(self, pos, *group):
         super().__init__(pos, self.sprites, *group)
         self.step = 8 # Количество пройденых пикселей за интервал
@@ -56,6 +56,8 @@ class Player(Entity):
         self.attack_timer = 0
         self.attack_interval = 80 # Частота анимации атаки в мл
         self.attack = False
+
+        self.z = WORLD_LAYERS['Main']
 
 
     def create_player_rect(self):

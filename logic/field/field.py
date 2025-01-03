@@ -4,7 +4,7 @@ from pytmx import load_pygame
 from logic.seting import *
 from logic.field.Tiles import *
 
-tmx_map = load_pygame('data/world.tmx')
+tmx_map = load_pygame('data/world_2.tmx')
 
 
 class Field(pygame.sprite.Group):
@@ -16,18 +16,27 @@ class Field(pygame.sprite.Group):
 
     def create_field(self, collision_group, draw_field):
         """Создание поля"""
-        # Добавляем все видимые слои тайтлов
-        for layer in tmx_map.visible_layers:
-            if hasattr(layer, 'data'):
-                for x, y, surf in layer.tiles():
-                    pos = (x * CELL_SIZE, y * CELL_SIZE)
-                    Tile(pos, pygame.transform.scale(surf, (CELL_SIZE, CELL_SIZE)), self, draw_field)
 
-        # Добавляем слой спрайтов
-        for obj in tmx_map.get_layer_by_name('Sprites'):
+        # Добавляем все видимые слои тайтлов
+        for layer in ['Grass', 'Wall', 'Up_layer', 'Down_layer']:
+            for x, y, surf in tmx_map.get_layer_by_name(layer).tiles():
+                pos = (x * CELL_SIZE, y * CELL_SIZE)
+                Tile(pos, pygame.transform.scale(surf, (CELL_SIZE, CELL_SIZE)), WORLD_LAYERS[layer], self, draw_field)
+
+        # Добавляем слой теней
+        for obj in tmx_map.get_layer_by_name('Shadow'):
             pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
             size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
-            Tile(pos, pygame.transform.scale(obj.image, size), self, draw_field)
+            img = pygame.transform.scale(obj.image, size).convert_alpha()
+            img.set_alpha(150)
+            Tile(pos, img, WORLD_LAYERS['Shadow'], self, draw_field)
+
+        # Добавляем слой спрайтов
+        for sprites in ['Up_sprites', 'Down_sprites']:
+            for obj in tmx_map.get_layer_by_name(sprites):
+                pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
+                size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
+                Tile(pos, pygame.transform.scale(obj.image, size),  WORLD_LAYERS['Sprites'], self, draw_field)
 
         # Добавляем слой полигонов (хитбоксов)
         for obj in tmx_map.get_layer_by_name('Polygon'):
@@ -52,5 +61,19 @@ class Field(pygame.sprite.Group):
                 delta_x < 0 and self.now_coord[0] - pos_player.centerx <= 0 or \
                 delta_y < 0 and self.now_coord[1] - pos_player.centery <= 0:
             return True
-
         return False
+
+
+class DrawField(pygame.sprite.Group):
+    def __init__(self):
+        super().__init__()
+        self.display_surface = pygame.display.get_surface()
+
+    def draw(self):
+        bg_sprites = [sprite for sprite in self if sprite.z < WORLD_LAYERS['Main']]
+        main_sprites = sorted([sprite for sprite in self if sprite.z == WORLD_LAYERS['Main']], key=lambda sprite: sprite.rect.centery)
+        fg_sprites = [sprite for sprite in self if sprite.z > WORLD_LAYERS['Main']]
+
+        for layer in (bg_sprites, main_sprites, fg_sprites):
+            for sprite in layer:
+                self.display_surface.blit(sprite.image, sprite.rect.topleft)

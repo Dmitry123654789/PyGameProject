@@ -3,10 +3,11 @@ import pygame
 
 class Tile(pygame.sprite.Sprite):
     """Клас клетки, хранит изображение"""
-    def __init__(self, pos, surf, *groups):
+    def __init__(self, pos, surf, z, *groups):
         super().__init__(*groups)
         self.image = surf
         self.rect = self.image.get_rect(topleft=pos)
+        self.z = z
 
 
     def set_darkness(self):

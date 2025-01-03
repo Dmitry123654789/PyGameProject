@@ -7,7 +7,18 @@ pygame.init()
 
 SIZE = WIDTH, HEIGHT = 800, 600
 FPS = 120
-CELL_SIZE = 64
+CELL_SIZE = 40
+
+WORLD_LAYERS = {
+	'Grass': 0,
+	'Shadow': 6,
+	'Wall': 2,
+    'Down_layer': 3,
+    'Down_sprites': 4,
+    'Main': 5,
+	'Up_sprites': 6,
+    'Up_layer' : 7
+}
 
 pygame.display.set_caption('Castle')
 screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
