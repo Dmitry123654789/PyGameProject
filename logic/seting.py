@@ -6,8 +6,8 @@ import pygame
 pygame.init()
 
 SIZE = WIDTH, HEIGHT = 800, 600
-FPS = 120
-CELL_SIZE = 40
+FPS = 240
+CELL_SIZE = 30
 
 WORLD_LAYERS = {
 	'Grass': 0,
@@ -16,6 +16,7 @@ WORLD_LAYERS = {
     'Down_layer': 3,
     'Down_sprites': 4,
     'Main': 5,
+	'Sprites': 5,
 	'Up_sprites': 6,
     'Up_layer' : 7
 }

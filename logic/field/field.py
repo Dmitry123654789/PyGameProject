@@ -1,6 +1,6 @@
-import pygame
-
 from pytmx import load_pygame
+
+from logic.Entity.enemy import Enemy
 from logic.seting import *
 from logic.field.Tiles import *
 
@@ -32,11 +32,11 @@ class Field(pygame.sprite.Group):
             Tile(pos, img, WORLD_LAYERS['Shadow'], self, draw_field)
 
         # Добавляем слой спрайтов
-        for sprites in ['Up_sprites', 'Down_sprites']:
+        for sprites in ['Up_sprites', 'Down_sprites', 'Sprites']:
             for obj in tmx_map.get_layer_by_name(sprites):
                 pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
                 size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
-                Tile(pos, pygame.transform.scale(obj.image, size),  WORLD_LAYERS['Sprites'], self, draw_field)
+                Tile(pos, pygame.transform.scale(obj.image, size),  WORLD_LAYERS[sprites], self, draw_field)
 
         # Добавляем слой полигонов (хитбоксов)
         for obj in tmx_map.get_layer_by_name('Polygon'):
@@ -73,7 +73,6 @@ class DrawField(pygame.sprite.Group):
         bg_sprites = [sprite for sprite in self if sprite.z < WORLD_LAYERS['Main']]
         main_sprites = sorted([sprite for sprite in self if sprite.z == WORLD_LAYERS['Main']], key=lambda sprite: sprite.rect.centery)
         fg_sprites = [sprite for sprite in self if sprite.z > WORLD_LAYERS['Main']]
-
         for layer in (bg_sprites, main_sprites, fg_sprites):
             for sprite in layer:
                 self.display_surface.blit(sprite.image, sprite.rect.topleft)
