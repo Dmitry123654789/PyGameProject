@@ -11,6 +11,10 @@ class Player(Entity):
     def __init__(self, pos, *group):
         super().__init__(pos, self.sprites, *group)
         self.step = 16  # Количество пройденых пикселей за интервал
+        self.damage = 10
+        self.max_hp = 100
+        self.hp = self.max_hp
+
         self.dict_direction = {'down': (0, 1), 'left': (-1, 0), 'right': (1, 0),
                                'up': (0, -1)}  # Направление движения персонажа(x, y)
         self.dict_key = {'down': (pg.K_DOWN, pg.K_s), 'up': (pg.K_UP, pg.K_w), 'right': (pg.K_RIGHT, pg.K_d),
@@ -23,11 +27,16 @@ class Player(Entity):
         self.going_timer = 0
         self.going_interval = 40  # Частота ходьбы в мл
 
+        self.damage_timer = 0
+        self.damage_interval = 500  # Частота получения урона
+
         self.attack_timer = 0
         self.attack_interval = 80  # Частота анимации атаки в мл
         self.attack = False
+        self.attack_hitbox = pg.rect.Rect(0, 0, 0, 0)
 
         self.z = WORLD_LAYERS['Main']
+
 
     def create_player_rect(self):
         """Создания куба персонажа в котором он спокойно перемещаеться"""
@@ -40,15 +49,11 @@ class Player(Entity):
 
     def input(self):
         """Отслеживание нажатия клавиш"""
-        global CELL_SIZE
         key = pg.key.get_pressed()
 
         if self.side(key, 'attack') and not self.attack:
             self.ind_sprite = 0
             self.attack = True
-
-        if key[pg.K_k]:
-            CELL_SIZE = 10
 
         if self.side(key, 'up'):
             self.direction = 3
@@ -63,7 +68,7 @@ class Player(Entity):
             return False
         return True
 
-    def going(self, group_sprites, step, field):
+    def going(self, group_sprites, step, field, enemies):
         """Передвижение персонажа"""
         ofset_x_y = (step * self.dict_direction[self.get_stste()][0], step * self.dict_direction[self.get_stste()][1])
         self.shift_player(*ofset_x_y)  # Передвижение персонажа
@@ -75,6 +80,7 @@ class Player(Entity):
             self.shift_player(*map(lambda x: x * -1, ofset_x_y))
             # Передвигаем все спрайты на поле
 
+            enemies.shift(*ofset_x_y)
             field.shift_sprites(*ofset_x_y)
         return True
 
@@ -87,12 +93,6 @@ class Player(Entity):
             return False
         return True
 
-    def collisions(self, group_sprites):
-        """Проверка коллизии нащего хитбокса"""
-        for obj in group_sprites:
-            if obj.rect.colliderect(self.hitbox):
-                return True
-        return False
 
     def shift_player(self, delta_x=0, delta_y=0):
         """Сдвиг персонажа на определенную дельту"""
@@ -115,23 +115,52 @@ class Player(Entity):
             return True
         return False
 
-    def attacking(self, group_sprites, field):
+    def is_damage(self):
+        """Проверка, пришло ли время получения урона"""
+        tick = pg.time.get_ticks()
+        if tick - self.damage_timer >= self.damage_interval:
+            return True
+        return False
+
+    def attacking(self, group_sprites, field, enemies):
         """Атака"""
         self.image = self.attack_sprites[self.get_stste()][self.ind_sprite]
-        self.going(group_sprites, self.hitbox.width / 6, field)  # Передвигаем немного спрайт
+        self.going(group_sprites, (self.hitbox.width  if self.get_stste() in ['right', 'left'] else self.hitbox.height)  / 6, field, enemies)  # Передвигаем немного спрайт
         self.ind_sprite += 1
         if self.ind_sprite == len(self.attack_sprites[self.get_stste()]):
             self.attack = False
+            self.attack_hitbox = self.hitbox.inflate(abs(self.hitbox.width * self.dict_direction[self.get_stste()][0]),
+                                                     abs(self.hitbox.height * self.dict_direction[self.get_stste()][1]))
+            self.attack_hitbox.x += self.hitbox.width / 2 * self.dict_direction[self.get_stste()][0]
+            self.attack_hitbox.y += self.hitbox.height / 2 * self.dict_direction[self.get_stste()][1]
+            self.collisions_enemy_attack(enemies)
+            self.damage_timer = pg.time.get_ticks()
 
-    def update(self, group_sprites, field):
+    def collisions_enemy_attack(self, group_sprites):
+        """Проверка коллизии хитбокса атаки"""
+        for obj in group_sprites:
+            if obj.rect.colliderect(self.attack_hitbox):
+                obj.hp -= self.damage
+
+    def collisions_enemy(self, group_sprites):
+        for obj in group_sprites:
+            if obj.rect.colliderect(self.hitbox):
+                self.hp -= obj.damage
+                self.damage_timer = pg.time.get_ticks()
+
+    def update(self, group_sprites, field, enemies):
         """Обновление положение персонажа"""
+
         if self.attack:
             if self.is_attack():
-                self.attacking(group_sprites, field)
+                self.attacking(group_sprites, field, enemies)
+
         else:
+            if self.is_damage():
+                self.collisions_enemy(enemies)
             if self.input() and self.is_going():
                 if self.is_animated():
                     self.animate()
                 for step in range(self.step, 0, -1):
-                    if self.going(group_sprites, step, field):
+                    if self.going(group_sprites, step, field, enemies):
                         break

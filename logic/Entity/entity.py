@@ -7,9 +7,9 @@ class Entity(pygame.sprite.Sprite):
     def __init__(self, pos, sprites, *group):
         super().__init__(*group)
         self.direction = 0  # down, left, right, up
-        if sprites:
-            self.image = sprites['right'][1]
-            self.rect = self.image.get_rect(center=pos)
+        self.image = sprites['right'][1]
+        self.rect = self.image.get_rect(center=pos)
+        self.hitbox = self.rect
         self.sprites = sprites
         self.str_direction = {0: 'down', 1: 'left', 2: 'right', 3: 'up'}
 
@@ -18,6 +18,16 @@ class Entity(pygame.sprite.Sprite):
         self.animation_interval = 43  # Частота анимации ходьбы в мл
 
         self.z = WORLD_LAYERS['Main']
+
+        self.max_hp = 100
+        self.hp = self.max_hp
+
+    def collisions(self, group_sprites):
+        """Проверка коллизии нащего хитбокса"""
+        for obj in group_sprites:
+            if obj.rect.colliderect(self.hitbox):
+                return True
+        return False
 
     def animate(self):
         """Изменяет текущий спрайт"""

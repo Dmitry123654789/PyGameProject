@@ -1,6 +1,7 @@
 from pytmx import load_pygame
 
 from logic.Entity.enemy import Enemy
+from logic.Entity.players import Player
 from logic.seting import *
 from logic.field.Tiles import *
 
@@ -31,7 +32,7 @@ class Field(pygame.sprite.Group):
             img.set_alpha(150)
             Tile(pos, img, WORLD_LAYERS['Shadow'], self, draw_field)
 
-        # Добавляем слой спрайтов
+        # Добавляем слои спрайтов
         for sprites in ['Up_sprites', 'Down_sprites', 'Sprites']:
             for obj in tmx_map.get_layer_by_name(sprites):
                 pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
@@ -48,13 +49,12 @@ class Field(pygame.sprite.Group):
     def shift_sprites(self, delta_x, delta_y):
         """Сдвиг всех спрайтов на определенную делльту"""
         for sprite in self.sprites():
-            sprite.rect.center = (sprite.rect.centerx - delta_x, sprite.rect.centery - delta_y)
+            sprite.shift(delta_x, delta_y)
 
     def update_coord(self, pos_player, delta_x=0, delta_y=0):
         # Обновляем наши фактические координаты на поле
         self.now_coord[0] += delta_x
         self.now_coord[1] += delta_y
-
         # Подошел ли персонаж к концу карты
         if delta_x > 0 and self.now_coord[0] + (screen.get_size()[0] - pos_player.x) >= self.rect.width or \
                 delta_y > 0 and self.now_coord[1] + (screen.get_size()[1] - pos_player.y) >= self.rect.height or \
@@ -76,3 +76,7 @@ class DrawField(pygame.sprite.Group):
         for layer in (bg_sprites, main_sprites, fg_sprites):
             for sprite in layer:
                 self.display_surface.blit(sprite.image, sprite.rect.topleft)
+                if isinstance(sprite, (Enemy, Player)):
+                    pygame.draw.rect(self.display_surface, (255, 0, 0), (sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8, 5))
+                    pygame.draw.rect(self.display_surface, (69, 15, 8), (sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8 * ((sprite.hp / (sprite.max_hp / 100)) / 100) , 5))
+                    pygame.draw.rect(self.display_surface, (0, 255, 0), sprite.hitbox, 1)
