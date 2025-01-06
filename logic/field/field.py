@@ -78,5 +78,5 @@ class DrawField(pygame.sprite.Group):
                 self.display_surface.blit(sprite.image, sprite.rect.topleft)
                 if isinstance(sprite, (Enemy, Player)):
                     pygame.draw.rect(self.display_surface, (255, 0, 0), (sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8, 5))
-                    pygame.draw.rect(self.display_surface, (69, 15, 8), (sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8 * ((sprite.hp / (sprite.max_hp / 100)) / 100) , 5))
+                    pygame.draw.rect(self.display_surface, (50, 200, 50), (sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8 * ((sprite.hp / (sprite.max_hp / 100)) / 100) , 5))
                     pygame.draw.rect(self.display_surface, (0, 255, 0), sprite.hitbox, 1)

@@ -29,11 +29,11 @@ class Entity(pygame.sprite.Sprite):
                 return True
         return False
 
-    def animate(self):
+    def animate(self, state):
         """Изменяет текущий спрайт"""
         self.ind_sprite += 1
-        self.ind_sprite %= len(self.sprites[self.get_stste()])
-        self.image = self.sprites[self.get_stste()][self.ind_sprite]
+        self.ind_sprite %= len(self.sprites[state])
+        self.image = self.sprites[state][self.ind_sprite]
 
     def is_animated(self):
         """Проверка, пришло ли время анимации ходьбы"""

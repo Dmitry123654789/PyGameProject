@@ -160,7 +160,7 @@ class Player(Entity):
                 self.collisions_enemy(enemies)
             if self.input() and self.is_going():
                 if self.is_animated():
-                    self.animate()
+                    self.animate(self.get_stste())
                 for step in range(self.step, 0, -1):
                     if self.going(group_sprites, step, field, enemies):
                         break
