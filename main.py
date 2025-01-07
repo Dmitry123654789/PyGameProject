@@ -27,7 +27,7 @@ class Game:
     def update_sprites(self):
         """Обновление груп спрайтов"""
         self.field.update()
-        self.player_group.update(self.collision_sprite, self.field, self.enemies)
+        self.player_group.update(self.collision_sprite, self.field, self.enemies, self.draw_obj)
         self.enemies.update(self.player.hitbox.center, self.collision_sprite, self.player_group)
 
     def draw_sprites(self):

@@ -1,4 +1,6 @@
 import pygame as pg
+
+from logic.blood import Blood
 from logic.seting import WORLD_LAYERS, CELL_SIZE, screen, split_image, load_image
 from logic.Entity.entity import Entity
 
@@ -115,7 +117,7 @@ class Player(Entity):
             return True
         return False
 
-    def attacking(self, group_sprites, field, enemies):
+    def attacking(self, group_sprites, field, enemies, draw_obj):
         """Атака"""
         self.image = self.attack_sprites[self.get_stste()][self.ind_sprite]
         self.going(group_sprites, (self.hitbox.width  if self.get_stste() in ['right', 'left'] else self.hitbox.height)  / 6, field, enemies)  # Передвигаем немного спрайт
@@ -126,31 +128,33 @@ class Player(Entity):
                                                      abs(self.hitbox.height * self.dict_direction[self.get_stste()][1]))
             self.attack_hitbox.x += self.hitbox.width / 2 * self.dict_direction[self.get_stste()][0]
             self.attack_hitbox.y += self.hitbox.height / 2 * self.dict_direction[self.get_stste()][1]
-            self.collisions_enemy_attack(enemies)
+            self.collisions_enemy_attack(enemies, draw_obj, field)
             self.damage_timer = pg.time.get_ticks()
 
-    def collisions_enemy_attack(self, group_sprites):
+    def collisions_enemy_attack(self, group_sprites, draw_obj, field):
         """Проверка коллизии хитбокса атаки"""
         for obj in group_sprites:
             if obj.rect.colliderect(self.attack_hitbox):
                 obj.hp -= self.damage
+                Blood(obj.hitbox.center, draw_obj, field)
 
-    def collisions_enemy(self, group_sprites):
+    def collisions_enemy(self, group_sprites, draw_obj, field):
         for obj in group_sprites:
             if obj.hitbox.colliderect(self.hitbox):
                 self.hp -= obj.damage
                 self.damage_timer = pg.time.get_ticks()
+                Blood(obj.hitbox.center, draw_obj, field)
 
-    def update(self, group_sprites, field, enemies):
+    def update(self, group_sprites, field, enemies, draw_obj):
         """Обновление положение персонажа"""
 
         if self.attack:
             if self.is_attack():
-                self.attacking(group_sprites, field, enemies)
+                self.attacking(group_sprites, field, enemies, draw_obj)
 
         else:
             if self.is_damage():
-                self.collisions_enemy(enemies)
+                self.collisions_enemy(enemies, draw_obj, field)
             if self.input() and self.is_going():
                 if self.is_animated():
                     self.animate(self.get_stste())
