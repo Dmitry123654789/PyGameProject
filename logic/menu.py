@@ -1,8 +1,6 @@
-import pygame
-
 from logic.seting import *
-from logic.story_telling import show_story
 from logic.stats_menu import Statistics
+from logic.story_telling import show_story
 
 
 class Menu:
@@ -11,7 +9,6 @@ class Menu:
         self.text = LANGUAGE
         self.buttons_tasks = self.language()  # задачи кнопок меню
         self.im_speaker = True  # True - включен. False - выключен
-        self.fill_buttons_poses()
         self.another_scene = None
         self.is_action_true = True
 
@@ -27,12 +24,14 @@ class Menu:
             return ['Start game', 'Statistics', 'Language', 'Exit']
 
     def fill_buttons_poses(self):
+        self.buttons_poses = []
         self.buttons_poses = [pygame.rect.Rect(screen.get_width() // 8, i, 200, 50) for i in
                               range(150, 400, 80)]  # расположения кнопок
-        self.buttons_poses.append(pygame.rect.Rect(screen.get_width() - screen.get_width() // 6, 0, 75, 75))
+        self.buttons_poses.append(pygame.rect.Rect(screen.get_width() - 150, 0, 75, 75))
 
     # отрисовывает все
     def draw(self, surface):
+        self.fill_buttons_poses()
         im = pygame.transform.scale(load_image('images/castle_menu.jpg'), screen.get_size())
         surface.blit(im, (0, 0))
         font = pygame.font.Font('data/font.otf', 30)
@@ -51,7 +50,6 @@ class Menu:
 def menu_scene(switch_scene):
     menu = Menu()
     running = True
-    virtual_surface = pygame.surface.Surface(screen.get_size())
 
     # проверяет нажатие мыши на кнопки
     def check_coords(coord_mouse):
@@ -82,6 +80,7 @@ def menu_scene(switch_scene):
                 switch_scene(None)
 
     while running:
+        virtual_surface = pygame.surface.Surface(screen.get_size())
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -105,6 +104,5 @@ def menu_scene(switch_scene):
             menu.another_scene.draw(virtual_surface)
         scaled_surface = pygame.transform.scale(virtual_surface, screen.get_size())
         screen.blit(scaled_surface, (0, 0))
-
         pygame.display.flip()
     pygame.quit()
