@@ -25,6 +25,7 @@ class TileObject(pygame.sprite.Sprite):
     def __init__(self, pos, size, *groups):
         super().__init__(*groups)
         self.rect = pygame.rect.Rect(*pos, *size)
+        self.hitbox = self.rect
 
     def shift(self, delta_x, delta_y):
         self.rect.center = (self.rect.centerx - delta_x, self.rect.centery - delta_y)

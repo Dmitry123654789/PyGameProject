@@ -8,7 +8,6 @@ pygame.init()
 SIZE = WIDTH, HEIGHT = 800, 600
 FPS = 240
 CELL_SIZE = 30
-
 WORLD_LAYERS = {
 	'Grass': 0,
 	'Shadow': 6,

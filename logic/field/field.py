@@ -56,8 +56,8 @@ class Field(pygame.sprite.Group):
         self.now_coord[0] += delta_x
         self.now_coord[1] += delta_y
         # Подошел ли персонаж к концу карты
-        if delta_x > 0 and self.now_coord[0] + (screen.get_size()[0] - pos_player.x) >= self.rect.width or \
-                delta_y > 0 and self.now_coord[1] + (screen.get_size()[1] - pos_player.y) >= self.rect.height or \
+        if delta_x > 0 and self.now_coord[0] + (screen.get_width() - pos_player.x) >= self.rect.width or \
+                delta_y > 0 and self.now_coord[1] + (screen.get_height() - pos_player.y) >= self.rect.height or \
                 delta_x < 0 and self.now_coord[0] - pos_player.centerx <= 0 or \
                 delta_y < 0 and self.now_coord[1] - pos_player.centery <= 0:
             return True
@@ -76,7 +76,7 @@ class DrawField(pygame.sprite.Group):
         for layer in (bg_sprites, main_sprites, fg_sprites):
             for sprite in layer:
                 self.display_surface.blit(sprite.image, sprite.rect.topleft)
-                if isinstance(sprite, (Enemy, Player)):
+                if isinstance(sprite, (Enemy, Player)) and sprite.hp > 0:
                     pygame.draw.rect(self.display_surface, (255, 0, 0), (sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8, 5))
                     pygame.draw.rect(self.display_surface, (50, 200, 50), (sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8 * ((sprite.hp / (sprite.max_hp / 100)) / 100) , 5))
-                    pygame.draw.rect(self.display_surface, (0, 255, 0), sprite.hitbox, 1)
+                    # pygame.draw.rect(self.display_surface, (0, 255, 0), sprite.hitbox, 1)

@@ -28,7 +28,7 @@ class Game:
         """Обновление груп спрайтов"""
         self.field.update()
         self.player_group.update(self.collision_sprite, self.field, self.enemies)
-        self.enemies.update(self.player.hitbox.center, self.collision_sprite)
+        self.enemies.update(self.player.hitbox.center, self.collision_sprite, self.player_group)
 
     def draw_sprites(self):
         """Отрисовка груп спрайтов"""
@@ -55,21 +55,21 @@ class Game:
                     running = False
                 if event.type == pygame.WINDOWRESIZED:
                     # Окно не может быть меньше каках то размеров
-                    if screen.get_size()[0] < WIDTH:
-                        pygame.display.set_mode((WIDTH, screen.get_size()[1]), pygame.RESIZABLE)
-                    if screen.get_size()[1] < HEIGHT:
-                        pygame.display.set_mode((screen.get_size()[0], HEIGHT), pygame.RESIZABLE)
+                    if screen.get_width() < WIDTH:
+                        pygame.display.set_mode((WIDTH, screen.get_height()), pygame.RESIZABLE)
+                    if screen.get_height() < HEIGHT:
+                        pygame.display.set_mode((screen.get_width(), HEIGHT), pygame.RESIZABLE)
                     self.center_camera()
 
             self.update_sprites()
             self.draw_sprites()
 
             # Отладочная информация
-            pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_size()[1] / 2), (screen.get_size()[0], screen.get_size()[1] / 2))
-            pygame.draw.line(screen, pygame.Color('black'), (screen.get_size()[0] / 2, 0), (screen.get_size()[0] / 2, screen.get_size()[1]))
-            pygame.draw.rect(screen, pygame.Color('black'), self.player.rect_player, 1)
+            # pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_height() / 2), (screen.get_width(), screen.get_height() / 2))
+            # pygame.draw.line(screen, pygame.Color('black'), (screen.get_width() / 2, 0), (screen.get_width() / 2, screen.get_height()))
+            # pygame.draw.rect(screen, pygame.Color('black'), self.player.rect_player, 1)
             # pygame.draw.rect(screen, pygame.Color('black'), self.player.hitbox, 1)
-            pygame.draw.rect(screen, pygame.Color('red'), self.player.attack_hitbox, 1)
+            # pygame.draw.rect(screen, pygame.Color('red'), self.player.attack_hitbox, 1)
 
             pygame.display.flip()
             clock.tick(FPS)

@@ -17,6 +17,9 @@ class Entity(pygame.sprite.Sprite):
         self.animation_timer = 0
         self.animation_interval = 43  # Частота анимации ходьбы в мл
 
+        self.going_timer = 0
+        self.going_interval = 40  # Частота ходьбы в мл
+
         self.z = WORLD_LAYERS['Main']
 
         self.max_hp = 100
@@ -25,7 +28,7 @@ class Entity(pygame.sprite.Sprite):
     def collisions(self, group_sprites):
         """Проверка коллизии нащего хитбокса"""
         for obj in group_sprites:
-            if obj.rect.colliderect(self.hitbox):
+            if obj.hitbox.colliderect(self.hitbox):
                 return True
         return False
 
@@ -46,3 +49,11 @@ class Entity(pygame.sprite.Sprite):
     def get_stste(self):
         """Получение направления(down, left, right, up)"""
         return self.str_direction[self.direction]
+
+    def is_going(self):
+        """Проверка, пришло ли время ходьбы"""
+        tick = pygame.time.get_ticks()
+        if tick - self.going_timer >= self.going_interval:
+            self.going_timer = tick
+            return True
+        return False

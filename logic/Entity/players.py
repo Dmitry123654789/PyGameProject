@@ -28,7 +28,7 @@ class Player(Entity):
         self.going_interval = 40  # Частота ходьбы в мл
 
         self.damage_timer = 0
-        self.damage_interval = 500  # Частота получения урона
+        self.damage_interval = 250  # Частота получения урона
 
         self.attack_timer = 0
         self.attack_interval = 80  # Частота анимации атаки в мл
@@ -40,8 +40,8 @@ class Player(Entity):
 
     def create_player_rect(self):
         """Создания куба персонажа в котором он спокойно перемещаеться"""
-        self.rect_player = pg.rect.Rect(screen.get_size()[0] / 2 - self.side_rect / 2,
-                                        screen.get_size()[1] / 2 - self.side_rect / 2, self.side_rect, self.side_rect)
+        self.rect_player = pg.rect.Rect(screen.get_width() / 2 - self.side_rect / 2,
+                                        screen.get_height() / 2 - self.side_rect / 2, self.side_rect, self.side_rect)
 
     def side(self, key, side):
         """Проверка нажатия клавиши нужного нам направления"""
@@ -99,13 +99,6 @@ class Player(Entity):
         self.hitbox.center = (self.hitbox.centerx + delta_x, self.hitbox.centery + delta_y)
         self.rect.center = self.hitbox.center
 
-    def is_going(self):
-        """Проверка, пришло ли время ходьбы"""
-        tick = pg.time.get_ticks()
-        if tick - self.going_timer >= self.going_interval:
-            self.going_timer = tick
-            return True
-        return False
 
     def is_attack(self):
         """Проверка, пришло ли время смены анимации атаки"""
@@ -144,7 +137,7 @@ class Player(Entity):
 
     def collisions_enemy(self, group_sprites):
         for obj in group_sprites:
-            if obj.rect.colliderect(self.hitbox):
+            if obj.hitbox.colliderect(self.hitbox):
                 self.hp -= obj.damage
                 self.damage_timer = pg.time.get_ticks()
 
