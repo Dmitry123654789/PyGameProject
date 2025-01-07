@@ -6,11 +6,11 @@ from logic.story_telling import show_story
 class Menu:
     def __init__(self):
         self.buttons_poses = []  # расположения кнопок
-        self.text = LANGUAGE
+        self.text = LANGUAGE  # текущий язык
         self.buttons_tasks = self.language()  # задачи кнопок меню
         self.im_speaker = True  # True - включен. False - выключен
-        self.another_scene = None
-        self.is_action_true = True
+        self.another_scene = None  # активно ли еще одно окно
+        self.is_action_true = True  # активно ли главное меню
 
     # функция для смены языка
     # в дальнейшем будет брать слова из отдельного файла
@@ -23,7 +23,7 @@ class Menu:
             LANGUAGE = False
             return ['Start game', 'Statistics', 'Language', 'Exit']
 
-    def fill_buttons_poses(self):
+    def fill_buttons_poses(self):  # заполняет список объектами pygame.Rect чтобы отрисовывать кнопки по ним
         self.buttons_poses = []
         self.buttons_poses = [pygame.rect.Rect(screen.get_width() // 8, i, 200, 50) for i in
                               range(150, 400, 80)]  # расположения кнопок
@@ -57,6 +57,7 @@ def menu_scene(switch_scene):
             if elem.collidepoint(coord_mouse):
                 open_smth(elem)
 
+    # выполняет действие кнопки, на которую нажатли
     def open_smth(elem):
         nonlocal running
         if menu.is_action_true:
@@ -80,29 +81,32 @@ def menu_scene(switch_scene):
                 switch_scene(None)
 
     while running:
-        virtual_surface = pygame.surface.Surface(screen.get_size())
+        virtual_surface = pygame.surface.Surface(
+            screen.get_size())  # поверхность, на которой отрисовывается все изначально
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT:  # выход из игры по крестику окна
                 running = False
                 switch_scene(None)
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # проверка нажатия мыши
                 check_coords(event.pos)
-            if event.type == pygame.WINDOWRESIZED:
+            if event.type == pygame.WINDOWRESIZED:  # изменение размера окна
                 # Окно не может быть меньше каких-то размеров
                 if screen.get_size()[0] < WIDTH:
                     pygame.display.set_mode((WIDTH, screen.get_size()[1]), pygame.RESIZABLE)
                 if screen.get_size()[1] < HEIGHT:
                     pygame.display.set_mode((screen.get_size()[0], HEIGHT), pygame.RESIZABLE)
 
-            if menu.another_scene is not None:
+            if menu.another_scene is not None:  # вызывается доп сцена и ожидается результат выполнения от нее
                 if menu.another_scene.handle_event(event, virtual_surface) == 'Close':
                     menu.another_scene = None
                     menu.is_action_true = True
 
+        # отрисовываем на сцене
         menu.draw(virtual_surface)
         if menu.another_scene is not None:
             menu.another_scene.draw(virtual_surface)
+
+        # отрисовываем сцену на экране
         scaled_surface = pygame.transform.scale(virtual_surface, screen.get_size())
         screen.blit(scaled_surface, (0, 0))
         pygame.display.flip()
-    pygame.quit()
