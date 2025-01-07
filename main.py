@@ -69,7 +69,7 @@ class Game:
             # pygame.draw.line(screen, pygame.Color('black'), (screen.get_width() / 2, 0), (screen.get_width() / 2, screen.get_height()))
             # pygame.draw.rect(screen, pygame.Color('black'), self.player.rect_player, 1)
             # pygame.draw.rect(screen, pygame.Color('black'), self.player.hitbox, 1)
-            # pygame.draw.rect(screen, pygame.Color('red'), self.player.attack_hitbox, 1)
+            # pygame.draw.rect(screen, pygame.Color('red'), self.player.hitbox, 1)
 
             pygame.display.flip()
             clock.tick(FPS)

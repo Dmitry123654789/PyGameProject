@@ -134,16 +134,17 @@ class Player(Entity):
     def collisions_enemy_attack(self, group_sprites, draw_obj, field):
         """Проверка коллизии хитбокса атаки"""
         for obj in group_sprites:
-            if obj.rect.colliderect(self.attack_hitbox):
+            if obj.hitbox.colliderect(self.attack_hitbox):
                 obj.hp -= self.damage
                 Blood(obj.hitbox.center, draw_obj, field)
+                print(obj.hitbox.center, obj)
 
     def collisions_enemy(self, group_sprites, draw_obj, field):
         for obj in group_sprites:
             if obj.hitbox.colliderect(self.hitbox):
                 self.hp -= obj.damage
                 self.damage_timer = pg.time.get_ticks()
-                Blood(obj.hitbox.center, draw_obj, field)
+                Blood(self.hitbox.center, draw_obj, field)
 
     def update(self, group_sprites, field, enemies, draw_obj):
         """Обновление положение персонажа"""

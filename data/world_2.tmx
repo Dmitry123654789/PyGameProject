@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="1701">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="1738">
  <tileset firstgid="1" source="Texture_tsx/TX Plant.tsx"/>
  <tileset firstgid="1025" source="Texture_tsx/TX Player.tsx"/>
  <tileset firstgid="1089" source="Texture_tsx/TX Props.tsx"/>
@@ -1485,6 +1485,117 @@
    <point/>
   </object>
   <object id="1699" x="2374.58" y="1257.75">
+   <point/>
+  </object>
+  <object id="1701" x="2081.33" y="1468">
+   <point/>
+  </object>
+  <object id="1702" x="2040" y="1522.67">
+   <point/>
+  </object>
+  <object id="1703" x="2134.67" y="1449.33">
+   <point/>
+  </object>
+  <object id="1704" x="2164" y="1513.33">
+   <point/>
+  </object>
+  <object id="1705" x="2340" y="1514.67">
+   <point/>
+  </object>
+  <object id="1706" x="2360" y="1556">
+   <point/>
+  </object>
+  <object id="1707" x="2258.67" y="1569.33">
+   <point/>
+  </object>
+  <object id="1708" x="2244" y="1493.33">
+   <point/>
+  </object>
+  <object id="1709" x="2137.33" y="1469.33">
+   <point/>
+  </object>
+  <object id="1710" x="2154.67" y="1549.33">
+   <point/>
+  </object>
+  <object id="1711" x="2309.33" y="1576">
+   <point/>
+  </object>
+  <object id="1712" x="2424" y="1556">
+   <point/>
+  </object>
+  <object id="1713" x="2308" y="1506.67">
+   <point/>
+  </object>
+  <object id="1714" x="2208" y="1502.67">
+   <point/>
+  </object>
+  <object id="1715" x="2196" y="1533.33">
+   <point/>
+  </object>
+  <object id="1716" x="2253.33" y="1568">
+   <point/>
+  </object>
+  <object id="1717" x="2297.33" y="1562.67">
+   <point/>
+  </object>
+  <object id="1718" x="2246.67" y="1526.67">
+   <point/>
+  </object>
+  <object id="1719" x="2204" y="1548">
+   <point/>
+  </object>
+  <object id="1720" x="2190.67" y="1552">
+   <point/>
+  </object>
+  <object id="1721" x="2188" y="1416">
+   <point/>
+  </object>
+  <object id="1722" x="2248" y="1466.67">
+   <point/>
+  </object>
+  <object id="1723" x="2338.67" y="1525.33">
+   <point/>
+  </object>
+  <object id="1724" x="2416" y="1533.33">
+   <point/>
+  </object>
+  <object id="1725" x="2289.33" y="1549.33">
+   <point/>
+  </object>
+  <object id="1726" x="2192" y="1581.33">
+   <point/>
+  </object>
+  <object id="1727" x="2177.33" y="1577.33">
+   <point/>
+  </object>
+  <object id="1728" x="2121.33" y="1526.67">
+   <point/>
+  </object>
+  <object id="1729" x="2066.67" y="1590.67">
+   <point/>
+  </object>
+  <object id="1730" x="2125.33" y="1609.33">
+   <point/>
+  </object>
+  <object id="1731" x="2190.67" y="1590.67">
+   <point/>
+  </object>
+  <object id="1732" x="2290.67" y="1573.33">
+   <point/>
+  </object>
+  <object id="1733" x="2484" y="1586.67">
+   <point/>
+  </object>
+  <object id="1734" x="2494.67" y="1520">
+   <point/>
+  </object>
+  <object id="1735" x="2222.67" y="1496">
+   <point/>
+  </object>
+  <object id="1736" x="2088" y="1462.67">
+   <point/>
+  </object>
+  <object id="1737" x="2032" y="1494.67">
    <point/>
   </object>
  </objectgroup>
