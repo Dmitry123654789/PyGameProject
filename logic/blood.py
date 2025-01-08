@@ -32,13 +32,11 @@ class Blood(pygame.sprite.Sprite):
 
     def update(self):
         if self.blood_ind == len(self.sprites):
-            self.image = pygame.surface.Surface((0, 0))
+            self.kill()
             return
 
         if pygame.time.get_ticks() - self.blood_interval > self.blood_timer:
             self.image = self.sprites[self.blood_ind]
             self.blood_ind += 1
-            # if self.blood_ind == len(self.sprites) - 2:
-            #     self.blood_interval = 500
             self.blood_timer = pygame.time.get_ticks()
 

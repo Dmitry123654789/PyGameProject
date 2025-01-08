@@ -1,14 +1,14 @@
 import pygame as pg
-from random import randint, choice
+from random import randint, choices
 
-from logic.seting import WORLD_LAYERS, CELL_SIZE, screen, split_image, load_image, WIDTH, HEIGHT
+from logic.seting import CELL_SIZE, screen, split_image, load_image, ENEMY
 from logic.Entity.entity import Entity
 
 
 class EnemiesGroup(pg.sprite.Group):
-    def __init__(self, draw_group, map):
+    def __init__(self, draw_group, tmx_map):
         super().__init__()
-        self.add_enemy(draw_group, map)
+        self.add_enemy(draw_group, tmx_map)
 
     def add_enemy(self, draw_group, tmx_map):
         for obj in tmx_map.get_layer_by_name('Points'):
@@ -26,14 +26,14 @@ class EnemiesGroup(pg.sprite.Group):
 
 class Enemy(Entity):
     def __init__(self, pos, *group):
-        color = choice(['dark', 'brown', 'orange'])
+        color = choices(list(ENEMY.keys()), weights=[ENEMY[i][3] for i in ENEMY.keys()])[0]
         self.sprites = split_image(load_image(f'images/dog_sprites_{color}.png'), 32, CELL_SIZE * 2)
         self.attack_sprites = split_image(load_image(f'images/dog_sprites_attack_{color}.png'), 32, CELL_SIZE * 2)
         super().__init__(pos, self.sprites, *group)
-        self.step = 4
-        self.max_hp = 100
+        self.step = ENEMY[color][0]
+        self.max_hp = ENEMY[color][1]
         self.hp = self.max_hp
-        self.damage = 10
+        self.damage = ENEMY[color][2]
 
         self.hitbox = self.rect.inflate(-self.rect.width / 2, -self.rect.height / 5 * 2 + 1)
         self.dict_direct  = {(0, 1): 'down', (-1, 0) : 'left', (1, 0): 'right',
@@ -70,8 +70,6 @@ class Enemy(Entity):
 
         if direct[0] == direct[1] == 0:
             return
-
-
 
         self.shift(*direct)
         self.animate(self.dict_direct[self.set_one(direct)])
@@ -132,8 +130,7 @@ class Enemy(Entity):
 
     def update(self, pos, collision_group, player_group):
         if self.hp <= 0:
-            self.hitbox = pg.rect.Rect(0, 0, 0, 0)
-            self.image = pg.surface.Surface((0, 0)).convert_alpha()
+            self.kill()
             return
 
         if self.collisions(player_group) and not self.attack:

@@ -1,34 +1,40 @@
 import pygame
+from pytmx import load_pygame
 
-from logic.field.field import Field, DrawField, tmx_map
+from logic.field.field import Field, DrawField
 from logic.Entity.players import Player
-from logic.Entity.enemy import Enemy, EnemiesGroup
-from logic.seting import HEIGHT, WIDTH, screen, FPS, load_image
+from logic.Entity.enemy import EnemiesGroup
+from logic.seting import HEIGHT, WIDTH, screen, FPS
+from logic.Thing import Things
+
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, tmx_map):
+        self.tmx_map = load_pygame(tmx_map)
         self.start_pos = (4000, 2600) # Начальное положение персонажа
         self.player_group = pygame.sprite.Group() # Группа персонажа
-        self.field = Field(*self.start_pos) # Группа поля
+        self.field = Field(*self.start_pos, self.tmx_map) # Группа поля
         self.draw_obj = DrawField() # Группа объектов поля которые нужно отрисовывать на экране
-        self.enemies = EnemiesGroup(self.draw_obj, tmx_map) # Группа врагов
+        self.enemies = EnemiesGroup(self.draw_obj, self.tmx_map) # Группа врагов
         self.collision_sprite = pygame.sprite.Group() # Группа спрайтов с которыми взамидействует персонаж
+        self.thihgs_group = Things(self.draw_obj, self.tmx_map)
         self.x_player, self.y_player = self.start_pos # Положение персонажа на карте до изменения размеров экрана
         self.add_group_sprite()
 
 
 
     def add_group_sprite(self):
-        """Добаваляет объект в группу"""
+        """Добаваляет объекты в группы"""
         self.player = Player(self.start_pos, self.player_group, self.draw_obj)
         self.field.create_field(self.collision_sprite, self.draw_obj)
 
     def update_sprites(self):
         """Обновление груп спрайтов"""
         self.field.update()
-        self.player_group.update(self.collision_sprite, self.field, self.enemies, self.draw_obj)
+        self.player_group.update(self.collision_sprite, self.field, self.enemies, self.draw_obj, self.thihgs_group)
         self.enemies.update(self.player.hitbox.center, self.collision_sprite, self.player_group)
+        self.thihgs_group.update(self.player_group)
 
     def draw_sprites(self):
         """Отрисовка груп спрайтов"""
@@ -40,6 +46,7 @@ class Game:
         ofset = self.player.hitbox.centerx - screen.get_width() / 2, self.player.hitbox.centery - screen.get_height() / 2
         self.field.shift_sprites(*ofset)
         self.enemies.shift(*ofset)
+        self.thihgs_group.shift(*ofset)
         self.player.shift_player(ofset[0] * -1, ofset[1] * -1)
         self.player.create_player_rect()
         self.x_player, self.y_player = self.player.hitbox.center
@@ -78,5 +85,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game()
+    game = Game('data/world_2.tmx')
     game.main()

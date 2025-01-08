@@ -1,5 +1,6 @@
 import pygame as pg
 
+from logic.Thing import HealthBottle
 from logic.blood import Blood
 from logic.seting import WORLD_LAYERS, CELL_SIZE, screen, split_image, load_image
 from logic.Entity.entity import Entity
@@ -70,7 +71,7 @@ class Player(Entity):
             return False
         return True
 
-    def going(self, group_sprites, step, field, enemies):
+    def going(self, group_sprites, step, field, enemies, things_group):
         """Передвижение персонажа"""
         ofset_x_y = (step * self.dict_direction[self.get_stste()][0], step * self.dict_direction[self.get_stste()][1])
         self.shift_player(*ofset_x_y)  # Передвижение персонажа
@@ -84,6 +85,7 @@ class Player(Entity):
 
             enemies.shift(*ofset_x_y)
             field.shift_sprites(*ofset_x_y)
+            things_group.shift(*ofset_x_y)
         return True
 
     def inside_react_player(self, delta_x, delta_y):
@@ -117,10 +119,9 @@ class Player(Entity):
             return True
         return False
 
-    def attacking(self, group_sprites, field, enemies, draw_obj):
+    def attacking(self, field, enemies, draw_obj):
         """Атака"""
         self.image = self.attack_sprites[self.get_stste()][self.ind_sprite]
-        self.going(group_sprites, (self.hitbox.width  if self.get_stste() in ['right', 'left'] else self.hitbox.height)  / 6, field, enemies)  # Передвигаем немного спрайт
         self.ind_sprite += 1
         if self.ind_sprite == len(self.attack_sprites[self.get_stste()]):
             self.attack = False
@@ -137,21 +138,31 @@ class Player(Entity):
             if obj.hitbox.colliderect(self.attack_hitbox):
                 obj.hp -= self.damage
                 Blood(obj.hitbox.center, draw_obj, field)
-                print(obj.hitbox.center, obj)
 
     def collisions_enemy(self, group_sprites, draw_obj, field):
         for obj in group_sprites:
             if obj.hitbox.colliderect(self.hitbox):
                 self.hp -= obj.damage
+                self.hp = max(self.hp, 0)
                 self.damage_timer = pg.time.get_ticks()
                 Blood(self.hitbox.center, draw_obj, field)
 
-    def update(self, group_sprites, field, enemies, draw_obj):
-        """Обновление положение персонажа"""
+    def collision_health_bottle(self, group):
+        for obj in group:
+            if not isinstance(obj, HealthBottle):
+                continue
+            if obj.hitbox.colliderect(self.hitbox):
+                self.hp += obj.health
+                self.hp = min(self.hp, self.max_hp)
+                obj.health = 0
 
+    def update(self, group_sprites, field, enemies, draw_obj, things_group):
+        """Обновление положение персонажа"""
+        self.collision_health_bottle(things_group)
         if self.attack:
             if self.is_attack():
-                self.attacking(group_sprites, field, enemies, draw_obj)
+                self.attacking(field, enemies, draw_obj)
+                self.going(group_sprites, (self.hitbox.width  if self.get_stste() in ['right', 'left'] else self.hitbox.height)  / 6, field, enemies, things_group)
 
         else:
             if self.is_damage():
@@ -160,5 +171,5 @@ class Player(Entity):
                 if self.is_animated():
                     self.animate(self.get_stste())
                 for step in range(self.step, 0, -1):
-                    if self.going(group_sprites, step, field, enemies):
-                        break
+                    if self.going(group_sprites, step, field, enemies, things_group):
+                        return

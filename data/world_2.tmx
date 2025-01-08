@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="1738">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="1863">
  <tileset firstgid="1" source="Texture_tsx/TX Plant.tsx"/>
  <tileset firstgid="1025" source="Texture_tsx/TX Player.tsx"/>
  <tileset firstgid="1089" source="Texture_tsx/TX Props.tsx"/>
@@ -1373,7 +1373,7 @@
   <object id="365" x="2096.21" y="1761.81" width="3.625" height="88.4583"/>
   <object id="366" x="2336.71" y="1856.89" width="8" height="96"/>
   <object id="367" x="2544.71" y="1793.14" width="8" height="69.25"/>
-  <object id="368" x="2583.71" y="1873.39" width="8" height="79"/>
+  <object id="368" x="2583.71" y="1874.7" width="8" height="77.6875"/>
   <object id="369" x="2807.71" y="1792.89" width="8" height="96"/>
   <object id="370" x="3072.63" y="1807.98" width="3.5" height="91.5"/>
   <object id="371" x="3132.13" y="1808.21" width="4.5" height="91.2708"/>
@@ -1472,130 +1472,219 @@
   <object id="1047" x="1926.75" y="1486.09" width="22.25" height="5.0625"/>
  </objectgroup>
  <objectgroup id="10" name="Points">
-  <object id="1694" x="1960" y="1219">
+  <object id="1812" x="2169.7" y="1490.91">
    <point/>
   </object>
-  <object id="1696" x="1967.5" y="1404.75">
+  <object id="1813" x="2300" y="1527.27">
    <point/>
   </object>
-  <object id="1697" x="2235.58" y="1585.25">
+  <object id="1814" x="2560.61" y="1557.58">
    <point/>
   </object>
-  <object id="1698" x="2754.25" y="1352.25">
+  <object id="1815" x="2809.09" y="1724.24">
    <point/>
   </object>
-  <object id="1699" x="2374.58" y="1257.75">
+  <object id="1816" x="2139.39" y="2012.12">
    <point/>
   </object>
-  <object id="1701" x="2081.33" y="1468">
+  <object id="1817" x="1778.79" y="2057.58">
    <point/>
   </object>
-  <object id="1702" x="2040" y="1522.67">
+  <object id="1818" x="1760.61" y="2290.91">
    <point/>
   </object>
-  <object id="1703" x="2134.67" y="1449.33">
+  <object id="1819" x="2324.24" y="2327.27">
    <point/>
   </object>
-  <object id="1704" x="2164" y="1513.33">
+  <object id="1820" x="2151.52" y="2221.21">
    <point/>
   </object>
-  <object id="1705" x="2340" y="1514.67">
+  <object id="1821" x="2354.55" y="2151.52">
    <point/>
   </object>
-  <object id="1706" x="2360" y="1556">
+  <object id="1822" x="2487.88" y="2142.42">
    <point/>
   </object>
-  <object id="1707" x="2258.67" y="1569.33">
+  <object id="1823" x="2727.27" y="2142.42">
    <point/>
   </object>
-  <object id="1708" x="2244" y="1493.33">
+  <object id="1824" x="2866.67" y="2139.39">
    <point/>
   </object>
-  <object id="1709" x="2137.33" y="1469.33">
+  <object id="1825" x="2621.21" y="2339.39">
    <point/>
   </object>
-  <object id="1710" x="2154.67" y="1549.33">
+  <object id="1826" x="3136.36" y="2327.27">
    <point/>
   </object>
-  <object id="1711" x="2309.33" y="1576">
+  <object id="1827" x="3075.76" y="2063.64">
    <point/>
   </object>
-  <object id="1712" x="2424" y="1556">
+  <object id="1828" x="2851.52" y="1996.97">
    <point/>
   </object>
-  <object id="1713" x="2308" y="1506.67">
+  <object id="1829" x="2951.52" y="1860.61">
    <point/>
   </object>
-  <object id="1714" x="2208" y="1502.67">
+  <object id="1830" x="2957.58" y="1672.73">
    <point/>
   </object>
-  <object id="1715" x="2196" y="1533.33">
+  <object id="1831" x="3124.24" y="1669.7">
    <point/>
   </object>
-  <object id="1716" x="2253.33" y="1568">
+  <object id="1832" x="3224.24" y="1506.06">
    <point/>
   </object>
-  <object id="1717" x="2297.33" y="1562.67">
+  <object id="1833" x="3403.03" y="2145.45">
    <point/>
   </object>
-  <object id="1718" x="2246.67" y="1526.67">
+  <object id="1834" x="3287.88" y="1984.85">
    <point/>
   </object>
-  <object id="1719" x="2204" y="1548">
+  <object id="1835" x="3618.18" y="2342.42">
    <point/>
   </object>
-  <object id="1720" x="2190.67" y="1552">
+  <object id="1836" x="3736.36" y="2251.52">
    <point/>
   </object>
-  <object id="1721" x="2188" y="1416">
+  <object id="1837" x="3624.24" y="2096.97">
    <point/>
   </object>
-  <object id="1722" x="2248" y="1466.67">
+  <object id="1838" x="3730.3" y="1960.61">
    <point/>
   </object>
-  <object id="1723" x="2338.67" y="1525.33">
+  <object id="1839" x="3515.15" y="1833.33">
    <point/>
   </object>
-  <object id="1724" x="2416" y="1533.33">
+  <object id="1840" x="3654.55" y="1721.21">
    <point/>
   </object>
-  <object id="1725" x="2289.33" y="1549.33">
+  <object id="1841" x="3715.15" y="1500">
    <point/>
   </object>
-  <object id="1726" x="2192" y="1581.33">
+  <object id="1842" x="3678.79" y="1287.88">
    <point/>
   </object>
-  <object id="1727" x="2177.33" y="1577.33">
+  <object id="1843" x="3766.67" y="1175.76">
    <point/>
   </object>
-  <object id="1728" x="2121.33" y="1526.67">
+  <object id="1844" x="3509.09" y="1051.52">
    <point/>
   </object>
-  <object id="1729" x="2066.67" y="1590.67">
+  <object id="1845" x="3496.97" y="1169.7">
    <point/>
   </object>
-  <object id="1730" x="2125.33" y="1609.33">
+  <object id="1846" x="3336.36" y="1093.94">
    <point/>
   </object>
-  <object id="1731" x="2190.67" y="1590.67">
+  <object id="1847" x="3018.18" y="1075.76">
    <point/>
   </object>
-  <object id="1732" x="2290.67" y="1573.33">
+  <object id="1848" x="3057.58" y="1318.18">
    <point/>
   </object>
-  <object id="1733" x="2484" y="1586.67">
+  <object id="1849" x="2845.45" y="1318.18">
    <point/>
   </object>
-  <object id="1734" x="2494.67" y="1520">
+  <object id="1850" x="2754.55" y="1445.45">
    <point/>
   </object>
-  <object id="1735" x="2222.67" y="1496">
+  <object id="1851" x="2936.36" y="1442.42">
    <point/>
   </object>
-  <object id="1736" x="2088" y="1462.67">
+  <object id="1852" x="2842.42" y="1193.94">
    <point/>
   </object>
-  <object id="1737" x="2032" y="1494.67">
+  <object id="1853" x="1969.7" y="1230.3">
+   <point/>
+  </object>
+  <object id="1854" x="2015.15" y="1421.21">
+   <point/>
+  </object>
+  <object id="1855" x="1796.97" y="1348.48">
+   <point/>
+  </object>
+  <object id="1856" x="1709.09" y="1042.42">
+   <point/>
+  </object>
+  <object id="1857" x="1972.73" y="1063.64">
+   <point/>
+  </object>
+  <object id="1858" x="2342.42" y="1042.42">
+   <point/>
+  </object>
+  <object id="1859" x="2572.73" y="1293.94">
+   <point/>
+  </object>
+  <object id="1860" x="2548.48" y="1081.82">
+   <point/>
+  </object>
+  <object id="1861" x="2336.36" y="1260.61">
+   <point/>
+  </object>
+  <object id="1862" x="1736.36" y="1693.94">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="11" name="Points_bottle" visible="0">
+  <object id="1791" x="1960.61" y="1218.18">
+   <point/>
+  </object>
+  <object id="1792" x="2736.36" y="1245.45">
+   <point/>
+  </object>
+  <object id="1793" x="3551.52" y="1393.94">
+   <point/>
+  </object>
+  <object id="1794" x="2945.45" y="1233.33">
+   <point/>
+  </object>
+  <object id="1795" x="2378.67" y="1250.18">
+   <point/>
+  </object>
+  <object id="1796" x="1706.06" y="2369.7">
+   <point/>
+  </object>
+  <object id="1797" x="3775.76" y="2342.42">
+   <point/>
+  </object>
+  <object id="1798" x="3503" y="2132.5">
+   <point/>
+  </object>
+  <object id="1799" x="2224.24" y="2136.36">
+   <point/>
+  </object>
+  <object id="1800" x="2381.82" y="1912.12">
+   <point/>
+  </object>
+  <object id="1801" x="1806.06" y="1181.82">
+   <point/>
+  </object>
+  <object id="1802" x="2778.79" y="1824.24">
+   <point/>
+  </object>
+  <object id="1803" x="3269.7" y="1166.67">
+   <point/>
+  </object>
+  <object id="1804" x="2945.45" y="2166.67">
+   <point/>
+  </object>
+  <object id="1805" x="3081.82" y="1778.79">
+   <point/>
+  </object>
+  <object id="1806" x="2230" y="1331.67">
+   <point/>
+  </object>
+  <object id="1807" x="2187.5" y="1766.5">
+   <point/>
+  </object>
+  <object id="1808" x="3390" y="1422">
+   <point/>
+  </object>
+  <object id="1809" x="3009" y="2185">
+   <point/>
+  </object>
+  <object id="1810" x="1721.21" y="1784.85">
    <point/>
   </object>
  </objectgroup>
