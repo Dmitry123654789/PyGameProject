@@ -1,9 +1,9 @@
 import pygame as pg
 
-from logic.Thing import HealthBottle
-from logic.blood import Blood
+from logic.Things.ThingGroup import HealthBottle
+from logic.Things.Blood import Blood
 from logic.seting import WORLD_LAYERS, CELL_SIZE, screen, split_image, load_image
-from logic.Entity.entity import Entity
+from logic.Entity.Entity import Entity
 
 
 class Player(Entity):
@@ -14,7 +14,7 @@ class Player(Entity):
     def __init__(self, pos, *group):
         super().__init__(pos, self.sprites, *group)
         self.step = 16  # Количество пройденых пикселей за интервал
-        self.damage = 10
+        self.damage = 1000
         self.max_hp = 100
         self.hp = self.max_hp
 

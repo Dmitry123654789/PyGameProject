@@ -2,7 +2,7 @@ import pygame as pg
 from random import randint, choices
 
 from logic.seting import CELL_SIZE, screen, split_image, load_image, ENEMY
-from logic.Entity.entity import Entity
+from logic.Entity.Entity import Entity
 
 
 class EnemiesGroup(pg.sprite.Group):

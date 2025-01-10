@@ -1,7 +1,7 @@
-from logic.Entity.enemy import Enemy
-from logic.Entity.players import Player
+from logic.Entity.Enemy import Enemy
+from logic.Entity.Players import Player
 from logic.seting import *
-from logic.field.Tiles import *
+from logic.Field.Tiles import *
 
 
 class Field(pygame.sprite.Group):
@@ -36,6 +36,11 @@ class Field(pygame.sprite.Group):
                 size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
                 Tile(pos, pygame.transform.scale(obj.image, size),  WORLD_LAYERS[sprites], self, draw_field)
 
+        for obj in self.tmx_map.get_layer_by_name('Portal'):
+            pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
+            size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
+            Tile(pos, pygame.transform.scale(obj.image, size), WORLD_LAYERS['Down_layer'], self, draw_field)
+
         # Добавляем слой полигонов (хитбоксов)
         for obj in self.tmx_map.get_layer_by_name('Polygon'):
             pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
@@ -67,7 +72,7 @@ class DrawField(pygame.sprite.Group):
         self.display_surface = pygame.display.get_surface()
 
     def draw(self):
-        bg_sprites = [sprite for sprite in self if sprite.z < WORLD_LAYERS['Main']]
+        bg_sprites = sorted([sprite for sprite in self if sprite.z < WORLD_LAYERS['Main']], key=lambda x: x.z)
         main_sprites = sorted([sprite for sprite in self if sprite.z == WORLD_LAYERS['Main']], key=lambda sprite: sprite.rect.centery)
         fg_sprites = [sprite for sprite in self if sprite.z > WORLD_LAYERS['Main']]
         for layer in (bg_sprites, main_sprites, fg_sprites):
