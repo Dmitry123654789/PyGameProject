@@ -1,6 +1,7 @@
 import pygame
 from logic.seting import *
 from logic.menu import menu_scene
+from logic.story_telling import show_story
 
 current_scene = None
 
@@ -24,6 +25,7 @@ while current_scene is not None:
         switch_scene(menu_scene)
     if current_scene == 'show_story':
         pygame.mixer.music.stop()
+        switch_scene(show_story)
     # запуск текущей сцены
     current_scene(switch_scene)
 

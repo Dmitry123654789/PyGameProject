@@ -1,6 +1,8 @@
+import pygame
+
 from logic.seting import *
 from logic.stats_menu import Statistics
-from logic.story_telling import show_story
+from logic.world_map import world_map_scene
 
 
 class Menu:
@@ -63,7 +65,7 @@ def menu_scene(switch_scene):
         if menu.is_action_true:
             if elem == menu.buttons_poses[0]:  # начало игры
                 running = False
-                switch_scene(show_story)
+                switch_scene(world_map_scene)
             elif elem == menu.buttons_poses[1]:  # статистика
                 menu.another_scene = Statistics()
                 menu.is_action_true = False
@@ -81,8 +83,6 @@ def menu_scene(switch_scene):
                 switch_scene(None)
 
     while running:
-        virtual_surface = pygame.surface.Surface(
-            screen.get_size())  # поверхность, на которой отрисовывается все изначально
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # выход из игры по крестику окна
                 running = False
@@ -102,11 +102,11 @@ def menu_scene(switch_scene):
                     menu.is_action_true = True
 
         # отрисовываем на сцене
+        virtual_surface.fill(pygame.Color('black'))
         menu.draw(virtual_surface)
         if menu.another_scene is not None:
             menu.another_scene.draw(virtual_surface)
 
         # отрисовываем сцену на экране
-        scaled_surface = pygame.transform.scale(virtual_surface, screen.get_size())
-        screen.blit(scaled_surface, (0, 0))
+        screen.blit(virtual_surface, (0, 0))
         pygame.display.flip()

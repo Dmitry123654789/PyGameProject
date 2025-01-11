@@ -3,17 +3,17 @@ import sys
 
 import pygame
 
-SIZE = WIDTH, HEIGHT = 800, 600
 FPS = 120
 CELL_SIZE = 64
 LANGUAGE = True  # True - Русский. False - английский. TRUE/FALSE сделано для удобства и чтобы не писать много if-ов
 pygame.init()
 pygame.display.set_caption('Bark and Battle')
-screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
+screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
 screen.fill(pygame.Color('black'))
 is_music_play = False
 volume_sound_background = 0.1
-
+virtual_surface = pygame.Surface(
+    (2560, 1440), pygame.SRCALPHA)  # поверхность, на которой отрисовывается все изначально
 
 
 def load_image(name, colorkey=None):
