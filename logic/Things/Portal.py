@@ -10,9 +10,9 @@ class Portal(Thing):
         super().__init__(pos, self.sprite, *group)
         self.z = WORLD_LAYERS['Down_sprites']
         self.image.set_alpha(0)
+        self.hitbox = self.rect.inflate(-self.rect.width / 2, -self.rect.height / 2)
 
 
     def update(self, enemy_group):
-        print(len(enemy_group))
         if len(enemy_group) == 0:
             self.image.set_alpha(255)

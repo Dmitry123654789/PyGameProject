@@ -14,7 +14,6 @@ class Field(pygame.sprite.Group):
 
     def create_field(self, collision_group, draw_field):
         """Создание поля"""
-
         # Добавляем все видимые слои тайтлов
         for layer in ['Grass', 'Wall', 'Up_layer', 'Down_layer']:
             for x, y, surf in self.tmx_map.get_layer_by_name(layer).tiles():
@@ -36,6 +35,7 @@ class Field(pygame.sprite.Group):
                 size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
                 Tile(pos, pygame.transform.scale(obj.image, size),  WORLD_LAYERS[sprites], self, draw_field)
 
+        # Добавляем слой спрайтов содержащий порталы
         for obj in self.tmx_map.get_layer_by_name('Portal'):
             pos = obj.x / 16 * CELL_SIZE, obj.y / 16 * CELL_SIZE
             size = (CELL_SIZE / 100) * (obj.width / (16 / 100)), (CELL_SIZE / 100) * (obj.height / (16 / 100))
@@ -72,12 +72,15 @@ class DrawField(pygame.sprite.Group):
         self.display_surface = pygame.display.get_surface()
 
     def draw(self):
+        """Отрисовка"""
+        # Сортируем по высоте
         bg_sprites = sorted([sprite for sprite in self if sprite.z < WORLD_LAYERS['Main']], key=lambda x: x.z)
         main_sprites = sorted([sprite for sprite in self if sprite.z == WORLD_LAYERS['Main']], key=lambda sprite: sprite.rect.centery)
         fg_sprites = [sprite for sprite in self if sprite.z > WORLD_LAYERS['Main']]
         for layer in (bg_sprites, main_sprites, fg_sprites):
             for sprite in layer:
                 self.display_surface.blit(sprite.image, sprite.rect.topleft)
+                # Если это враг или игрок рисуем полоску здоровья
                 if isinstance(sprite, (Enemy, Player)) and sprite.hp > 0:
                     pygame.draw.rect(self.display_surface, (255, 0, 0), (sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8, 5))
                     pygame.draw.rect(self.display_surface, (50, 200, 50), (sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8 * ((sprite.hp / (sprite.max_hp / 100)) / 100) , 5))

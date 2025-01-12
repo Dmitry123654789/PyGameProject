@@ -33,7 +33,3 @@ class Things(pygame.sprite.Group):
                 sprite.update(player_group)
             elif isinstance(sprite, Portal):
                 sprite.update(enemy_group)
-
-
-
-
