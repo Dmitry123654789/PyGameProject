@@ -103,5 +103,6 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game('data/world_1.tmx', (99, 104, 10))
+    "(99, 104, 10), (244, 254, 250)"
+    game = Game('data/world_2.tmx', (244, 254, 250))
     game.main()
