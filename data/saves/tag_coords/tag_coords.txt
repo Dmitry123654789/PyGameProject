@@ -1,0 +1,1 @@
+(470;380;level_1;True;1),(549;647;level_2;False;2),(502;980;level_3;False;),(780;1000;;False;)

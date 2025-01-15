@@ -4,6 +4,7 @@ import sys
 import pygame
 
 FPS = 120
+SIZE = WIDTH, HEIGHT = 800, 600
 CELL_SIZE = 64
 LANGUAGE = True  # True - Русский. False - английский. TRUE/FALSE сделано для удобства и чтобы не писать много if-ов
 pygame.init()
