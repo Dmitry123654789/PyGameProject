@@ -12,7 +12,7 @@ def get_sprites(img):
 
 
 class Blood(Thing):
-    sprites = get_sprites(load_image('images/blood.png'))
+    sprites = get_sprites(load_image('images\\blood.png'))
 
     def __init__(self, pos, *groups):
         super().__init__(pos, self.sprites[0], *groups)

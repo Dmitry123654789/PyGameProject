@@ -8,8 +8,8 @@ from logic.Entity.Entity import Entity
 
 class Player(Entity):
     """Основной класс игрока"""
-    sprites = split_image(load_image('images/dog_sprites.png'), 32, CELL_SIZE * 2)
-    attack_sprites = split_image(load_image('images/dog_sprites_attack.png'), 32, CELL_SIZE * 2)
+    sprites = split_image(load_image('images\\dog_sprites.png'), 32, CELL_SIZE * 2)
+    attack_sprites = split_image(load_image('images\\dog_sprites_attack.png'), 32, CELL_SIZE * 2)
 
     def __init__(self, pos, *group):
         super().__init__(pos, self.sprites, *group)

@@ -1,83 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="1869">
- <tileset firstgid="1" source="Texture_tsx/TX Plant.tsx"/>
- <tileset firstgid="1025" source="Texture_tsx/TX Player.tsx"/>
- <tileset firstgid="1089" source="Texture_tsx/TX Props.tsx"/>
- <tileset firstgid="2113" source="Texture_tsx/TX Struct.tsx"/>
- <tileset firstgid="3137" source="Texture_tsx/TX Tileset Grass.tsx"/>
- <tileset firstgid="3393" source="Texture_tsx/TX Tileset Stone Ground.tsx"/>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="27" nextobjectid="2512">
+ <tileset firstgid="1" source="../Texture_tsx/TX Plant.tsx"/>
+ <tileset firstgid="1025" source="../Texture_tsx/TX Player.tsx"/>
+ <tileset firstgid="1089" source="../Texture_tsx/TX Props.tsx"/>
+ <tileset firstgid="2113" source="../Texture_tsx/TX Struct.tsx"/>
+ <tileset firstgid="3137" source="../Texture_tsx/TX Tileset Grass.tsx"/>
+ <tileset firstgid="3393" source="../Texture_tsx/TX Tileset Stone Ground.tsx"/>
  <tileset firstgid="3649" name="TX Tileset Wall" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="C:/Users/Children/Downloads/Pixel Art Top Down - Basic v1.1.2/Texture/TX Tileset Wall.png" width="512" height="512"/>
  </tileset>
- <tileset firstgid="4673" source="Texture_tsx/TX Shadow.tsx"/>
- <tileset firstgid="5697" source="Texture_tsx/Water.tsx"/>
- <tileset firstgid="5715" source="Texture_tsx/Dark_TX Tileset Grass.tsx"/>
- <tileset firstgid="5971" source="Texture_tsx/Dark_TX Struct.tsx"/>
+ <tileset firstgid="4673" source="../Texture_tsx/TX Shadow.tsx"/>
+ <tileset firstgid="5697" source="../Texture_tsx/Water.tsx"/>
+ <tileset firstgid="5715" source="../Texture_tsx/Dark_TX Tileset Grass.tsx"/>
+ <tileset firstgid="5971" source="../Texture_tsx/Dark_TX Struct.tsx"/>
  <tileset firstgid="6995" name="Stones" tilewidth="94" tileheight="72" tilecount="8" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image source="Texture/stone_1.png" width="11" height="10"/>
+   <image source="../Texture/stone_1.png" width="11" height="10"/>
   </tile>
   <tile id="1">
-   <image source="Texture/stone_2.png" width="16" height="14"/>
+   <image source="../Texture/stone_2.png" width="16" height="14"/>
   </tile>
   <tile id="2">
-   <image source="Texture/stone_3.png" width="24" height="19"/>
+   <image source="../Texture/stone_3.png" width="24" height="19"/>
   </tile>
   <tile id="3">
-   <image source="Texture/stone_4.png" width="24" height="19"/>
+   <image source="../Texture/stone_4.png" width="24" height="19"/>
   </tile>
   <tile id="4">
-   <image source="Texture/stone_5.png" width="27" height="22"/>
+   <image source="../Texture/stone_5.png" width="27" height="22"/>
   </tile>
   <tile id="5">
-   <image source="Texture/stone_6.png" width="27" height="27"/>
+   <image source="../Texture/stone_6.png" width="27" height="27"/>
   </tile>
   <tile id="6">
-   <image source="Texture/stone_7.png" width="57" height="42"/>
+   <image source="../Texture/stone_7.png" width="57" height="42"/>
   </tile>
   <tile id="7">
-   <image source="Texture/portal.png" width="94" height="72"/>
+   <image source="../Texture/portal.png" width="94" height="72"/>
   </tile>
  </tileset>
- <tileset firstgid="7003" source="Texture_tsx/stolb.tsx"/>
+ <tileset firstgid="7003" source="../Texture_tsx/stolb.tsx"/>
  <tileset firstgid="7004" name="Trees" tilewidth="113" tileheight="139" tilecount="12" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image source="Texture/bush_1.png" width="27" height="25"/>
+   <image source="../Texture/bush_1.png" width="27" height="25"/>
   </tile>
   <tile id="1">
-   <image source="Texture/bush_2.png" width="22" height="19"/>
+   <image source="../Texture/bush_2.png" width="22" height="19"/>
   </tile>
   <tile id="2">
-   <image source="Texture/bush_3.png" width="38" height="32"/>
+   <image source="../Texture/bush_3.png" width="38" height="32"/>
   </tile>
   <tile id="3">
-   <image source="Texture/bush_4.png" width="47" height="42"/>
+   <image source="../Texture/bush_4.png" width="47" height="42"/>
   </tile>
   <tile id="4">
-   <image source="Texture/bush_5.png" width="40" height="35"/>
+   <image source="../Texture/bush_5.png" width="40" height="35"/>
   </tile>
   <tile id="5">
-   <image source="Texture/Tree_1.png" width="113" height="139"/>
+   <image source="../Texture/Tree_1.png" width="113" height="139"/>
   </tile>
   <tile id="6">
-   <image source="Texture/Tree_2.png" width="96" height="136"/>
+   <image source="../Texture/Tree_2.png" width="96" height="136"/>
   </tile>
   <tile id="7">
-   <image source="Texture/Tree_3.png" width="79" height="120"/>
+   <image source="../Texture/Tree_3.png" width="79" height="120"/>
   </tile>
   <tile id="8">
-   <image source="Texture/vase_1.png" width="21" height="32"/>
+   <image source="../Texture/vase_1.png" width="21" height="32"/>
   </tile>
   <tile id="9">
-   <image source="Texture/vase_2.png" width="25" height="27"/>
+   <image source="../Texture/vase_2.png" width="25" height="27"/>
   </tile>
   <tile id="10">
-   <image source="Texture/vase_3.png" width="21" height="34"/>
+   <image source="../Texture/vase_3.png" width="21" height="34"/>
   </tile>
   <tile id="11">
-   <image source="Texture/barrel.png" width="28" height="36"/>
+   <image source="../Texture/barrel.png" width="28" height="36"/>
   </tile>
  </tileset>
  <layer id="1" name="Grass" width="300" height="200">
@@ -693,7 +693,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="5" name="Down_sprites"/>
+ <objectgroup id="5" name="Down_sprites" visible="0"/>
  <objectgroup id="8" name="Sprites">
   <object id="1042" gid="7003" x="2260" y="1323" width="22" height="37"/>
   <object id="1043" gid="7003" x="2389" y="1211.67" width="22" height="37"/>
@@ -847,7 +847,7 @@
   <object id="1435" gid="6997" x="348" y="2418" width="24" height="19"/>
   <object id="1700" gid="7000" x="3603.73" y="1210.73" width="27" height="27"/>
  </objectgroup>
- <objectgroup id="9" name="Up_sprites">
+ <objectgroup id="9" name="Up_sprites" visible="0">
   <object id="1436" gid="7010" x="1627.31" y="965.122" width="111.333" height="124.667"/>
   <object id="1437" gid="7010" x="1818.22" y="963.425" width="96" height="126"/>
   <object id="1438" gid="7010" x="2018.22" y="967.365" width="96" height="136"/>
@@ -1106,7 +1106,7 @@
   <object id="1691" gid="7010" x="3824" y="893.333" width="96" height="136"/>
   <object id="1693" gid="7010" x="1556" y="1088" width="96" height="136"/>
  </objectgroup>
- <layer id="6" name="Up_layer" width="300" height="200">
+ <layer id="6" name="Up_layer" width="300" height="200" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -1310,7 +1310,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup color="#aa0000" id="2" name="Polygon">
+ <objectgroup color="#aa0000" id="2" name="Polygon" visible="0">
   <object id="303" x="1968.46" y="1269.85" width="3.54545" height="85.3826"/>
   <object id="304" x="2027.73" y="1276.02" width="3.72727" height="78.6477"/>
   <object id="305" x="1905.62" y="1265.64" width="66.4962" height="53.3107"/>
@@ -1474,7 +1474,7 @@
   <object id="464" x="736" y="2509.33" width="3432" height="326.667"/>
   <object id="1047" x="1926.75" y="1486.09" width="22.25" height="5.0625"/>
  </objectgroup>
- <objectgroup id="10" name="Points">
+ <objectgroup id="10" name="Points" visible="0">
   <object id="1812" x="2169.7" y="1490.91">
    <point/>
   </object>
@@ -1626,7 +1626,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="11" name="Points_bottle" visible="0">
+ <objectgroup id="11" name="Points_bottle">
   <object id="1791" x="1960.61" y="1218.18">
    <point/>
   </object>
@@ -1681,14 +1681,14 @@
   <object id="1808" x="3390" y="1422">
    <point/>
   </object>
-  <object id="1809" x="3009" y="2185">
+  <object id="1809" x="3009" y="2182">
    <point/>
   </object>
   <object id="1810" x="1721.21" y="1784.85">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="12" name="Portal">
+ <objectgroup id="12" name="Portal" visible="0">
   <object id="1866" gid="7002" x="2800" y="1234" width="94" height="72"/>
  </objectgroup>
  <objectgroup id="13" name="Point_player" visible="0">
