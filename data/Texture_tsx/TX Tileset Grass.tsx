@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.11.0" name="TX Tileset Grass" tilewidth="16" tileheight="16" tilecount="256" columns="16">
- <image source="C:/Users/Children/Downloads/Pixel Art Top Down - Basic v1.1.2/Texture/TX Tileset Grass.png" width="256" height="256"/>
+ <image source="../Texture/TX Tileset Grass.png" width="256" height="256"/>
  <wangsets>
   <wangset name="Plitk" type="edge" tile="-1">
    <wangcolor name="" color="#ff0000" tile="-1" probability="1"/>

@@ -7,7 +7,7 @@
  <tileset firstgid="3137" source="../Texture_tsx/TX Tileset Grass.tsx"/>
  <tileset firstgid="3393" source="../Texture_tsx/TX Tileset Stone Ground.tsx"/>
  <tileset firstgid="3649" name="TX Tileset Wall" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
-  <image source="C:/Users/Children/Downloads/Pixel Art Top Down - Basic v1.1.2/Texture/TX Tileset Wall.png" width="512" height="512"/>
+  <image source="../Texture/TX Tileset Wall.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="4673" source="../Texture_tsx/TX Shadow.tsx"/>
  <tileset firstgid="5697" source="../Texture_tsx/Water.tsx"/>

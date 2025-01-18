@@ -24,7 +24,7 @@ while current_scene is not None:
         switch_scene(menu_scene)
     if current_scene == 'show_story':
         pygame.mixer.music.stop()
-        switch_scene(show_story)
+        # switch_scene(show_story)
     # запуск текущей сцены
     current_scene(switch_scene)
 

@@ -3,9 +3,9 @@ import sys
 
 import pygame
 
-FPS = 120
+FPS = 240
 SIZE = WIDTH, HEIGHT = 800, 600
-CELL_SIZE = 64
+CELL_SIZE = 30
 LANGUAGE = True  # True - Русский. False - английский. TRUE/FALSE сделано для удобства и чтобы не писать много if-ов
 pygame.init()
 pygame.display.set_caption('Bark and Battle')
@@ -28,6 +28,12 @@ WORLD_LAYERS = {
     'Up_layer': 7
 }
 
+ENEMY = {
+    # Цвет: шаг, здоровье, урон, шанс
+    'orange': (4, 100, 10, 50),
+    'brown': (6, 150, 15, 30),
+    'dark': (8, 200, 25, 10)
+}
 pygame.display.set_caption('Castle')
 screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
 screen.fill(pygame.Color('black'))
