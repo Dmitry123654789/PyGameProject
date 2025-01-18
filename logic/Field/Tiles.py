@@ -9,7 +9,6 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
         self.z = z
 
-
     def set_darkness(self):
         """Затемнение"""
         darkness = pygame.Surface(self.rect.size)

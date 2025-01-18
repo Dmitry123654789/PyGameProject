@@ -28,12 +28,9 @@ WORLD_LAYERS = {
     'Up_layer': 7
 }
 
-ENEMY = {
-    # Цвет: шаг, здоровье, урон, шанс
-    'orange': (4, 100, 10, 50),
-    'brown': (6, 150, 15, 30),
-    'dark': (8, 200, 25, 10)
-}
+pygame.display.set_caption('Castle')
+screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
+screen.fill(pygame.Color('black'))
 
 
 def load_image(name, colorkey=None):

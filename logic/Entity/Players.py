@@ -1,17 +1,20 @@
 import pygame as pg
+
+from logic.Things.ThingGroup import HealthBottle
+from logic.Things.Blood import Blood
 from logic.seting import WORLD_LAYERS, CELL_SIZE, screen, split_image, load_image
-from logic.Entity.entity import Entity
+from logic.Entity.Entity import Entity
 
 
 class Player(Entity):
     """Основной класс игрока"""
-    sprites = split_image(load_image('images/dog_sprites.png'), 32, CELL_SIZE * 2)
-    attack_sprites = split_image(load_image('images/dog_sprites_attack.png'), 32, CELL_SIZE * 2)
+    sprites = split_image(load_image('images\\dog_sprites.png'), 32, CELL_SIZE * 2)
+    attack_sprites = split_image(load_image('images\\dog_sprites_attack.png'), 32, CELL_SIZE * 2)
 
     def __init__(self, pos, *group):
         super().__init__(pos, self.sprites, *group)
         self.step = 16  # Количество пройденых пикселей за интервал
-        self.damage = 10
+        self.damage = 1000
         self.max_hp = 100
         self.hp = self.max_hp
 
@@ -68,7 +71,7 @@ class Player(Entity):
             return False
         return True
 
-    def going(self, group_sprites, step, field, enemies):
+    def going(self, group_sprites, step, field, enemies, things_group):
         """Передвижение персонажа"""
         ofset_x_y = (step * self.dict_direction[self.get_stste()][0], step * self.dict_direction[self.get_stste()][1])
         self.shift_player(*ofset_x_y)  # Передвижение персонажа
@@ -82,6 +85,7 @@ class Player(Entity):
 
             enemies.shift(*ofset_x_y)
             field.shift_sprites(*ofset_x_y)
+            things_group.shift(*ofset_x_y)
         return True
 
     def inside_react_player(self, delta_x, delta_y):
@@ -115,10 +119,9 @@ class Player(Entity):
             return True
         return False
 
-    def attacking(self, group_sprites, field, enemies):
+    def attacking(self, field, enemies, draw_obj):
         """Атака"""
         self.image = self.attack_sprites[self.get_stste()][self.ind_sprite]
-        self.going(group_sprites, (self.hitbox.width  if self.get_stste() in ['right', 'left'] else self.hitbox.height)  / 6, field, enemies)  # Передвигаем немного спрайт
         self.ind_sprite += 1
         if self.ind_sprite == len(self.attack_sprites[self.get_stste()]):
             self.attack = False
@@ -126,34 +129,47 @@ class Player(Entity):
                                                      abs(self.hitbox.height * self.dict_direction[self.get_stste()][1]))
             self.attack_hitbox.x += self.hitbox.width / 2 * self.dict_direction[self.get_stste()][0]
             self.attack_hitbox.y += self.hitbox.height / 2 * self.dict_direction[self.get_stste()][1]
-            self.collisions_enemy_attack(enemies)
+            self.collisions_enemy_attack(enemies, draw_obj, field)
             self.damage_timer = pg.time.get_ticks()
 
-    def collisions_enemy_attack(self, group_sprites):
+    def collisions_enemy_attack(self, group_sprites, draw_obj, field):
         """Проверка коллизии хитбокса атаки"""
         for obj in group_sprites:
-            if obj.rect.colliderect(self.attack_hitbox):
+            if obj.hitbox.colliderect(self.attack_hitbox):
                 obj.hp -= self.damage
+                Blood(obj.hitbox.center, draw_obj, field)
 
-    def collisions_enemy(self, group_sprites):
+    def collisions_enemy(self, group_sprites, draw_obj, field):
         for obj in group_sprites:
             if obj.hitbox.colliderect(self.hitbox):
                 self.hp -= obj.damage
+                self.hp = max(self.hp, 0)
                 self.damage_timer = pg.time.get_ticks()
+                Blood(self.hitbox.center, draw_obj, field)
 
-    def update(self, group_sprites, field, enemies):
+    def collision_health_bottle(self, group):
+        for obj in group:
+            if not isinstance(obj, HealthBottle):
+                continue
+            if obj.hitbox.colliderect(self.hitbox):
+                self.hp += obj.health
+                self.hp = min(self.hp, self.max_hp)
+                obj.health = 0
+
+    def update(self, group_sprites, field, enemies, draw_obj, things_group):
         """Обновление положение персонажа"""
-
+        self.collision_health_bottle(things_group)
         if self.attack:
             if self.is_attack():
-                self.attacking(group_sprites, field, enemies)
+                self.attacking(field, enemies, draw_obj)
+                self.going(group_sprites, (self.hitbox.width  if self.get_stste() in ['right', 'left'] else self.hitbox.height)  / 6, field, enemies, things_group)
 
         else:
             if self.is_damage():
-                self.collisions_enemy(enemies)
+                self.collisions_enemy(enemies, draw_obj, field)
             if self.input() and self.is_going():
                 if self.is_animated():
                     self.animate(self.get_stste())
                 for step in range(self.step, 0, -1):
-                    if self.going(group_sprites, step, field, enemies):
-                        break
+                    if self.going(group_sprites, step, field, enemies, things_group):
+                        return
