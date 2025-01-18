@@ -32,7 +32,7 @@ class Menu:
         self.buttons_poses.append(pygame.rect.Rect(screen.get_width() - 150, 0, 75, 75))
 
     # отрисовывает все
-    def draw(self, surface):
+    def draw(self, surface: pygame.Surface):
         self.fill_buttons_poses()
         im = pygame.transform.scale(load_image('images/castle_menu.jpg'), screen.get_size())
         surface.blit(im, (0, 0))

@@ -15,7 +15,7 @@ is_music_play = False
 volume_sound_background = 0.1
 virtual_surface = pygame.Surface(
     (2560, 1440), pygame.SRCALPHA)  # поверхность, на которой отрисовывается все изначально
-
+current_level = ''
 
 def load_image(name, colorkey=None):
     """Превращает одно изображение в surface"""

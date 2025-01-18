@@ -1,67 +1,70 @@
+import pygame
 import pygame.event
-
+from logic.game_scene import game_scene
 from logic.seting import *
 
 pygame.init()
 
 
-class Point(pygame.sprite.Sprite):
+class Point(pygame.sprite.Sprite):  # класс точки на карте мира
     def __init__(self, pos_x, pos_y, level, status, *group):
         super().__init__(*group)
         self.images = [pygame.transform.scale(load_image('images/point_unlocked.png'), (75, 75)),
-                       pygame.transform.scale(load_image('images/point_locked.png'), (75, 75))]
-        self.image = self.images[0 if status else 1]
-        self.rect = self.image.get_rect().move(pos_x, pos_y)
-        self.is_collide = 0
-        self.level = level
-        self.unlock = status
+                       pygame.transform.scale(load_image('images/point_locked.png'),
+                                              (75, 75))]  # иконки точек: открытая и заблокированная
+        self.image = self.images[0 if status else 1]  # загружает иконку в точку в зависимости от статуса
+        self.rect = self.image.get_rect().move(pos_x, pos_y)  # положение и размер
+        self.is_collide = 0  # для подпрыгивания точки
+        self.level = level  # уровень
+        self.unlock = status  # открыт ли уровень
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.Surface):
         surface.blit(self.image, self.rect.move(0, -self.is_collide))
 
-    def update(self, mouse_pos, scroll_x, scroll_y):
-        # rect_scaled = pygame.Rect(
-        #     (self.rect.x - scroll_x - virtual_surface.get_width() // 12),
-        #     (self.rect.y - scroll_y - virtual_surface.get_height() // 2.91),
-        #     self.rect.w,
-        #     self.rect.h)
-        rect_scaled = pygame.Rect((self.rect.x - scroll_x) // 1.22,
-                                  (self.rect.y - scroll_y) // 1.4, self.rect.w, self.rect.h)
-
-        n = (int(mouse_pos[0] * (virtual_surface.get_width() / screen.get_width())),
-             int(mouse_pos[1] * (virtual_surface.get_height() / screen.get_height())))
-        if rect_scaled.collidepoint(n):
+    def update(self, mouse_pos: tuple[int, int], scroll_x: int,
+               scroll_y: int):  # проверяет столкновение с курсором и, при столкновении, точка на карте подпрыгивает
+        n = mouse_pos[0] + scroll_x, mouse_pos[1] + scroll_y
+        if self.rect.collidepoint(n):
             self.is_collide = 20
         else:
             self.is_collide = 0
 
     def click(self):
         if self.is_collide != 0 and self.unlock:
+            current_level = self.level
             return True
 
 
 def world_map_scene(switch_scene):
-    world_map = load_image('images/world_map.png')
+    world_map = load_image('images/world_map_with_route.png')
     clock = pygame.time.Clock()
     running = True
 
     all_sprite = pygame.sprite.Group()
     tag_group = pygame.sprite.Group()
 
-    with open('data/saves/tag_coords/tag_coords.txt', 'r') as file:
+    with open('data/saves/tag_coords/tag_coords.txt',
+              'r') as file:  # берет данные из файла и создает по ним экземпляры класса Point
         for coords in file.readline().split(','):
             coords = coords.replace('(', '').replace(')', '')
             coords = coords.split(';')
             Point(int(coords[0]), int(coords[1]), str(coords[2]), True if coords[3] == 'True' else False, all_sprite,
                   tag_group)
+
     scroll_x = 0
     scroll_y = 0
     scroll_x_speed = 0
     scroll_y_speed = 0
+
+    # переменная для передвижения мышкой
     moving = False
+
     start_pos = (0, 0)
+
+    # приближение
     zoom = 1
     while running:
+        # копия карты для корректной отрисовки точек
         world_map_scaled = world_map.copy()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -73,7 +76,8 @@ def world_map_scene(switch_scene):
                 # обработка нажатия на локацию
                 for sprite in tag_group:
                     if sprite.click():
-                        print(1)
+                        running = False
+                        switch_scene(game_scene)
             # перемещение карты мышью
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 moving = False
@@ -99,8 +103,8 @@ def world_map_scene(switch_scene):
                     scroll_y_speed += 10
                 if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     scroll_y_speed -= 10
-            elif event.type == pygame.MOUSEWHEEL:
-                print(event.y)
+            # elif event.type == pygame.MOUSEWHEEL:
+            #     print(event.y)
 
         scroll_x += scroll_x_speed * zoom
         scroll_y += scroll_y_speed * zoom
@@ -128,7 +132,6 @@ def world_map_scene(switch_scene):
 
         # подгоняем карту под нужный размер
         scaled_map = pygame.transform.scale(world_map_scaled, (scaled_width, scaled_height))
-
         virtual_surface.blit(scaled_map,
                              (virtual_surface.get_width() // 2 - scaled_map.get_width() // 2 - scroll_x,
                               virtual_surface.get_height() // 2 - scaled_map.get_height() // 2 - scroll_y))
