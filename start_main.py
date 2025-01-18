@@ -1,6 +1,6 @@
 from logic.menu import menu_scene
 from logic.seting import *
-from logic.story_telling import show_story
+# from logic.story_telling import show_story
 
 current_scene = None
 
