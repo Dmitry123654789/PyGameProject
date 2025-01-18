@@ -3,7 +3,7 @@ from logic.Entity.Players import Player
 from logic.seting import *
 from logic.field.Tiles import *
 
-
+#jk
 class Field(pygame.sprite.Group):
     """Основной класс поля игры"""
     def __init__(self, now_x, now_y, tmx_map):
