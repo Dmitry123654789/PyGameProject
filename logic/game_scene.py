@@ -104,5 +104,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game('data\\maps\\world_4.tmx')
+    game = Game('data\\maps\\world_3.tmx')
     game.main()

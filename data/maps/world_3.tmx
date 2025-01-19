@@ -75,7 +75,7 @@
  <tileset firstgid="2032" source="../Texture_tsx/TX Plant.tsx"/>
  <tileset firstgid="3056" source="../Texture_tsx/TX Tileset Wall.tsx"/>
  <tileset firstgid="4080" name="TX Tileset Wall" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
-  <image source="../../../../Downloads/Pixel Art Top Down - Basic v1.1.2/Texture/TX Tileset Wall.png" width="512" height="512"/>
+  <image source="../Texture/TX Tileset Wall.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="5104" source="../Texture_tsx/TX Struct.tsx"/>
  <tileset firstgid="6128" source="../Texture_tsx/Dark_TX Struct.tsx"/>
