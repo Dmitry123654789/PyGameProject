@@ -12,10 +12,9 @@ from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
 class Game:
     """Класс для запуска игры"""
 
-    def __init__(self, tmx_map, color):
+    def __init__(self, tmx_map):
         self.tmx_map = load_pygame(tmx_map)  # Загружаем основную карту мира
         self.start_pos = self.get_start_pos()  # Начальное положение персонажа
-        self.color = color  # Цвет заднего фона
         self.player_group = pygame.sprite.Group()  # Группа персонажа
         self.field = Field(*self.start_pos, self.tmx_map)  # Группа поля
         self.draw_obj = DrawField()  # Группа объектов поля которые нужно отрисовывать на экране
@@ -23,6 +22,7 @@ class Game:
         self.collision_sprite = pygame.sprite.Group()  # Группа спрайтов с которыми взамидействует персонаж
         self.thihgs_group = Things(self.draw_obj, self.tmx_map)  # Группа различных объектов на поле
         self.x_player, self.y_player = self.start_pos  # Положение персонажа на карте до изменения размеров экрана
+        self.player = None # Игрок
         self.add_group_sprite()
 
     def get_start_pos(self):
@@ -50,7 +50,8 @@ class Game:
 
     def center_camera(self):
         """Двигаем поле и игрока, что бы они всегда оставались на экране"""
-        ofset = self.player.hitbox.centerx - screen.get_width() / 2, self.player.hitbox.centery - screen.get_height() / 2
+        ofset = (int(self.player.hitbox.centerx - screen.get_width() / 2),
+                 int(self.player.hitbox.centery - screen.get_height() / 2))
         self.field.shift_sprites(*ofset)
         self.enemies.shift(*ofset)
         self.thihgs_group.shift(*ofset)
@@ -71,7 +72,7 @@ class Game:
         clock = pygame.time.Clock()
         self.center_camera()
         while running:
-            screen.fill(self.color)
+            screen.fill('black')
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     # Если окно закрыто
@@ -103,6 +104,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    "(99, 104, 10), (244, 254, 250)"
-    game = Game('data\\maps\\world_2.tmx', (244, 254, 250))
+    game = Game('data\\maps\\world_4.tmx')
     game.main()

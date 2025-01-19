@@ -39,6 +39,7 @@ class Player(Entity):
         self.attack_hitbox = pg.rect.Rect(0, 0, 0, 0)
 
         self.z = WORLD_LAYERS['Main']
+        self.rect_player = None
 
 
     def create_player_rect(self):
