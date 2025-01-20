@@ -77,7 +77,7 @@ def world_map_scene(switch_scene):
                 for sprite in tag_group:
                     if sprite.click():
                         running = False
-                        switch_scene(game_scene)
+                        switch_scene('game_scene')
             # перемещение карты мышью
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 moving = False

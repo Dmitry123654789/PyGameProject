@@ -8,9 +8,6 @@ SIZE = WIDTH, HEIGHT = 800, 600
 CELL_SIZE = 30
 LANGUAGE = True  # True - Русский. False - английский. TRUE/FALSE сделано для удобства и чтобы не писать много if-ов
 pygame.init()
-pygame.display.set_caption('Bark and Battle')
-screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
-screen.fill(pygame.Color('black'))
 is_music_play = False
 volume_sound_background = 0.1
 virtual_surface = pygame.Surface(

@@ -1,5 +1,3 @@
-import pygame
-
 from logic.seting import *
 
 
@@ -19,6 +17,6 @@ class Statistics:
         # self.screen2.blit(im_close, (self.screen2.get_width() - 70, 20))
         surface.blit(screen2, (screen.get_width() // 3, screen.get_height() // 3))
 
-    def handle_event(self, event, surface):
+    def handle_event(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             return 'Close'
