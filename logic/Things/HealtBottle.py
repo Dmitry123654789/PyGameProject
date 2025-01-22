@@ -1,7 +1,8 @@
 import pygame
 
 from logic.Things.Thing import Thing
-from logic.seting import load_image, CELL_SIZE
+from logic.seting import CELL_SIZE
+from logic.support import load_image
 
 
 class HealthBottle(Thing):

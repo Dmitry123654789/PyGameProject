@@ -2,7 +2,8 @@ import pygame as pg
 
 from logic.Things.ThingGroup import HealthBottle
 from logic.Things.Blood import Blood
-from logic.seting import WORLD_LAYERS, CELL_SIZE, screen, split_image, load_image
+from logic.seting import WORLD_LAYERS, CELL_SIZE, screen
+from logic.support import split_image, load_image
 from logic.Entity.Entity import Entity
 
 
@@ -40,6 +41,7 @@ class Player(Entity):
 
         self.z = WORLD_LAYERS['Main']
         self.rect_player = None
+        self.image = self.sprites['down']
 
 
     def create_player_rect(self):

@@ -1,7 +1,8 @@
 import pygame
 
 from logic.Things.Thing import Thing
-from logic.seting import load_image, CELL_SIZE, WORLD_LAYERS
+from logic.seting import CELL_SIZE, WORLD_LAYERS
+from logic.support import load_image
 
 
 class Portal(Thing):

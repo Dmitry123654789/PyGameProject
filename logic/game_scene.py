@@ -7,7 +7,7 @@ from logic.Field.Field import Field, DrawField
 from logic.Things.Portal import Portal
 from logic.Things.ThingGroup import Things
 from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
-
+from logic.support import fade_in, fade_out
 
 class Game:
     """Класс для запуска игры"""
@@ -67,10 +67,13 @@ class Game:
                     return True
         return False
 
+
     def main(self):
         running = True
         clock = pygame.time.Clock()
         self.center_camera()
+        self.update_sprites()
+        fade_in(self.draw_sprites)
         while running:
             screen.fill('black')
             for event in pygame.event.get():
@@ -89,6 +92,8 @@ class Game:
             self.draw_sprites()
             if self.end_game():
                 ...  # Нужна обработка конца игры
+            if self.player.hp <= 0:
+                ... # Нужна обработка смерти персонажа
 
             # Отладочная информация
             # pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_height() / 2), (screen.get_width(), screen.get_height() / 2))
@@ -104,5 +109,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game('data\\maps\\world_3.tmx')
+    game = Game('..\\data\\maps\\world_3.tmx')
     game.main()
