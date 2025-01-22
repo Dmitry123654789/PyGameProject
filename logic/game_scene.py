@@ -3,20 +3,20 @@ from pytmx import load_pygame
 
 from logic.Entity.Enemy import EnemiesGroup
 from logic.Entity.Players import Player
-from logic.field.Field import Field, DrawField
+from logic.Field.Field import Field, DrawField
 from logic.Things.Portal import Portal
 from logic.Things.ThingGroup import Things
 from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
 from logic.pause import Pause
 
+from logic.support import fade_in, fade_out
 
 class Game:
     """Класс для запуска игры"""
 
-    def __init__(self, tmx_map, color):
+    def __init__(self, tmx_map):
         self.tmx_map = load_pygame(tmx_map)  # Загружаем основную карту мира
         self.start_pos = self.get_start_pos()  # Начальное положение персонажа
-        self.color = color  # Цвет заднего фона
         self.player_group = pygame.sprite.Group()  # Группа персонажа
         self.field = Field(*self.start_pos, self.tmx_map)  # Группа поля
         self.draw_obj = DrawField()  # Группа объектов поля которые нужно отрисовывать на экране
@@ -51,7 +51,8 @@ class Game:
 
     def center_camera(self):
         """Двигаем поле и игрока, что бы они всегда оставались на экране"""
-        ofset = self.player.hitbox.centerx - screen.get_width() / 2, self.player.hitbox.centery - screen.get_height() / 2
+        ofset = (int(self.player.hitbox.centerx - screen.get_width() / 2),
+                 int(self.player.hitbox.centery - screen.get_height() / 2))
         self.field.shift_sprites(*ofset)
         self.enemies.shift(*ofset)
         self.thihgs_group.shift(*ofset)
@@ -67,51 +68,17 @@ class Game:
                     return True
         return False
 
-    # def main(self):
-    #     running = True
-    #     clock = pygame.time.Clock()
-    #     self.center_camera()
-    #     while running:
-    #         screen.fill(self.color)
-    #         for event in pygame.event.get():
-    #             if event.type == pygame.QUIT:
-    #                 # Если окно закрыто
-    #                 running = False
-    #             if event.type == pygame.WINDOWRESIZED:
-    #                 # Окно не может быть меньше каках то размеров
-    #                 if screen.get_width() < WIDTH:
-    #                     pygame.display.set_mode((WIDTH, screen.get_height()), pygame.RESIZABLE)
-    #                 if screen.get_height() < HEIGHT:
-    #                     pygame.display.set_mode((screen.get_width(), HEIGHT), pygame.RESIZABLE)
-    #                 self.center_camera()
-    #
-    #         self.update_sprites()
-    #         self.draw_sprites()
-    #         if self.end_game():
-    #             ...  # Нужна обработка конца игры
-    #
-    #         # Отладочная информация
-    #         # pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_height() / 2), (screen.get_width(), screen.get_height() / 2))
-    #         # pygame.draw.line(screen, pygame.Color('black'), (screen.get_width() / 2, 0), (screen.get_width() / 2, screen.get_height()))
-    #         # pygame.draw.rect(screen, pygame.Color('black'), self.player.rect_player, 1)
-    #         # pygame.draw.rect(screen, pygame.Color('black'), self.player.hitbox, 1)
-    #         # pygame.draw.rect(screen, pygame.Color('red'), self.player.hitbox, 1)
-    #
-    #         pygame.display.flip()
-    #         clock.tick(FPS)
-    #
-    #     pygame.quit()
 
 
 def game_scene(switch_scene):
     "(99, 104, 10), (244, 254, 250)"
-    game = Game('data\\maps\\world_1.tmx', (244, 254, 250))
+    game = Game('..\\data\\maps\\world_1.tmx')
     running = True
     clock = pygame.time.Clock()
     another_scene = None
     game.center_camera()
     while running:
-        screen.fill(game.color)
+        screen.fill('black')
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 # Если окно закрыто

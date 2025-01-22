@@ -1,6 +1,7 @@
 import pygame
 
-from logic.seting import load_image, WORLD_LAYERS, CELL_SIZE
+from logic.seting import WORLD_LAYERS, CELL_SIZE
+from logic.support import load_image
 from logic.Things.Thing import Thing
 
 def get_sprites(img):
@@ -12,6 +13,7 @@ def get_sprites(img):
 
 
 class Blood(Thing):
+    """Класс крови"""
     sprites = get_sprites(load_image('images\\blood.png'))
 
     def __init__(self, pos, *groups):
@@ -20,7 +22,7 @@ class Blood(Thing):
         self.rect = self.image.get_rect(center=pos)
         self.hitbox = self.rect
 
-        self.blood_interval = 50
+        self.blood_interval = 50 # Интервал перед сменой кадров
         self.blood_ind = 0
         self.blood_timer = pygame.time.get_ticks()
 

@@ -3,26 +3,21 @@ import sys
 
 import pygame
 
-FPS = 240
-SIZE = WIDTH, HEIGHT = 800, 600
-CELL_SIZE = 30
-LANGUAGE = True  # True - Русский. False - английский. TRUE/FALSE сделано для удобства и чтобы не писать много if-ов
 pygame.init()
-is_music_play = False
-volume_sound_background = 0.1
-virtual_surface = pygame.Surface(
-    (2560, 1440), pygame.SRCALPHA)  # поверхность, на которой отрисовывается все изначально
-current_level = ''
+
+SIZE = WIDTH, HEIGHT = 800, 600
+FPS = 240
+CELL_SIZE = 30
 WORLD_LAYERS = {
-    'Grass': 0,
-    'Shadow': 6,
-    'Wall': 2,
+	'Grass': 0,
+	'Shadow': 6,
+	'Wall': 2,
     'Down_layer': 3,
     'Down_sprites': 4,
     'Main': 5,
-    'Sprites': 5,
-    'Up_sprites': 6,
-    'Up_layer': 7
+	'Sprites': 5,
+	'Up_sprites': 6,
+    'Up_layer' : 7
 }
 
 ENEMY = {

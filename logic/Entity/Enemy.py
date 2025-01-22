@@ -1,7 +1,8 @@
 import pygame as pg
 from random import randint, choices
 
-from logic.seting import CELL_SIZE, screen, split_image, load_image, ENEMY
+from logic.seting import CELL_SIZE, screen, ENEMY
+from logic.support import split_image, load_image
 from logic.Entity.Entity import Entity
 
 
