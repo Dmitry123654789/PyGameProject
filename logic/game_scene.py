@@ -115,5 +115,4 @@ def game_scene(switch_scene):
 
         pygame.display.flip()
         clock.tick(FPS)
-
     pygame.quit()

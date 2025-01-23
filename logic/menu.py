@@ -37,7 +37,22 @@ class Menu:
     # отрисовывает все
     def draw(self, surface: pygame.Surface):
         self.fill_buttons_poses()
-        im = pygame.transform.scale(load_image('images/castle_menu.jpg'), screen.get_size())
+        image = load_image('images/castle_menu.png')
+
+        # Получаем размеры изображения и экрана
+        image_width, image_height = image.get_size()
+        screen_width, screen_height = screen.get_size()
+
+        # Рассчитываем коэффициент масштабирования
+        scale_factor = max(screen_width / image_width, screen_height / image_height)
+
+        # Рассчитываем новые размеры изображения
+        new_width = int(image_width * scale_factor)
+        new_height = int(image_height * scale_factor)
+
+        # Масштабируем изображение
+        im = pygame.transform.scale(image, (new_width, new_height))
+
         surface.blit(im, (0, 0))
         font = pygame.font.Font('data/font.otf', 30)
         surface.blit(pygame.font.Font('data/font.otf', 50).render('Bark and Battle', True, (192, 192, 192)),
@@ -92,6 +107,8 @@ def menu_scene(switch_scene):
                 switch_scene(None)
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # проверка нажатия мыши
                 check_coords(event.pos)
+                if isinstance(menu.another_scene, Statistics):
+                    menu.another_scene.update(event.pos)
             if event.type == pygame.WINDOWRESIZED:  # изменение размера окна
                 # Окно не может быть меньше каких-то размеров
                 if screen.get_size()[0] < WIDTH:

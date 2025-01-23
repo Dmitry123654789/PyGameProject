@@ -2,6 +2,7 @@ from logic.menu import menu_scene
 from logic.seting import *
 # from logic.story_telling import show_story
 from logic.game_scene import game_scene
+from logic.support import load_image
 
 current_scene = None
 
@@ -9,7 +10,7 @@ pygame.mixer.music.load('data/sounds/music_menu.mp3')
 pygame.mixer.music.play()
 is_music_play = True
 pygame.mixer.music.set_volume(volume_sound_background)
-
+pygame.display.set_icon(load_image('images\\icon_app.png'))
 
 def switch_scene(scene):
     global current_scene
