@@ -1,6 +1,6 @@
 import pygame
 
-from logic.seting import *
+from logic.seting import screen
 
 
 class Statistics:
@@ -17,8 +17,8 @@ class Statistics:
         # im_close = pygame.transform.scale(load_image('images/close.png'), (35, 35))
         # pygame.draw.rect(self.screen2, pygame.Color('red'), self.buttons_poses[0])
         # self.screen2.blit(im_close, (self.screen2.get_width() - 70, 20))
-        surface.blit(screen2, (screen.get_width() // 3, screen.get_height() // 3))
+        surface.blit(screen2, (screen.get_width() * 0.3, screen.get_height() * 0.3))
 
-    def handle_event(self, event, surface):
+    def handle_event(self, event: pygame.event) -> None or str:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             return 'Close'

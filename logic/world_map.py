@@ -1,7 +1,8 @@
 import pygame
 import pygame.event
-from logic.game_scene import game_scene
-from logic.seting import *
+from logic.seting import screen, virtual_surface, FPS
+from logic.support import load_image
+from logic.support import fade_out
 
 pygame.init()
 
@@ -33,6 +34,10 @@ class Point(pygame.sprite.Sprite):  # класс точки на карте ми
         if self.is_collide != 0 and self.unlock:
             current_level = self.level
             return True
+
+
+def draw_map():
+    screen.blit(virtual_surface, (0, 0))
 
 
 def world_map_scene(switch_scene):
@@ -77,7 +82,8 @@ def world_map_scene(switch_scene):
                 for sprite in tag_group:
                     if sprite.click():
                         running = False
-                        switch_scene(game_scene)
+                        fade_out(draw_map)
+                        switch_scene('game_scene')
             # перемещение карты мышью
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 moving = False
@@ -122,19 +128,20 @@ def world_map_scene(switch_scene):
         scroll_x = max(0, min(max_scroll_x, scroll_x))
         scroll_y = max(0, min(max_scroll_y, scroll_y))
 
-        # новый размер карты с учетом масштаба
-        scaled_width = int(world_map.get_width() * zoom)
-        scaled_height = int(world_map.get_height() * zoom)
+        if running:
+            # новый размер карты с учетом масштаба
+            scaled_width = int(world_map.get_width() * zoom)
+            scaled_height = int(world_map.get_height() * zoom)
 
-        tag_group.update(pygame.mouse.get_pos(), scroll_x, scroll_y)
-        for sprite in tag_group:
-            sprite.draw(world_map_scaled)
+            tag_group.update(pygame.mouse.get_pos(), scroll_x, scroll_y)
+            for sprite in tag_group:
+                sprite.draw(world_map_scaled)
 
-        # подгоняем карту под нужный размер
-        scaled_map = pygame.transform.scale(world_map_scaled, (scaled_width, scaled_height))
-        virtual_surface.blit(scaled_map,
-                             (virtual_surface.get_width() // 2 - scaled_map.get_width() // 2 - scroll_x,
-                              virtual_surface.get_height() // 2 - scaled_map.get_height() // 2 - scroll_y))
-        screen.blit(virtual_surface, (0, 0))
+            # подгоняем карту под нужный размер
+            scaled_map = pygame.transform.scale(world_map_scaled, (scaled_width, scaled_height))
+            virtual_surface.blit(scaled_map,
+                                 (virtual_surface.get_width() // 2 - scaled_map.get_width() // 2 - scroll_x,
+                                  virtual_surface.get_height() // 2 - scaled_map.get_height() // 2 - scroll_y))
+            draw_map()
         pygame.display.flip()
         clock.tick(FPS)

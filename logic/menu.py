@@ -1,8 +1,8 @@
 import pygame
-
-from logic.seting import *
+from logic.seting import screen, virtual_surface, WIDTH, HEIGHT, LANGUAGE
+from logic.support import load_image
 from logic.stats_menu import Statistics
-from logic.world_map import world_map_scene
+from data.languages import russian, english
 
 
 class Menu:
@@ -17,13 +17,14 @@ class Menu:
     # функция для смены языка
     # в дальнейшем будет брать слова из отдельного файла
     def language(self):
+        tasks = ['start_game', 'statistics', 'language', 'exit']
         global LANGUAGE
         if self.text:
             LANGUAGE = True
-            return ['Начать игру', 'Статистика', 'Сменить язык', 'Выход']
+            return [russian.rus[elem] for elem in tasks]
         else:
             LANGUAGE = False
-            return ['Start game', 'Statistics', 'Language', 'Exit']
+            return [english.eng[elem] for elem in tasks]
 
     def fill_buttons_poses(self):  # заполняет список объектами pygame.Rect чтобы отрисовывать кнопки по ним
         self.buttons_poses = []
@@ -54,7 +55,7 @@ def menu_scene(switch_scene):
     running = True
 
     # проверяет нажатие мыши на кнопки
-    def check_coords(coord_mouse):
+    def check_coords(coord_mouse: tuple[int, int]):
         for elem in menu.buttons_poses:
             if elem.collidepoint(coord_mouse):
                 open_smth(elem)
@@ -65,7 +66,7 @@ def menu_scene(switch_scene):
         if menu.is_action_true:
             if elem == menu.buttons_poses[0]:  # начало игры
                 running = False
-                switch_scene(world_map_scene)
+                switch_scene('world_map_scene')
             elif elem == menu.buttons_poses[1]:  # статистика
                 menu.another_scene = Statistics()
                 menu.is_action_true = False
@@ -97,7 +98,7 @@ def menu_scene(switch_scene):
                     pygame.display.set_mode((screen.get_size()[0], HEIGHT), pygame.RESIZABLE)
 
             if menu.another_scene is not None:  # вызывается доп сцена и ожидается результат выполнения от нее
-                if menu.another_scene.handle_event(event, virtual_surface) == 'Close':
+                if menu.another_scene.handle_event(event) == 'Close':
                     menu.another_scene = None
                     menu.is_action_true = True
 
