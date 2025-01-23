@@ -1,4 +1,6 @@
-from logic.seting import *
+import pygame
+
+from logic.seting import screen
 
 
 class Statistics:

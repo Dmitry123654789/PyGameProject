@@ -1,6 +1,6 @@
 import pygame
 
-from logic.seting import *
+from logic.seting import LANGUAGE, screen
 from data.languages import english, russian
 
 

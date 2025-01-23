@@ -2,11 +2,13 @@ import os
 import sys
 
 import pygame
+
 from logic.seting import SIZE, screen
+
 
 def load_image(name, colorkey=None):
     """Превращает одно изображение в surface"""
-    fullname = os.path.join('..\\data', name)
+    fullname = os.path.join('data', name)
     if not os.path.isfile(fullname):
         sys.exit()
     image = pygame.image.load(fullname)

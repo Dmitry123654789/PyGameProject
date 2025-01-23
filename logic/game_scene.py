@@ -8,7 +8,6 @@ from logic.Things.Portal import Portal
 from logic.Things.ThingGroup import Things
 from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
 from logic.pause import Pause
-
 from logic.support import fade_in, fade_out
 
 class Game:
@@ -71,12 +70,13 @@ class Game:
 
 
 def game_scene(switch_scene):
-    "(99, 104, 10), (244, 254, 250)"
-    game = Game('..\\data\\maps\\world_1.tmx')
+    game = Game('data\\maps\\world_3.tmx')
     running = True
     clock = pygame.time.Clock()
     another_scene = None
     game.center_camera()
+    game.update_sprites()
+    fade_in(game.draw_sprites)
     while running:
         screen.fill('black')
         for event in pygame.event.get():
@@ -103,6 +103,8 @@ def game_scene(switch_scene):
             another_scene.draw(screen)
         if game.end_game():
             pass  # Нужна обработка конца игры
+        if game.player.hp <= 0:
+            pass # Нужна обработка смерти игрока
 
         # Отладочная информация
         # pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_height() / 2), (screen.get_width(), screen.get_height() / 2))
@@ -115,4 +117,3 @@ def game_scene(switch_scene):
         clock.tick(FPS)
 
     pygame.quit()
-    # game.main()

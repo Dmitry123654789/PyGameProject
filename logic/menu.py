@@ -1,6 +1,7 @@
 import pygame
 
-from logic.seting import *
+from logic.seting import screen, virtual_surface, HEIGHT, WIDTH, LANGUAGE
+from logic.support import load_image
 from logic.stats_menu import Statistics
 from logic.world_map import world_map_scene
 from data.languages import russian, english
