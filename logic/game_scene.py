@@ -7,6 +7,7 @@ from logic.Field.Field import Field, DrawField
 from logic.Things.Portal import Portal
 from logic.Things.ThingGroup import Things
 from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
+from logic.pause import Pause
 from logic.support import fade_in, fade_out
 
 class Game:
@@ -22,7 +23,6 @@ class Game:
         self.collision_sprite = pygame.sprite.Group()  # Группа спрайтов с которыми взамидействует персонаж
         self.thihgs_group = Things(self.draw_obj, self.tmx_map)  # Группа различных объектов на поле
         self.x_player, self.y_player = self.start_pos  # Положение персонажа на карте до изменения размеров экрана
-        self.player = None # Игрок
         self.add_group_sprite()
 
     def get_start_pos(self):
@@ -68,46 +68,52 @@ class Game:
         return False
 
 
-    def main(self):
-        running = True
-        clock = pygame.time.Clock()
-        self.center_camera()
-        self.update_sprites()
-        fade_in(self.draw_sprites)
-        while running:
-            screen.fill('black')
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    # Если окно закрыто
-                    running = False
-                if event.type == pygame.WINDOWRESIZED:
-                    # Окно не может быть меньше каках то размеров
-                    if screen.get_width() < WIDTH:
-                        pygame.display.set_mode((WIDTH, screen.get_height()), pygame.RESIZABLE)
-                    if screen.get_height() < HEIGHT:
-                        pygame.display.set_mode((screen.get_width(), HEIGHT), pygame.RESIZABLE)
-                    self.center_camera()
 
-            self.update_sprites()
-            self.draw_sprites()
-            if self.end_game():
-                ...  # Нужна обработка конца игры
-            if self.player.hp <= 0:
-                ... # Нужна обработка смерти персонажа
+def game_scene(switch_scene):
+    game = Game('data\\maps\\world_3.tmx')
+    running = True
+    clock = pygame.time.Clock()
+    another_scene = None
+    game.center_camera()
+    game.update_sprites()
+    fade_in(game.draw_sprites)
+    while running:
+        screen.fill('black')
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                # Если окно закрыто
+                running = False
+                switch_scene(None)
+            if event.type == pygame.WINDOWRESIZED:
+                # Окно не может быть меньше каках то размеров
+                if screen.get_width() < WIDTH:
+                    pygame.display.set_mode((WIDTH, screen.get_height()), pygame.RESIZABLE)
+                if screen.get_height() < HEIGHT:
+                    pygame.display.set_mode((screen.get_width(), HEIGHT), pygame.RESIZABLE)
+                game.center_camera()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                another_scene = Pause()
 
-            # Отладочная информация
-            # pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_height() / 2), (screen.get_width(), screen.get_height() / 2))
-            # pygame.draw.line(screen, pygame.Color('black'), (screen.get_width() / 2, 0), (screen.get_width() / 2, screen.get_height()))
-            # pygame.draw.rect(screen, pygame.Color('black'), self.player.rect_player, 1)
-            # pygame.draw.rect(screen, pygame.Color('black'), self.player.hitbox, 1)
-            # pygame.draw.rect(screen, pygame.Color('red'), self.player.hitbox, 1)
+            # if another_scene is not None:
+            #     if another_scene.handle_event(event) == 'Close':
+            #         another_scene = None
+        game.update_sprites()
+        game.draw_sprites()
+        if another_scene is not None:
+            another_scene.draw(screen)
+        if game.end_game():
+            pass  # Нужна обработка конца игры
+        if game.player.hp <= 0:
+            pass # Нужна обработка смерти игрока
 
-            pygame.display.flip()
-            clock.tick(FPS)
+        # Отладочная информация
+        # pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_height() / 2), (screen.get_width(), screen.get_height() / 2))
+        # pygame.draw.line(screen, pygame.Color('black'), (screen.get_width() / 2, 0), (screen.get_width() / 2, screen.get_height()))
+        # pygame.draw.rect(screen, pygame.Color('black'), self.player.rect_player, 1)
+        # pygame.draw.rect(screen, pygame.Color('black'), self.player.hitbox, 1)
+        # pygame.draw.rect(screen, pygame.Color('red'), self.player.hitbox, 1)
 
-        pygame.quit()
+        pygame.display.flip()
+        clock.tick(FPS)
 
-
-if __name__ == '__main__':
-    game = Game('..\\data\\maps\\world_3.tmx')
-    game.main()
+    pygame.quit()
