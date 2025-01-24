@@ -10,7 +10,7 @@ pygame.mixer.music.load('data/sounds/music_menu.mp3')
 pygame.mixer.music.play()
 is_music_play = True
 pygame.mixer.music.set_volume(volume_sound_background)
-pygame.display.set_icon(load_image('images\\icon_app.png'))
+pygame.display.set_icon(load_image('images\\icon_app.png').convert_alpha())
 
 def switch_scene(scene):
     global current_scene

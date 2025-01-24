@@ -1,7 +1,7 @@
 import pygame
 import sqlite3
 
-from logic.seting import screen, LANGUAGE
+from logic.seting import screen
 
 
 class StatisticButton(pygame.sprite.Sprite):
@@ -69,19 +69,18 @@ class Statistics(pygame.sprite.Group):
             surface.blit(sprite.image, sprite.rect)
             if sprite.select:
                 cur = self.con.cursor()
-                result = cur.execute("SELECT * FROM GameStat "
-                                     "WHERE Level = ?"
+                result = cur.execute("SELECT Time, Name FROM GameStat "
+                                     "WHERE Level = ? "
                                      "ORDER BY Time", (sprite.numb + 1,)).fetchall()
                 for i in range(10):
                     if i >= len(result):
                         text = f'{i + 1}. __.__.__'
                     else:
-                        hours = result[i][2] // 60 // 60
-                        miutes = result[i][2] // 60 % 60
-                        text = f'{i + 1} .{str(hours).zfill(2)}.{str(miutes).zfill(2)}.{str(result[i][2] % 60).zfill(2)}'
-                    surface.blit(pygame.font.Font('data/font.otf', 20).render(text,
-                                True, pygame.Color('black')), (screen.get_width() // 3 + 50, screen.get_height() // 3 + 90 + 20 * i))
-
+                        hours = result[i][0] // 60 // 60
+                        miutes = result[i][0] // 60 % 60
+                        text = f'{i + 1}. {str(hours).zfill(2)}.{str(miutes).zfill(2)}.{str(result[i][0] % 60).zfill(2)}'
+                    surface.blit(pygame.font.Font('data/font.otf', 20).render(text, True, pygame.Color('black')),
+                                 (screen.get_width() // 3 + 50, screen.get_height() // 3 + 90 + 20 * i))
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:

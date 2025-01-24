@@ -1,4 +1,5 @@
 import pygame
+import sqlite3
 from pytmx import load_pygame
 
 from logic.Entity.Enemy import EnemiesGroup
@@ -77,6 +78,7 @@ def game_scene(switch_scene):
     game.center_camera()
     game.update_sprites()
     fade_in(game.draw_sprites)
+    timer = pygame.time.get_ticks()
     while running:
         screen.fill('black')
         for event in pygame.event.get():
@@ -102,7 +104,11 @@ def game_scene(switch_scene):
         if another_scene is not None:
             another_scene.draw(screen)
         if game.end_game():
-            pass  # Нужна обработка конца игры
+            con = sqlite3.connect('..\\statictic.sqlite')
+            cur = con.cursor()
+            cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
+                        ('None', pygame.time.get_ticks() - timer, int(game.tmx_map.filename.split('_')[-1].split('.')[0])))
+            con.close()
         if game.player.hp <= 0:
             pass # Нужна обработка смерти игрока
 

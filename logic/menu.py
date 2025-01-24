@@ -30,36 +30,38 @@ class Menu:
 
     def fill_buttons_poses(self):  # заполняет список объектами pygame.Rect чтобы отрисовывать кнопки по ним
         self.buttons_poses = []
-        self.buttons_poses = [pygame.rect.Rect(screen.get_width() // 8, i, 200, 50) for i in
+        self.buttons_poses = [pygame.rect.Rect(screen.get_width() // 2, i, 200, 50) for i in
                               range(150, 400, 80)]  # расположения кнопок
         self.buttons_poses.append(pygame.rect.Rect(screen.get_width() - 150, 0, 75, 75))
 
     # отрисовывает все
     def draw(self, surface: pygame.Surface):
         self.fill_buttons_poses()
-        image = load_image('images/castle_menu.png')
+        image = load_image('images/background_menu.png')
 
         # Получаем размеры изображения и экрана
-        image_width, image_height = image.get_size()
-        screen_width, screen_height = screen.get_size()
-
-        # Рассчитываем коэффициент масштабирования
-        scale_factor = max(screen_width / image_width, screen_height / image_height)
-
-        # Рассчитываем новые размеры изображения
-        new_width = int(image_width * scale_factor)
-        new_height = int(image_height * scale_factor)
+        # image_width, image_height = image.get_size()
+        # screen_width, screen_height = screen.get_size()
+        #
+        # # Рассчитываем коэффициент масштабирования
+        # scale_factor = max(screen_width / image_width, screen_height / image_height)
+        #
+        # # Рассчитываем новые размеры изображения
+        # new_width = int(image_width * scale_factor)
+        # new_height = int(image_height * scale_factor)
 
         # Масштабируем изображение
-        im = pygame.transform.scale(image, (new_width, new_height))
+        im = pygame.transform.scale(image, screen.get_size())
 
         surface.blit(im, (0, 0))
-        font = pygame.font.Font('data/font.otf', 30)
-        surface.blit(pygame.font.Font('data/font.otf', 50).render('Bark and Battle', True, (192, 192, 192)),
-                     (screen.get_width() // 8, 50))
-        for elem in zip(self.buttons_poses[:-1], self.buttons_tasks):
-            text = font.render(elem[1], True, (192, 192, 192))
-            surface.blit(text, (elem[0].x + 10, elem[0].y + 15))
+        font = pygame.font.Font('data/font.otf', screen.get_height() // 100 * 5)
+        text = pygame.font.Font('data/font.otf', screen.get_height() // 10).render('Bark and Battle', True, '#dda15e')
+        surface.blit(text, (screen.get_width() // 2 - text.get_width() / 2, 100))
+        for n, elem in enumerate(zip(self.buttons_poses, self.buttons_tasks)):
+            text = font.render(elem[1], True, '#ee9b00')
+            surface.blit(text, (elem[0].x + 10 - text.get_width() / 2, 50 + screen.get_height() // 3 + (font.get_linesize() * 2) * n))
+            elem[0].x += 10 - text.get_width() / 2
+            elem[0].y = 50 + screen.get_height() // 3 + (font.get_linesize() + 25) * n
         if self.im_speaker:
             im_speaker = pygame.transform.scale(load_image('images/speaker.png'), (50, 50))
         else:
