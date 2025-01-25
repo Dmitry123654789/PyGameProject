@@ -24,10 +24,7 @@ ENEMY = {
     'dark': (8, 200, 25, 10)
 }
 
-LANGUAGE = True  # True - Русский. False - английский. TRUE/FALSE сделано для удобства и чтобы не писать много if-ов
-is_music_play = False
 volume_sound_background = 0.1
-current_level = ''
 
 pygame.init()
 virtual_surface = pygame.Surface(

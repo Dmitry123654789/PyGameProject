@@ -3,6 +3,8 @@ import pygame.event
 from logic.seting import screen, virtual_surface, FPS
 from logic.support import load_image
 from logic.support import fade_out
+import logic.seting as setting
+import data.globals
 
 pygame.init()
 
@@ -32,7 +34,7 @@ class Point(pygame.sprite.Sprite):  # класс точки на карте ми
 
     def click(self):
         if self.is_collide != 0 and self.unlock:
-            current_level = self.level
+            data.globals.current_level = self.level
             return True
 
 

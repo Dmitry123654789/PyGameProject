@@ -3,7 +3,7 @@ import sys
 
 import pygame
 
-from logic.seting import SIZE, screen
+from logic.seting import screen
 
 
 def load_image(name, colorkey=None):

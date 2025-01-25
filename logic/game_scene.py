@@ -7,10 +7,10 @@ from logic.Field.Field import Field, DrawField
 from logic.Things.Portal import Portal
 from logic.Things.ThingGroup import Things
 from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
-from logic.pause import Pause
+import logic.seting as setting
+from logic.gamescene_menus import Pause, EndGame, DeadScene
 from logic.support import fade_in, fade_out
-from logic.game_over import DeadScene
-from logic.end_game import EndGame
+import data.globals
 
 
 class Game:
@@ -71,9 +71,14 @@ class Game:
         return False
 
 
+def save_progress():
+    with open('data/saves/tag_coords/tag_coords.txt', 'r') as file:
+        pass
+
+
 def game_scene(switch_scene):
     pygame.init()
-    game = Game('data\\maps\\world_3.tmx')
+    game = Game(f'data\\maps\\{data.globals.current_level}.tmx')
     running = True
     clock = pygame.time.Clock()
     pause_scene = None
@@ -91,9 +96,9 @@ def game_scene(switch_scene):
                 switch_scene(None)
             if event.type == pygame.WINDOWRESIZED:
                 # Окно не может быть меньше каких то размеров
-                if screen.get_width() < WIDTH:
+                if screen.get_width() < setting.WIDTH:
                     pygame.display.set_mode((WIDTH, screen.get_height()), pygame.RESIZABLE)
-                if screen.get_height() < HEIGHT:
+                if screen.get_height() < setting.HEIGHT:
                     pygame.display.set_mode((screen.get_width(), HEIGHT), pygame.RESIZABLE)
                 game.center_camera()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
