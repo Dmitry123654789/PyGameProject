@@ -33,8 +33,8 @@ class Enemy(Entity):
     """Класс врага"""
     def __init__(self, pos, *group):
         color = choices(list(ENEMY.keys()), weights=[ENEMY[i][3] for i in ENEMY.keys()])[0] # Цвет врвга, от этого зависят его характеристи
-        self.sprites = split_image(load_image(f'images/dog_sprites_{color}.png'), 32, CELL_SIZE * 2)
-        self.attack_sprites = split_image(load_image(f'images/dog_sprites_attack_{color}.png'), 32, CELL_SIZE * 2)
+        self.sprites = split_image(load_image(f'images\\dog_sprites\\{color}.png'), 32, CELL_SIZE * 2)
+        self.attack_sprites = split_image(load_image(f'images\\dog_sprites\\attack_{color}.png'), 32, CELL_SIZE * 2)
         super().__init__(pos, self.sprites, *group)
         self.step = ENEMY[color][0]
         self.max_hp = ENEMY[color][1]

@@ -32,23 +32,12 @@ class Menu:
         self.buttons_poses = []
         self.buttons_poses = [pygame.rect.Rect(screen.get_width() // 2, i, 200, 50) for i in
                               range(150, 400, 80)]  # расположения кнопок
-        self.buttons_poses.append(pygame.rect.Rect(screen.get_width() - 150, 0, 75, 75))
+        self.buttons_poses.append(pygame.rect.Rect(screen.get_width() - 100, 40, 50, 50))
 
     # отрисовывает все
     def draw(self, surface: pygame.Surface):
         self.fill_buttons_poses()
         image = load_image('images/background_menu.png')
-
-        # Получаем размеры изображения и экрана
-        # image_width, image_height = image.get_size()
-        # screen_width, screen_height = screen.get_size()
-        #
-        # # Рассчитываем коэффициент масштабирования
-        # scale_factor = max(screen_width / image_width, screen_height / image_height)
-        #
-        # # Рассчитываем новые размеры изображения
-        # new_width = int(image_width * scale_factor)
-        # new_height = int(image_height * scale_factor)
 
         # Масштабируем изображение
         im = pygame.transform.scale(image, screen.get_size())

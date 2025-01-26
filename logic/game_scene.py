@@ -71,7 +71,7 @@ class Game:
 
 
 def game_scene(switch_scene):
-    game = Game('data\\maps\\world_3.tmx')
+    game = Game('data\\maps\\world_1.tmx')
     running = True
     clock = pygame.time.Clock()
     another_scene = None
