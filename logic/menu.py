@@ -1,16 +1,16 @@
 import pygame
 
-from logic.seting import screen, virtual_surface, HEIGHT, WIDTH, LANGUAGE
-from logic.support import load_image
-from logic.stats_menu import Statistics
-from logic.world_map import world_map_scene
+import data.globals
 from data.languages import russian, english
+from logic.seting import screen, virtual_surface, WIDTH, HEIGHT
+from logic.stats_menu import Statistics
+from logic.support import load_image
 
 
 class Menu:
     def __init__(self):
         self.buttons_poses = []  # расположения кнопок
-        self.text = LANGUAGE  # текущий язык
+        self.text = data.globals.LANGUAGE  # текущий язык
         self.buttons_tasks = self.language()  # задачи кнопок меню
         self.im_speaker = True  # True - включен. False - выключен
         self.another_scene = None  # активно ли еще одно окно
@@ -20,12 +20,11 @@ class Menu:
     # в дальнейшем будет брать слова из отдельного файла
     def language(self):
         tasks = ['start_game', 'statistics', 'language', 'exit']
-        global LANGUAGE
         if self.text:
-            LANGUAGE = True
+            data.globals.LANGUAGE = True
             return [russian.rus[elem] for elem in tasks]
         else:
-            LANGUAGE = False
+            data.globals.LANGUAGE = False
             return [english.eng[elem] for elem in tasks]
 
     def fill_buttons_poses(self):  # заполняет список объектами pygame.Rect чтобы отрисовывать кнопки по ним
@@ -57,7 +56,7 @@ def menu_scene(switch_scene):
     running = True
 
     # проверяет нажатие мыши на кнопки
-    def check_coords(coord_mouse):
+    def check_coords(coord_mouse: tuple[int, int]):
         for elem in menu.buttons_poses:
             if elem.collidepoint(coord_mouse):
                 open_smth(elem)
@@ -68,7 +67,7 @@ def menu_scene(switch_scene):
         if menu.is_action_true:
             if elem == menu.buttons_poses[0]:  # начало игры
                 running = False
-                switch_scene(world_map_scene)
+                switch_scene('world_map_scene')
             elif elem == menu.buttons_poses[1]:  # статистика
                 menu.another_scene = Statistics()
                 menu.is_action_true = False

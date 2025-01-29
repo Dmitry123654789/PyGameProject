@@ -1,9 +1,11 @@
 import pygame
 import pygame.event
-from logic.game_scene import game_scene
+
+import data.globals
 from logic.seting import screen, virtual_surface, FPS
-from logic.support import load_image
 from logic.support import fade_out
+from logic.support import load_image
+
 pygame.init()
 
 
@@ -32,11 +34,13 @@ class Point(pygame.sprite.Sprite):  # класс точки на карте ми
 
     def click(self):
         if self.is_collide != 0 and self.unlock:
-            current_level = self.level
+            data.globals.current_level = self.level
             return True
+
 
 def draw_map():
     screen.blit(virtual_surface, (0, 0))
+
 
 def world_map_scene(switch_scene):
     world_map = load_image('images/world_map_with_route.png')
@@ -143,4 +147,3 @@ def world_map_scene(switch_scene):
             draw_map()
         pygame.display.flip()
         clock.tick(FPS)
-

@@ -1,1 +1,1 @@
-(638;180;level_1;True;1),(800;760;level_2;False;2),(1208;180;level_3;False;),(1740;190;level_4;False;)
+(638;180;level_1;True;2),(800;760;level_2;False;3),(1208;180;level_3;False;4),(1740;190;level_4;False;)

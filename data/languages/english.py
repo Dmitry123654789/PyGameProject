@@ -4,5 +4,6 @@ eng = {
     'language': 'Change language',
     'exit': 'Exit',
     'continue': 'Continue',
-    'map': 'Return to map'
+    'map': 'Return to map',
+    'reset': 'Start again'
 }

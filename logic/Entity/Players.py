@@ -43,7 +43,6 @@ class Player(Entity):
         self.rect_player = None
         self.image = self.sprites['down']
 
-
     def create_player_rect(self):
         """Создания куба персонажа в котором он спокойно перемещаеться"""
         self.rect_player = pg.rect.Rect(screen.get_width() / 2 - self.side_rect / 2,
@@ -100,12 +99,10 @@ class Player(Entity):
             return False
         return True
 
-
     def shift_player(self, delta_x=0, delta_y=0):
         """Сдвиг персонажа на определенную дельту"""
         self.hitbox.center = (self.hitbox.centerx + delta_x, self.hitbox.centery + delta_y)
         self.rect.center = self.hitbox.center
-
 
     def is_attack(self):
         """Проверка, пришло ли время смены анимации атаки"""
@@ -128,8 +125,9 @@ class Player(Entity):
         self.ind_sprite += 1
         if self.ind_sprite == len(self.attack_sprites[self.get_stste()]):
             self.attack = False
-            self.attack_hitbox = self.hitbox.inflate(abs(self.hitbox.width * self.dict_direction[self.get_stste()][0]),
-                                                     abs(self.hitbox.height * self.dict_direction[self.get_stste()][1]))
+            # self.attack_hitbox = self.hitbox.inflate(abs(self.hitbox.width * self.dict_direction[self.get_stste()][0]),
+            #                                          abs(self.hitbox.height * self.dict_direction[self.get_stste()][1]))
+            self.attack_hitbox = self.hitbox.inflate(10000000, 10000000)
             self.attack_hitbox.x += self.hitbox.width / 2 * self.dict_direction[self.get_stste()][0]
             self.attack_hitbox.y += self.hitbox.height / 2 * self.dict_direction[self.get_stste()][1]
             self.collisions_enemy_attack(enemies, draw_obj, field)
@@ -165,7 +163,9 @@ class Player(Entity):
         if self.attack:
             if self.is_attack():
                 self.attacking(field, enemies, draw_obj)
-                self.going(group_sprites, (self.hitbox.width  if self.get_stste() in ['right', 'left'] else self.hitbox.height)  / 6, field, enemies, things_group)
+                self.going(group_sprites,
+                           (self.hitbox.width if self.get_stste() in ['right', 'left'] else self.hitbox.height) / 6,
+                           field, enemies, things_group)
 
         else:
             if self.is_damage():

@@ -3,7 +3,7 @@ import sys
 
 import pygame
 
-from logic.seting import SIZE, screen
+from logic.seting import screen
 
 
 def load_image(name, colorkey=None):
@@ -35,9 +35,10 @@ def split_image(image, sprite_height_width, cell_size):
 
     return sprites
 
+
 def fade_out(draw_function):
     """Скрытие окна"""
-    fade_surface = pygame.Surface(SIZE)
+    fade_surface = pygame.Surface(screen.get_size())
     fade_surface.fill((0, 0, 0))  # Очищаем экран перед началом fade-out
     for alpha in range(0, 255, 10):  # Изменяем шаг для более плавной анимации
         if draw_function:
@@ -47,9 +48,10 @@ def fade_out(draw_function):
         pygame.display.update()  # Обновляем экран после наложения fade-эффекта
         pygame.time.delay(20)  # Увеличиваем задержку для большей плавности
 
+
 def fade_in(draw_function):
     """Скрытие окна"""
-    fade_surface = pygame.Surface(SIZE)
+    fade_surface = pygame.Surface(screen.get_size())
     fade_surface.fill((0, 0, 0))  # Плавное проявление новой сцены
     for alpha in range(255, -1, -10):
         if draw_function:

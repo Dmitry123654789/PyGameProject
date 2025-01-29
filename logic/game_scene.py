@@ -1,14 +1,17 @@
 import pygame
 from pytmx import load_pygame
 
+import data.globals
+import logic.seting as setting
 from logic.Entity.Enemy import EnemiesGroup
 from logic.Entity.Players import Player
 from logic.Field.Field import Field, DrawField
 from logic.Things.Portal import Portal
 from logic.Things.ThingGroup import Things
+from logic.gamescene_menus import Pause, EndGame, DeadScene
 from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
-from logic.pause import Pause
-from logic.support import fade_in, fade_out
+from logic.support import fade_in
+
 
 class Game:
     """Класс для запуска игры"""
@@ -68,12 +71,37 @@ class Game:
         return False
 
 
+def save_progress():
+    levels = []
+    with open('data/saves/tag_coords/tag_coords.txt', 'r') as file:
+        for lvl in file.readline().split(','):
+            lvl = lvl.replace('(', '').replace(')', '')
+            lvl = lvl.split(';')
+            levels.append(lvl)
+    level_next = int(data.globals.current_level[-1]) - 1
+    if level_next != '':
+        change = [i for i in levels[level_next][4] if i]
+        for i in change:
+            levels[int(i) - 1][3] = 'True'
+    with open('data/saves/tag_coords/tag_coords.txt', 'w') as file:
+        tag = []
+        for item in levels:
+            item = ';'.join(item)
+            item = '(' + item + ')'
+            tag.append(item)
+        file.write(','.join(tag))
+
+
+# (638;180;level_1;True;2),(800;760;level_2;False;3),(1208;180;level_3;False;4),(1740;190;level_4;False;)
 
 def game_scene(switch_scene):
-    game = Game('data\\maps\\world_3.tmx')
+    pygame.init()
+    game = Game(f'data\\maps\\{data.globals.current_level}.tmx')
     running = True
     clock = pygame.time.Clock()
-    another_scene = None
+    pause_scene = None
+    dead_scene = None
+    end_game = None
     game.center_camera()
     game.update_sprites()
     fade_in(game.draw_sprites)
@@ -85,26 +113,50 @@ def game_scene(switch_scene):
                 running = False
                 switch_scene(None)
             if event.type == pygame.WINDOWRESIZED:
-                # Окно не может быть меньше каках то размеров
-                if screen.get_width() < WIDTH:
+                # Окно не может быть меньше каких то размеров
+                if screen.get_width() < setting.WIDTH:
                     pygame.display.set_mode((WIDTH, screen.get_height()), pygame.RESIZABLE)
-                if screen.get_height() < HEIGHT:
+                if screen.get_height() < setting.HEIGHT:
                     pygame.display.set_mode((screen.get_width(), HEIGHT), pygame.RESIZABLE)
                 game.center_camera()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                another_scene = Pause()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE \
+                    and dead_scene is None and end_game is None:
+                pause_scene = Pause()
 
-            # if another_scene is not None:
-            #     if another_scene.handle_event(event) == 'Close':
-            #         another_scene = None
-        game.update_sprites()
-        game.draw_sprites()
-        if another_scene is not None:
-            another_scene.draw(screen)
+            if event.type == pygame.MOUSEBUTTONUP:
+                if pause_scene is not None:
+                    result_pause = pause_scene.update(pygame.mouse.get_pos())
+                    if result_pause == 'continue':
+                        pause_scene = None
+                    if result_pause == 'map':
+                        running = False
+                        switch_scene('world_map_scene')
+                if dead_scene is not None:
+                    result_dead = dead_scene.update(pygame.mouse.get_pos())
+                    if result_dead == 'reset':
+                        running = False
+                if end_game is not None:
+                    result_endgame = end_game.update(pygame.mouse.get_pos())
+                    if result_endgame == 'map':
+                        save_progress()
+                        running = False
+                        switch_scene('world_map_scene')
+        if pause_scene is None and dead_scene is None:
+            game.update_sprites()
+            game.draw_sprites()
+        if pause_scene is not None:
+            game.draw_sprites()
+            pause_scene.draw(screen)
+        if dead_scene is not None:
+            game.draw_sprites()
+            dead_scene.draw(screen)
+        if end_game is not None:
+            game.draw_sprites()
+            end_game.draw(screen)
         if game.end_game():
-            pass  # Нужна обработка конца игры
+            end_game = EndGame()  # Нужна обработка конца игры
         if game.player.hp <= 0:
-            pass # Нужна обработка смерти игрока
+            dead_scene = DeadScene()  # Нужна обработка смерти игрока
 
         # Отладочная информация
         # pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_height() / 2), (screen.get_width(), screen.get_height() / 2))
@@ -115,5 +167,3 @@ def game_scene(switch_scene):
 
         pygame.display.flip()
         clock.tick(FPS)
-
-    pygame.quit()
