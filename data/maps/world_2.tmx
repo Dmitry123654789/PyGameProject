@@ -1633,7 +1633,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="13" name="Points_bottle" visible="0">
+ <objectgroup id="13" name="Points_bottle">
   <object id="638" x="1378.67" y="1657.33">
    <point/>
   </object>
@@ -1674,8 +1674,8 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="15" name="Point_player" visible="0">
-  <object id="10" x="2384" y="1622">
+ <objectgroup id="15" name="Point_player">
+  <object id="10" x="2385.5" y="1621">
    <point/>
   </object>
  </objectgroup>

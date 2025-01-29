@@ -1,4 +1,5 @@
 import pygame
+import sqlite3
 from pytmx import load_pygame
 
 import data.globals
@@ -105,6 +106,7 @@ def game_scene(switch_scene):
     game.center_camera()
     game.update_sprites()
     fade_in(game.draw_sprites)
+    timer = pygame.time.get_ticks()
     while running:
         screen.fill('black')
         for event in pygame.event.get():
@@ -154,9 +156,15 @@ def game_scene(switch_scene):
             game.draw_sprites()
             end_game.draw(screen)
         if game.end_game():
-            end_game = EndGame()  # Нужна обработка конца игры
+            # Запись времени прохождения игры в БД
+            con = sqlite3.connect('..\\statictic.sqlite')
+            cur = con.cursor()
+            cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
+                        ('None', pygame.time.get_ticks() - timer, int(game.tmx_map.filename.split('_')[-1].split('.')[0])))
+            con.close()
+            end_game = EndGame() # Вызов окна окончания игры
         if game.player.hp <= 0:
-            dead_scene = DeadScene()  # Нужна обработка смерти игрока
+            dead_scene = DeadScene()  # Вызов окна смерти игрока
 
         # Отладочная информация
         # pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_height() / 2), (screen.get_width(), screen.get_height() / 2))

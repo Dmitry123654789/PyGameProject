@@ -1,6 +1,5 @@
 import pygame
 
-pygame.init()
 SIZE = WIDTH, HEIGHT = 800, 600
 FPS = 240
 CELL_SIZE = 30
