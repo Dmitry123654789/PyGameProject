@@ -1,8 +1,8 @@
 import pygame
+
+from logic.game_scene import game_scene
 from logic.menu import menu_scene
 from logic.seting import volume_sound_background
-# from logic.story_telling import show_story
-from logic.game_scene import game_scene
 from logic.world_map import world_map_scene
 
 current_scene = None

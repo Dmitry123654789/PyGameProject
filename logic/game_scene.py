@@ -1,16 +1,16 @@
 import pygame
 from pytmx import load_pygame
 
+import data.globals
+import logic.seting as setting
 from logic.Entity.Enemy import EnemiesGroup
 from logic.Entity.Players import Player
 from logic.Field.Field import Field, DrawField
 from logic.Things.Portal import Portal
 from logic.Things.ThingGroup import Things
-from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
-import logic.seting as setting
 from logic.gamescene_menus import Pause, EndGame, DeadScene
-from logic.support import fade_in, fade_out
-import data.globals
+from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
+from logic.support import fade_in
 
 
 class Game:
@@ -72,9 +72,26 @@ class Game:
 
 
 def save_progress():
+    levels = []
     with open('data/saves/tag_coords/tag_coords.txt', 'r') as file:
-        pass
+        for lvl in file.readline().split(','):
+            lvl = lvl.replace('(', '').replace(')', '')
+            lvl = lvl.split(';')
+            levels.append(lvl)
+    level_next = int(data.globals.current_level[-1]) - 1
+    change = [i for i in levels[level_next][4] if i]
+    for i in change:
+        levels[int(i) - 1][3] = 'True'
+    with open('data/saves/tag_coords/tag_coords.txt', 'w') as file:
+        tag = []
+        for item in levels:
+            item = ';'.join(item)
+            item = '(' + item + ')'
+            tag.append(item)
+        file.write(','.join(tag))
 
+
+# (638;180;level_1;True;2),(800;760;level_2;False;3),(1208;180;level_3;False;4),(1740;190;level_4;False;)
 
 def game_scene(switch_scene):
     pygame.init()
@@ -101,7 +118,8 @@ def game_scene(switch_scene):
                 if screen.get_height() < setting.HEIGHT:
                     pygame.display.set_mode((screen.get_width(), HEIGHT), pygame.RESIZABLE)
                 game.center_camera()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE \
+                    and dead_scene is None and end_game is None:
                 pause_scene = Pause()
 
             if event.type == pygame.MOUSEBUTTONUP:
@@ -119,6 +137,7 @@ def game_scene(switch_scene):
                 if end_game is not None:
                     result_endgame = end_game.update(pygame.mouse.get_pos())
                     if result_endgame == 'map':
+                        save_progress()
                         running = False
                         switch_scene('world_map_scene')
         if pause_scene is None and dead_scene is None:

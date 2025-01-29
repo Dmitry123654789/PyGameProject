@@ -1,10 +1,10 @@
 import pygame
 import pygame.event
-from logic.seting import screen, virtual_surface, FPS
-from logic.support import load_image
-from logic.support import fade_out
-import logic.seting as setting
+
 import data.globals
+from logic.seting import screen, virtual_surface, FPS
+from logic.support import fade_out
+from logic.support import load_image
 
 pygame.init()
 

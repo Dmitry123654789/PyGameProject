@@ -1,9 +1,10 @@
 import pygame
-from logic.seting import screen, virtual_surface, WIDTH, HEIGHT
-from logic.support import load_image
-from logic.stats_menu import Statistics
-from data.languages import russian, english
+
 import data.globals
+from data.languages import russian, english
+from logic.seting import screen, virtual_surface, WIDTH, HEIGHT
+from logic.stats_menu import Statistics
+from logic.support import load_image
 
 
 class Menu:

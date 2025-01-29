@@ -1,8 +1,8 @@
 import pygame
 
-from logic.seting import screen
-from data.languages import english, russian
 import data.globals
+from data.languages import english, russian
+from logic.seting import screen
 
 
 class Button(pygame.sprite.Sprite):  # Класс кнопки для меню уровней
@@ -65,16 +65,17 @@ class EndGame:  # Класс меню окончания уровня
         self.screen2 = pygame.Surface((screen.get_width() // 2, screen.get_height() // 2))
         self.screen2.fill(pygame.Color('black'))
         self.screen2.set_alpha(250)
-        self.button_next = Button(self.screen2.get_width() * 0.5 - self.screen2.get_width() * 0.15,
-                                  self.screen2.get_height() * 0.6, 'map', self.screen2)
+        self.button_next = Button(self.screen2.get_width() * 0.5 - self.screen2.get_width() * 0.35,
+                                  self.screen2.get_height() * 0.55,
+                                  'map', self.screen2)
         self.button_next.draw(self.screen2)
         if data.globals.LANGUAGE:
-            text = 'Вы победили!'
+            text = 'Победа!'
         else:
             text = 'You win!'
-        self.screen2.blit(pygame.font.Font('data/font.otf', screen.get_width() // 13).render(text, True,
+        self.screen2.blit(pygame.font.Font('data/font.otf', screen.get_width() // 15).render(text, True,
                                                                                              pygame.Color('white')),
-                          (self.screen2.get_width() * 0.5 - self.screen2.get_width() * 0.29,
+                          (self.screen2.get_width() * 0.5 - self.screen2.get_width() * 0.2,
                            self.screen2.get_height() * 0.2))
         surface.blit(self.screen2, (screen.get_width() * 0.25, screen.get_height() * 0.25))
 
