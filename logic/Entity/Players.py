@@ -125,9 +125,9 @@ class Player(Entity):
         self.ind_sprite += 1
         if self.ind_sprite == len(self.attack_sprites[self.get_stste()]):
             self.attack = False
-            self.attack_hitbox = self.hitbox.inflate(abs(self.hitbox.width * self.dict_direction[self.get_stste()][0]),
-                                                     abs(self.hitbox.height * self.dict_direction[self.get_stste()][1]))
-            # self.attack_hitbox = self.hitbox.inflate(10000000, 10000000)
+            # self.attack_hitbox = self.hitbox.inflate(abs(self.hitbox.width * self.dict_direction[self.get_stste()][0]),
+            #                                          abs(self.hitbox.height * self.dict_direction[self.get_stste()][1]))
+            self.attack_hitbox = self.hitbox.inflate(10000000, 10000000)
             self.attack_hitbox.x += self.hitbox.width / 2 * self.dict_direction[self.get_stste()][0]
             self.attack_hitbox.y += self.hitbox.height / 2 * self.dict_direction[self.get_stste()][1]
             self.collisions_enemy_attack(enemies, draw_obj, field)

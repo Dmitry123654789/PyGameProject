@@ -79,9 +79,10 @@ def save_progress():
             lvl = lvl.split(';')
             levels.append(lvl)
     level_next = int(data.globals.current_level[-1]) - 1
-    change = [i for i in levels[level_next][4] if i]
-    for i in change:
-        levels[int(i) - 1][3] = 'True'
+    if level_next != '':
+        change = [i for i in levels[level_next][4] if i]
+        for i in change:
+            levels[int(i) - 1][3] = 'True'
     with open('data/saves/tag_coords/tag_coords.txt', 'w') as file:
         tag = []
         for item in levels:
