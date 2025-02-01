@@ -50,10 +50,9 @@ def world_map_scene(switch_scene):
     all_sprite = pygame.sprite.Group()
     tag_group = pygame.sprite.Group()
 
-    with open('data/saves/tag_coords/tag_coords.txt',
-              'r') as file:  # берет данные из файла и создает по ним экземпляры класса Point
-        for coords in file.readline().split(','):
-            coords = coords.replace('(', '').replace(')', '')
+    with open('data/saves/tag_coords/tag_coords.txt', 'r+') as file:
+        # берет данные из файла и создает по ним экземпляры класса Point
+        for coords in file.readlines():
             coords = coords.split(';')
             Point(int(coords[0]), int(coords[1]), str(coords[2]), True if coords[3] == 'True' else False, all_sprite,
                   tag_group)

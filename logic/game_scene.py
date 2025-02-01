@@ -1,6 +1,7 @@
 import pygame
 import sqlite3
 from pytmx import load_pygame
+from win32trace import write
 
 import data.globals
 import logic.seting as setting
@@ -73,40 +74,33 @@ class Game:
 
 
 def save_progress():
-    levels = []
-    with open('data/saves/tag_coords/tag_coords.txt', 'r') as file:
-        for lvl in file.readline().split(','):
-            lvl = lvl.replace('(', '').replace(')', '')
-            lvl = lvl.split(';')
-            levels.append(lvl)
-    level_next = int(data.globals.current_level[-1]) - 1
-    if level_next != '':
-        change = [i for i in levels[level_next][4] if i]
-        for i in change:
-            levels[int(i) - 1][3] = 'True'
+    """Сохранение результата пройденнго уровня"""
+    with open('data/saves/tag_coords/tag_coords.txt', 'r+') as file:
+        data_file = file.readlines()
+        for n, line in enumerate(data_file):
+            split_line = line.split(';')
+            if int(split_line[4]) - 1 > int(data.globals.current_level.split('_')[1]):
+                break
+            if split_line[3] == 'False':
+                split_line[3] = 'True'
+                data_file[n] = ';'.join(split_line)
+                break
+
+    # Открываем файл в режиме записи, чтобы очистить его перед записью
     with open('data/saves/tag_coords/tag_coords.txt', 'w') as file:
-        tag = []
-        for item in levels:
-            item = ';'.join(item)
-            item = '(' + item + ')'
-            tag.append(item)
-        file.write(','.join(tag))
+        file.write(''.join(data_file))
 
 
-# (638;180;level_1;True;2),(800;760;level_2;False;3),(1208;180;level_3;False;4),(1740;190;level_4;False;)
 
 def game_scene(switch_scene):
-    pygame.init()
     game = Game(f'data\\maps\\{data.globals.current_level}.tmx')
-    running = True
-    clock = pygame.time.Clock()
-    pause_scene = None
-    dead_scene = None
-    end_game = None
+    running, write_bd = True, True
+    dead_scene, pause_scene, end_game = None, None, None
     game.center_camera()
     game.update_sprites()
     fade_in(game.draw_sprites)
-    timer = pygame.time.get_ticks()
+    clock = pygame.time.Clock()
+    timer = pygame.time.get_ticks() # Начало отсчета времени прохождения игроком карты
     while running:
         screen.fill('black')
         for event in pygame.event.get():
@@ -126,42 +120,40 @@ def game_scene(switch_scene):
                 pause_scene = Pause()
 
             if event.type == pygame.MOUSEBUTTONUP:
-                if pause_scene is not None:
-                    result_pause = pause_scene.update(pygame.mouse.get_pos())
-                    if result_pause == 'continue':
-                        pause_scene = None
-                    if result_pause == 'map':
-                        running = False
-                        switch_scene('world_map_scene')
-                if dead_scene is not None:
-                    result_dead = dead_scene.update(pygame.mouse.get_pos())
-                    if result_dead == 'reset':
-                        running = False
-                if end_game is not None:
-                    result_endgame = end_game.update(pygame.mouse.get_pos())
-                    if result_endgame == 'map':
+                result = ('', None)
+                for scene in [pause_scene, dead_scene, end_game]:
+                    if scene is not None:
+                        result = (scene.update(pygame.mouse.get_pos()), scene)
+                        break
+                if result[0] == 'continue':
+                    pause_scene = None
+                elif result[0] == 'reset':
+                    running = False
+                elif result[0] == 'map':
+                    if isinstance(result[1], EndGame):
                         save_progress()
-                        running = False
-                        switch_scene('world_map_scene')
-        if pause_scene is None and dead_scene is None:
+                    running = False
+                    switch_scene('world_map_scene')
+
+        for scene in [pause_scene, dead_scene, end_game]:
+            if scene is not None:
+                game.draw_sprites()
+                scene.draw(screen)
+                break
+        else:
             game.update_sprites()
             game.draw_sprites()
-        if pause_scene is not None:
-            game.draw_sprites()
-            pause_scene.draw(screen)
-        if dead_scene is not None:
-            game.draw_sprites()
-            dead_scene.draw(screen)
-        if end_game is not None:
-            game.draw_sprites()
-            end_game.draw(screen)
+
         if game.end_game():
-            # Запись времени прохождения игры в БД
-            con = sqlite3.connect('..\\statictic.sqlite')
-            cur = con.cursor()
-            cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
-                        ('None', pygame.time.get_ticks() - timer, int(game.tmx_map.filename.split('_')[-1].split('.')[0])))
-            con.close()
+            if write_bd:
+                # Запись времени прохождения игры в БД
+                con = sqlite3.connect('statictic.sqlite')
+                cur = con.cursor()
+                cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
+                            ('None', (pygame.time.get_ticks() - timer) // 1000, int(game.tmx_map.filename.split('_')[-1].split('.')[0])))
+                con.commit()
+                con.close()
+                write_bd = False
             end_game = EndGame() # Вызов окна окончания игры
         if game.player.hp <= 0:
             dead_scene = DeadScene()  # Вызов окна смерти игрока
