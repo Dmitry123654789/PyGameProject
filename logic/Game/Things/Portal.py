@@ -1,6 +1,6 @@
 import pygame
 
-from logic.Things.Thing import Thing
+from logic.Game.Things.Thing import Thing
 from logic.seting import CELL_SIZE, WORLD_LAYERS
 from logic.support import load_image
 

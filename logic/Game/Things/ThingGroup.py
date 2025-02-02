@@ -2,8 +2,8 @@ from random import randint
 
 import pygame
 
-from logic.Things.HealtBottle import HealthBottle
-from logic.Things.Portal import Portal
+from logic.Game.Things.HealtBottle import HealthBottle
+from logic.Game.Things.Portal import Portal
 from logic.seting import CELL_SIZE
 
 

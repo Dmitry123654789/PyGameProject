@@ -1,4 +1,4 @@
 638;180;level_1;True;1
-800;760;level_2;False;2
-1208;180;level_3;False;3
-1740;190;level_4;False;4
+800;760;level_2;True;2
+1208;180;level_3;True;3
+1740;190;level_4;True;4

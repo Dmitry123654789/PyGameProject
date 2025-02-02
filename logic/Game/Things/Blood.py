@@ -2,7 +2,7 @@ import pygame
 
 from logic.seting import WORLD_LAYERS, CELL_SIZE
 from logic.support import load_image
-from logic.Things.Thing import Thing
+from logic.Game.Things.Thing import Thing
 
 def get_sprites(img):
     sprites = []

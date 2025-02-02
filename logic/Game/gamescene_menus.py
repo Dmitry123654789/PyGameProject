@@ -1,30 +1,8 @@
 import pygame
 
 import data.globals
-from data.languages import english, russian
 from logic.seting import screen
-
-
-class Button(pygame.sprite.Sprite):  # Класс кнопки для меню уровней
-    def __init__(self, pos_x: float, pos_y: float, text: str, surface: pygame.Surface):
-        super().__init__()
-        if data.globals.LANGUAGE:
-            lang = russian.rus
-        else:
-            lang = english.eng
-        font = pygame.font.Font('data/font.otf', 30)
-        self.button = pygame.Surface((surface.get_width() // 1.3, surface.get_height() // 3), pygame.SRCALPHA)
-        pygame.draw.rect(self.button, (60, 60, 60), self.button.get_rect(), 0, 20)
-        text_surf = font.render(lang[text], False, 'White')
-        self.button.blit(text_surf, (self.button.get_width() // 2 - text_surf.get_width() // 2,
-                                     self.button.get_height() // 2 - text_surf.get_height() // 2))
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.rect = self.button.get_rect().move(pos_x, pos_y)
-
-    def draw(self, surface):  # Отрисовывает кнопку на поверхности
-        surface.blit(self.button, self.rect)
-
+from logic.Game.Input import Button, TextBox
 
 class Pause:  # Меню паузы
     def __init__(self):

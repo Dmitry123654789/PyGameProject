@@ -1,16 +1,16 @@
-import pygame
 import sqlite3
+
+import pygame
 from pytmx import load_pygame
-from win32trace import write
 
 import data.globals
 import logic.seting as setting
 from logic.Entity.Enemy import EnemiesGroup
 from logic.Entity.Players import Player
-from logic.Field.Field import Field, DrawField
-from logic.Things.Portal import Portal
-from logic.Things.ThingGroup import Things
-from logic.gamescene_menus import Pause, EndGame, DeadScene
+from logic.Game.Field.Field import Field, DrawField
+from logic.Game.Things.Portal import Portal
+from logic.Game.Things.ThingGroup import Things
+from logic.Game.gamescene_menus import Pause, EndGame, DeadScene
 from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
 from logic.support import fade_in
 
@@ -91,7 +91,6 @@ def save_progress():
         file.write(''.join(data_file))
 
 
-
 def game_scene(switch_scene):
     game = Game(f'data\\maps\\{data.globals.current_level}.tmx')
     running, write_bd = True, True
@@ -100,7 +99,8 @@ def game_scene(switch_scene):
     game.update_sprites()
     fade_in(game.draw_sprites)
     clock = pygame.time.Clock()
-    timer = pygame.time.get_ticks() # Начало отсчета времени прохождения игроком карты
+    timer = pygame.time.get_ticks()  # Начало отсчета времени прохождения игроком карты
+    pause_timer = 0
     while running:
         screen.fill('black')
         for event in pygame.event.get():
@@ -118,6 +118,7 @@ def game_scene(switch_scene):
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE \
                     and dead_scene is None and end_game is None:
                 pause_scene = Pause()
+                pause_timer = pygame.time.get_ticks()
 
             if event.type == pygame.MOUSEBUTTONUP:
                 result = ('', None)
@@ -127,6 +128,7 @@ def game_scene(switch_scene):
                         break
                 if result[0] == 'continue':
                     pause_scene = None
+                    timer += pygame.time.get_ticks() - pause_timer
                 elif result[0] == 'reset':
                     running = False
                 elif result[0] == 'map':
@@ -150,14 +152,14 @@ def game_scene(switch_scene):
                 con = sqlite3.connect('statictic.sqlite')
                 cur = con.cursor()
                 cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
-                            ('None', (pygame.time.get_ticks() - timer) // 1000, int(game.tmx_map.filename.split('_')[-1].split('.')[0])))
+                            ('None', (pygame.time.get_ticks() - timer) // 1000,
+                             int(game.tmx_map.filename.split('_')[-1].split('.')[0])))
                 con.commit()
                 con.close()
                 write_bd = False
-            end_game = EndGame() # Вызов окна окончания игры
+            end_game = EndGame()  # Вызов окна окончания игры
         if game.player.hp <= 0:
-            dead_scene = DeadScene()  # Вызов окна смерти игрока
-
+            dead_scene = DeadScene()  # Вызов окна смерти игрока=
         # Отладочная информация
         # pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_height() / 2), (screen.get_width(), screen.get_height() / 2))
         # pygame.draw.line(screen, pygame.Color('black'), (screen.get_width() / 2, 0), (screen.get_width() / 2, screen.get_height()))

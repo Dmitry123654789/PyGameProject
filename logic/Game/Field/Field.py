@@ -1,7 +1,7 @@
 from logic.Entity.Enemy import Enemy
 from logic.Entity.Players import Player
 from logic.seting import *
-from logic.Field.Tiles import *
+from logic.Game.Field.Tiles import *
 
 
 class Field(pygame.sprite.Group):

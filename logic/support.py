@@ -23,8 +23,10 @@ def load_image(name, colorkey=None):
 
 
 def split_image(image, sprite_height_width, cell_size):
-    """Разделяет изображение на словарь surface"""
-    """Surface, ширина и длина одного спрайта, итоговый размер спрайта"""
+    """Разделение изображения на словарь surface
+    :param image: изображение для нарезки
+    :param sprite_height_width: ширина и длина одного спрайта,
+    :param cell_size: итоговый размер спрайта"""
     sprites = {'down': [], 'left': [], 'right': [], 'up': []}
     for y, key in enumerate(sprites.keys()):
         for x in range(6):
