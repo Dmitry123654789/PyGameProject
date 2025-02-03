@@ -1,5 +1,5 @@
-from logic.Entity.Enemy import Enemy
-from logic.Entity.Players import Player
+from logic.Game.Entity.Enemy import Enemy
+from logic.Game.Entity.Players import Player
 from logic.seting import *
 from logic.Game.Field.Tiles import *
 

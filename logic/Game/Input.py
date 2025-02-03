@@ -27,7 +27,7 @@ class Button(pygame.sprite.Sprite):  # Класс кнопки для меню �
 
 
 class TextBox:
-    def __init__(self, x, y, text, font, back_text):
+    def __init__(self, x, y, font, text, back_text):
         """
         :param x: Координата X
         :param y: Координата Y
@@ -71,8 +71,8 @@ class TextBox:
 
         # Создание прямоугольника текстового поля
         self.rect = pygame.Rect(
-            self.x + self.back_text_render.get_width(), self.y - 7,
-            max(100, self.text_render.get_width() + 12), self.font.get_linesize() + 9
+            self.x + self.back_text_render.get_width(), self.y,
+            max(100, self.text_render.get_width() + 12), self.font.get_linesize() + 10
         )
 
     def draw(self):
@@ -85,13 +85,14 @@ class TextBox:
             self.ind = 0  # Сброс индекса мигания
 
         self.ind += 0.05  # Изменение индекса для мигания курсора
-
-        screen.blit(self.back_text_render, (self.x, self.y))
-        screen.blit(self.text_render, (self.x + 7 + self.back_text_render.get_width(), self.y))
-        pygame.draw.rect(screen, self.rect_color, self.rect, 2)
+        surf = pygame.surface.Surface((self.back_text_render.get_width() + self.rect.width + 7, self.rect.height), pygame.SRCALPHA)
+        surf.blit(self.back_text_render, (self.x, 5))
+        surf.blit(self.text_render, (self.x + 3 + self.back_text_render.get_width(), 5))
+        pygame.draw.rect(surf, self.rect_color, self.rect, 2)
         # Отрисовка мигающего курсора
-        pygame.draw.rect(
-            screen, ['black', 'white'][int(self.ind) % 2],
-            (self.x + self.text_render.get_width() + self.back_text_render.get_width() + 7,
-             self.y, 2, self.font.get_linesize() - 5)
-        )
+        # pygame.draw.rect(
+        #     surf, ['black', 'white'][int(self.ind) % 2],
+        #     (self.x + self.text_render.get_width() + self.back_text_render.get_width() + 7,
+        #      self.y, 2, self.font.get_linesize() - 5)
+        # )
+        return surf

@@ -4,7 +4,7 @@ from logic.Game.Things.ThingGroup import HealthBottle
 from logic.Game.Things.Blood import Blood
 from logic.seting import WORLD_LAYERS, CELL_SIZE, screen
 from logic.support import split_image, load_image
-from logic.Entity.Entity import Entity
+from logic.Game.Entity.Entity import Entity
 
 
 class Player(Entity):

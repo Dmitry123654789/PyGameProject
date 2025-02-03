@@ -27,8 +27,8 @@ class MenuButton(pygame.sprite.Sprite):
         self.rect.x = screen.get_width() // 2 - self.rect.width // 2
         self.rect.y = screen.get_height() // 3.2 + 50 + (self.font.get_height() + 50) * self.namb
 
-    def update_language(self):
-        self.lang = self.text[(self.text.index(self.lang) + 1) % 2]
+    def update_language(self, text):
+        self.lang = self.text[text]
 
 
 class Speaker(pygame.sprite.Sprite):

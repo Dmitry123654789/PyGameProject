@@ -3,7 +3,7 @@ from random import randint, choices
 
 from logic.seting import CELL_SIZE, screen, ENEMY
 from logic.support import split_image, load_image
-from logic.Entity.Entity import Entity
+from logic.Game.Entity.Entity import Entity
 
 
 class EnemiesGroup(pg.sprite.Group):

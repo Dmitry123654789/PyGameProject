@@ -6,8 +6,6 @@ from logic.seting import screen, virtual_surface, FPS
 from logic.support import fade_out
 from logic.support import load_image
 
-pygame.init()
-
 
 class Point(pygame.sprite.Sprite):  # класс точки на карте мира
     def __init__(self, pos_x, pos_y, level, status, *group):

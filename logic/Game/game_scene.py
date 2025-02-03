@@ -5,10 +5,10 @@ from pytmx import load_pygame
 
 import data.globals
 import logic.seting as setting
-from logic.Entity.Enemy import EnemiesGroup
-from logic.Entity.Players import Player
+from logic.Game.Entity.Enemy import EnemiesGroup
+from logic.Game.Entity.Players import Player
 from logic.Game.Field.Field import Field, DrawField
-from logic.Game.Things.Portal import Portal
+from logic.Game.Things.Thing import Portal
 from logic.Game.Things.ThingGroup import Things
 from logic.Game.gamescene_menus import Pause, EndGame, DeadScene
 from logic.seting import HEIGHT, WIDTH, screen, FPS, CELL_SIZE
@@ -146,17 +146,16 @@ def game_scene(switch_scene):
             game.update_sprites()
             game.draw_sprites()
 
-        if game.end_game():
-            if write_bd:
-                # Запись времени прохождения игры в БД
-                con = sqlite3.connect('statictic.sqlite')
-                cur = con.cursor()
-                cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
-                            ('None', (pygame.time.get_ticks() - timer) // 1000,
-                             int(game.tmx_map.filename.split('_')[-1].split('.')[0])))
-                con.commit()
-                con.close()
-                write_bd = False
+        if game.end_game() and write_bd:
+            # Запись времени прохождения игры в БД
+            con = sqlite3.connect('statictic.sqlite')
+            cur = con.cursor()
+            cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
+                        ('None', (pygame.time.get_ticks() - timer) // 1000,
+                         int(game.tmx_map.filename.split('_')[-1].split('.')[0])))
+            con.commit()
+            con.close()
+            write_bd = False
             end_game = EndGame()  # Вызов окна окончания игры
         if game.player.hp <= 0:
             dead_scene = DeadScene()  # Вызов окна смерти игрока=

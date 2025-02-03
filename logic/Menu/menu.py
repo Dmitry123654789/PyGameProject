@@ -2,7 +2,7 @@ import pygame
 
 import data.globals
 from logic.seting import screen, virtual_surface, WIDTH, HEIGHT
-from logic.stats_menu import Statistics
+from logic.Menu.stats_menu import Statistics
 from logic.support import load_image
 from logic.Menu.Elements import MenuButton, Speaker
 
@@ -15,9 +15,10 @@ class Menu(pygame.sprite.Group):
         self.another_scene = None  # активно ли еще одно окно
         self.is_action_true = True  # активно ли главное меню
         self.add_buttton()
+        self.language(change_language=False)
 
     def add_buttton(self):
-        tasks = [('start_game', 'Начать игру'), ('statistics', 'Статистика'), ('Change language', 'Сменить язык'),
+        tasks = [('Start game', 'Начать игру'), ('Statistics', 'Статистика'), ('Change language', 'Сменить язык'),
                  ('exit', 'Выход')]
         for n, task in enumerate(tasks):
             MenuButton((0, n * 50), task, n, self)
@@ -27,9 +28,12 @@ class Menu(pygame.sprite.Group):
         for sprite in self.sprites():
             sprite.update()
 
-    def language(self):
-        for sprite in self.sprites():
-            sprite.update_language()
+    def language(self, change_language=True):
+        if change_language:
+            data.globals.LANGUAGE = not data.globals.LANGUAGE
+            self.text = data.globals.LANGUAGE
+        for sprite in self.sprites()[:-1]:
+            sprite.update_language(self.text)
 
     # отрисовывает все
     def draw(self, surface: pygame.Surface):
