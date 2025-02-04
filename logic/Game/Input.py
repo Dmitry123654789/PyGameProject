@@ -62,6 +62,8 @@ class TextBox:
 
     def update_select(self, pos):
         """Проверяет, было ли нажатие мыши на текстовое поле"""
+        pos = pos[0] - self.x, pos[1] - self.y
+        print(pos, self.rect)
         self.select = self.rect.collidepoint(pos)  # Устанавливает флаг выбора
 
     def update(self):
@@ -71,7 +73,7 @@ class TextBox:
 
         # Создание прямоугольника текстового поля
         self.rect = pygame.Rect(
-            self.x + self.back_text_render.get_width(), self.y,
+            self.back_text_render.get_width(), 0,
             max(100, self.text_render.get_width() + 12), self.font.get_linesize() + 10
         )
 
@@ -84,15 +86,15 @@ class TextBox:
             self.rect_color = 'gray15'  # Серый цвет при отсутствии выбора
             self.ind = 0  # Сброс индекса мигания
 
-        self.ind += 0.05  # Изменение индекса для мигания курсора
+        self.ind += 0.1  # Изменение индекса для мигания курсора
         surf = pygame.surface.Surface((self.back_text_render.get_width() + self.rect.width + 7, self.rect.height), pygame.SRCALPHA)
-        surf.blit(self.back_text_render, (self.x, 5))
-        surf.blit(self.text_render, (self.x + 3 + self.back_text_render.get_width(), 5))
+        surf.blit(self.back_text_render, (0, 5))
+        surf.blit(self.text_render, (3 + self.back_text_render.get_width(), 5))
         pygame.draw.rect(surf, self.rect_color, self.rect, 2)
         # Отрисовка мигающего курсора
-        # pygame.draw.rect(
-        #     surf, ['black', 'white'][int(self.ind) % 2],
-        #     (self.x + self.text_render.get_width() + self.back_text_render.get_width() + 7,
-        #      self.y, 2, self.font.get_linesize() - 5)
-        # )
+        pygame.draw.rect(
+            surf, ['black', 'white'][int(self.ind) % 2],
+            (self.text_render.get_width() + self.back_text_render.get_width() + 5,
+             7, 2, self.font.get_linesize() - 5)
+        )
         return surf

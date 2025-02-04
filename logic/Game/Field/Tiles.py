@@ -3,6 +3,7 @@ import pygame
 
 class Tile(pygame.sprite.Sprite):
     """Клас клетки, хранит изображение"""
+
     def __init__(self, pos, surf, z, *groups):
         super().__init__(*groups)
         self.image = surf
@@ -19,8 +20,10 @@ class Tile(pygame.sprite.Sprite):
     def shift(self, delta_x, delta_y):
         self.rect.center = (self.rect.centerx - delta_x, self.rect.centery - delta_y)
 
+
 class TileObject(pygame.sprite.Sprite):
     """Клас клетки, хранит только полигон(хитбокс)"""
+
     def __init__(self, pos, size, *groups):
         super().__init__(*groups)
         self.rect = pygame.rect.Rect(*pos, *size)

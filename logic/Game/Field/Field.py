@@ -1,7 +1,7 @@
 from logic.Game.Entity.Enemy import Enemy
 from logic.Game.Entity.Players import Player
-from logic.seting import *
 from logic.Game.Field.Tiles import *
+from logic.seting import *
 
 
 class Field(pygame.sprite.Group):
@@ -84,8 +84,8 @@ class DrawField(pygame.sprite.Group):
                 # Если это враг или игрок рисуем полоску здоровья
                 if isinstance(sprite, (Enemy, Player)) and sprite.hp > 0:
                     pygame.draw.rect(self.display_surface, (255, 0, 0), (
-                    sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8, 5))
+                        sprite.rect.x + sprite.rect.width / 10, sprite.rect.y, sprite.rect.width * 0.8, 5))
                     pygame.draw.rect(self.display_surface, (50, 200, 50), (
-                    sprite.rect.x + sprite.rect.width / 10, sprite.rect.y,
-                    sprite.rect.width * 0.8 * ((sprite.hp / (sprite.max_hp / 100)) / 100), 5))
+                        sprite.rect.x + sprite.rect.width / 10, sprite.rect.y,
+                        sprite.rect.width * 0.8 * ((sprite.hp / (sprite.max_hp / 100)) / 100), 5))
                     # pygame.draw.rect(self.display_surface, (0, 255, 0), sprite.hitbox, 1)

@@ -1,5 +1,7 @@
 import pygame
+
 from logic.seting import WORLD_LAYERS
+
 
 class Entity(pygame.sprite.Sprite):
     """Начальный класс любой сущности"""

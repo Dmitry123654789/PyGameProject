@@ -1,8 +1,8 @@
 import pygame
 
 import data.globals
-from logic.seting import screen
 from logic.Game.Input import Button, TextBox
+from logic.seting import screen
 
 
 class Pause:  # Меню паузы
@@ -55,22 +55,26 @@ class EndGame:  # Класс меню окончания уровня
         else:
             text = 'You win!'
 
-        render_text = pygame.font.Font('data\\font.otf', screen.get_width() // 15).render(text, True, pygame.Color('white'))
+        render_text = pygame.font.Font('data\\font.otf', screen.get_width() // 15).render(text, True,
+                                                                                          pygame.Color('white'))
         self.screen2.blit(render_text, (
-        self.screen2.get_width() * 0.5 - self.screen2.get_width() * 0.2, self.screen2.get_height() * 0.05))
+            self.screen2.get_width() * 0.5 - self.screen2.get_width() * 0.2, self.screen2.get_height() * 0.05))
 
         self.tex_box.font = pygame.font.Font('data\\font.otf', screen.get_width() // 35)
         self.tex_box.update()
         text_box_surf = self.tex_box.draw()
-        self.screen2.blit(text_box_surf, (self.screen2.get_width() // 2 - text_box_surf.get_width() // 2 - 5, render_text.get_height() + 50))
-
+        self.screen2.blit(text_box_surf, (
+        self.screen2.get_width() // 2 - text_box_surf.get_width() // 2 - 5, render_text.get_height() + 50))
+        self.tex_box.x, self.tex_box.y = (
+        self.screen2.get_width() // 2 - text_box_surf.get_width() // 2 - 5 + screen.get_width() * 0.25,
+        render_text.get_height() + 50 + screen.get_height() * 0.25)
         surface.blit(self.screen2, (screen.get_width() * 0.25, screen.get_height() * 0.25))
 
     def update(self, mouse_pos: tuple[int, int]) -> None or str:
         """Проверяет нажатие на кнопку и вовзращает действие, в зависимости от нажатой кнопки"""
         new_mouse_pos = mouse_pos[0] - screen.get_width() * 0.25, mouse_pos[1] - screen.get_height() * 0.25
         if self.button_next.rect.collidepoint(new_mouse_pos):
-            return 'map'
+            return 'map_end'
 
 
 class DeadScene:  # Класс меню смерти игрока

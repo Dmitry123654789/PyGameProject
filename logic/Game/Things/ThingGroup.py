@@ -8,6 +8,7 @@ from logic.seting import CELL_SIZE
 
 class Things(pygame.sprite.Group):
     """Класс вещей"""
+
     def __init__(self, tmx_map, draw_group):
         super().__init__()
         self.add_things(tmx_map, draw_group)
@@ -30,7 +31,7 @@ class Things(pygame.sprite.Group):
         for sprite in self:
             sprite.shift(delta_x, delta_y)
 
-    def update(self, player_group,enemy_group):
+    def update(self, player_group, enemy_group):
         """Обновление спрайтов группы"""
         for sprite in self:
             if isinstance(sprite, HealthBottle):

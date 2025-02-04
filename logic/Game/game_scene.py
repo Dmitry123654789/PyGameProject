@@ -49,9 +49,12 @@ class Game:
         self.thihgs_group.update(self.player_group, self.enemies)
 
     def draw_sprites(self):
-        """Отрисовка груп спрайтов"""
+        """Отрисовка поля"""
         self.player_group.draw(screen)
         self.draw_obj.draw()
+        screen.blit(pygame.font.Font('data/font.otf', screen.get_width() // 35).render(
+            f'{["The enemy remained", "Осталось врагов"][data.globals.LANGUAGE]}: {len(self.enemies.sprites())}', True,
+            'black'), (0, 0))
 
     def center_camera(self):
         """Двигаем поле и игрока, что бы они всегда оставались на экране"""
@@ -73,13 +76,14 @@ class Game:
         return False
 
 
-def save_progress():
+def save_progress(timer, name):
     """Сохранение результата пройденнго уровня"""
+    level = int(data.globals.current_level.split('_')[1])
     with open('data/saves/tag_coords/tag_coords.txt', 'r+') as file:
         data_file = file.readlines()
         for n, line in enumerate(data_file):
             split_line = line.split(';')
-            if int(split_line[4]) - 1 > int(data.globals.current_level.split('_')[1]):
+            if int(split_line[4]) - 1 > level:
                 break
             if split_line[3] == 'False':
                 split_line[3] = 'True'
@@ -90,10 +94,18 @@ def save_progress():
     with open('data/saves/tag_coords/tag_coords.txt', 'w') as file:
         file.write(''.join(data_file))
 
+    # Запись времени прохождения игры в БД
+    con = sqlite3.connect('statictic.sqlite')
+    cur = con.cursor()
+    cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
+                (name, (pygame.time.get_ticks() - timer) // 1000, level))
+    con.commit()
+    con.close()
+
 
 def game_scene(switch_scene):
     game = Game(f'data\\maps\\{data.globals.current_level}.tmx')
-    running, write_bd = True, True
+    running, write = True, True
     dead_scene, pause_scene, end_game = None, None, None
     game.center_camera()
     game.update_sprites()
@@ -115,10 +127,12 @@ def game_scene(switch_scene):
                 if screen.get_height() < setting.HEIGHT:
                     pygame.display.set_mode((screen.get_width(), HEIGHT), pygame.RESIZABLE)
                 game.center_camera()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE \
-                    and dead_scene is None and end_game is None:
-                pause_scene = Pause()
-                pause_timer = pygame.time.get_ticks()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE and dead_scene is None and end_game is None:
+                    pause_scene = Pause()
+                    pause_timer = pygame.time.get_ticks()
+                if not end_game is None:
+                    end_game.tex_box.update_text(event)
 
             if event.type == pygame.MOUSEBUTTONUP:
                 result = ('', None)
@@ -132,10 +146,14 @@ def game_scene(switch_scene):
                 elif result[0] == 'reset':
                     running = False
                 elif result[0] == 'map':
-                    if isinstance(result[1], EndGame):
-                        save_progress()
                     running = False
                     switch_scene('world_map_scene')
+                elif result[0] == 'map_end' and end_game.tex_box.text != '':
+                    save_progress(timer, end_game.tex_box.text)
+                    running = False
+                    switch_scene('world_map_scene')
+                if isinstance(result[1], EndGame):
+                    end_game.tex_box.update_select(event.pos)
 
         for scene in [pause_scene, dead_scene, end_game]:
             if scene is not None:
@@ -146,16 +164,8 @@ def game_scene(switch_scene):
             game.update_sprites()
             game.draw_sprites()
 
-        if game.end_game() and write_bd:
-            # Запись времени прохождения игры в БД
-            con = sqlite3.connect('statictic.sqlite')
-            cur = con.cursor()
-            cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
-                        ('None', (pygame.time.get_ticks() - timer) // 1000,
-                         int(game.tmx_map.filename.split('_')[-1].split('.')[0])))
-            con.commit()
-            con.close()
-            write_bd = False
+        if game.end_game() and write:
+            write = False
             end_game = EndGame()  # Вызов окна окончания игры
         if game.player.hp <= 0:
             dead_scene = DeadScene()  # Вызов окна смерти игрока=

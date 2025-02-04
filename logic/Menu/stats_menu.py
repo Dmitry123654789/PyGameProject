@@ -1,11 +1,14 @@
-import pygame
 import sqlite3
+
+import pygame
+
 import data.globals
 from logic.seting import screen
 
 
 class StatisticButton(pygame.sprite.Sprite):
     """Класс кнопки статистики"""
+
     def __init__(self, pos, numb, *group):
         super().__init__(*group)
 
@@ -46,6 +49,7 @@ class StatisticButton(pygame.sprite.Sprite):
 
 class Statistics(pygame.sprite.Group):
     """Класс окна статистики"""
+
     def __init__(self):
         super().__init__()
 
@@ -113,11 +117,12 @@ class Statistics(pygame.sprite.Group):
                 # Отображение топ-10 результатов
                 for i in range(10):
                     if i >= len(result):
-                        text = f'{i + 1}. __.__.__'  # Заполнение пустых строк
+                        text = f'{i + 1}. {' ' * 10}: __.__.__'  # Заполнение пустых строк
                     else:
                         hours = result[i][0] // 60 // 60
                         minutes = result[i][0] // 60 % 60
-                        text = f'{i + 1}. {str(hours).zfill(2)}.{str(minutes).zfill(2)}.{str(result[i][0] % 60).zfill(2)}'
+                        text = (f'{i + 1}. {result[i][1]}: {''.ljust(10 - len(result[i][1]))}'
+                                f'{str(hours).zfill(2)}.{str(minutes).zfill(2)}.{str(result[i][0] % 60).zfill(2)}')
 
                     font_size = screen.get_height() // 100 * 5 - 10
                     surface.blit(pygame.font.Font('data/font.otf', font_size).render(text, True, pygame.Color('black')),

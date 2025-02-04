@@ -1,13 +1,15 @@
-import pygame as pg
 from random import randint, choices
 
+import pygame as pg
+
+from logic.Game.Entity.Entity import Entity
 from logic.seting import CELL_SIZE, screen, ENEMY
 from logic.support import split_image, load_image
-from logic.Game.Entity.Entity import Entity
 
 
 class EnemiesGroup(pg.sprite.Group):
     """Группа спрайтов содержащая врагов"""
+
     def __init__(self, draw_group, tmx_map):
         super().__init__()
         self.add_enemy(draw_group, tmx_map)
@@ -31,8 +33,10 @@ class EnemiesGroup(pg.sprite.Group):
 
 class Enemy(Entity):
     """Класс врага"""
+
     def __init__(self, pos, *group):
-        color = choices(list(ENEMY.keys()), weights=[ENEMY[i][3] for i in ENEMY.keys()])[0] # Цвет врвга, от этого зависят его характеристи
+        color = choices(list(ENEMY.keys()), weights=[ENEMY[i][3] for i in ENEMY.keys()])[
+            0]  # Цвет врвга, от этого зависят его характеристи
         self.sprites = split_image(load_image(f'images\\dog_sprites\\{color}.png'), 32, CELL_SIZE * 2)
         self.attack_sprites = split_image(load_image(f'images\\dog_sprites\\attack_{color}.png'), 32, CELL_SIZE * 2)
         super().__init__(pos, self.sprites, *group)
@@ -42,12 +46,12 @@ class Enemy(Entity):
         self.damage = ENEMY[color][2]
 
         self.hitbox = self.rect.inflate(-self.rect.width / 2, -self.rect.height / 5 * 2 + 1)
-        self.dict_direct  = {(0, 1): 'down', (-1, 0) : 'left', (1, 0): 'right',
-                               (0, -1): 'up'}
+        self.dict_direct = {(0, 1): 'down', (-1, 0): 'left', (1, 0): 'right',
+                            (0, -1): 'up'}
 
         self.steps_required = 6  # Минимум шагов перед сменой направления
-        self.steps_made = 0 # Шагов сделано в одном направлени
-        self.current_direction = None # Нынешнее направление
+        self.steps_made = 0  # Шагов сделано в одном направлени
+        self.current_direction = None  # Нынешнее направление
         self.attack = False
 
         self.attack_timer = 0
@@ -130,7 +134,6 @@ class Enemy(Entity):
             # Устанавливаем направление атаки только один раз в начале
             self.attack_direction = self.set_one(self.current_direction)
 
-
         self.image = self.attack_sprites[self.dict_direct[self.attack_direction]][self.ind_sprite]
         # Проверяем сталкиваемя ли мы с чем то
         if not self.collisions(collision_group):
@@ -162,4 +165,3 @@ class Enemy(Entity):
             if self.is_going() and self.is_animated():
                 if 0 <= self.hitbox.centerx <= screen.get_width() and 0 <= self.hitbox.centery <= screen.get_height():
                     self.going(*map(lambda x: x * randint(1, self.step), self.input(pos)), collision_group)
-
