@@ -3,8 +3,8 @@ import pygame
 from logic.Game.game_scene import game_scene
 from logic.Menu.menu import main_menu_scene
 from logic.seting import volume_sound_background
-from logic.world_map import world_map_scene
 from logic.support import load_image
+from logic.world_map import world_map_scene
 
 current_scene = None
 
@@ -14,6 +14,7 @@ is_music_play = True
 pygame.mixer.music.set_volume(volume_sound_background)
 
 pygame.display.set_icon(load_image('images\\icon_app.png').convert_alpha())
+
 
 def switch_scene(scene):
     global current_scene

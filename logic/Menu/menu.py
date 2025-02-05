@@ -1,10 +1,10 @@
 import pygame
 
 import data.globals
-from logic.seting import screen, virtual_surface, WIDTH, HEIGHT
-from logic.Menu.stats_menu import Statistics
-from logic.support import load_image
 from logic.Menu.Elements import MenuButton, Speaker
+from logic.Menu.stats_menu import Statistics
+from logic.seting import screen, virtual_surface, WIDTH, HEIGHT
+from logic.support import load_image
 
 
 class Menu(pygame.sprite.Group):
@@ -19,7 +19,7 @@ class Menu(pygame.sprite.Group):
 
     def add_buttton(self):
         tasks = [('Start game', 'Начать игру'), ('Statistics', 'Статистика'), ('Change language', 'Сменить язык'),
-                 ('exit', 'Выход')]
+                 ('Exit', 'Выход')]
         for n, task in enumerate(tasks):
             MenuButton((0, n * 50), task, n, self)
         Speaker(self)
@@ -45,7 +45,7 @@ class Menu(pygame.sprite.Group):
         surface.blit(pygame.transform.scale(image, screen.get_size()), (0, 0))
 
         # Вывод названия игры
-        text = pygame.font.Font('data/font.otf', screen.get_height() // 10).render('Bark and Battle', True, '#ffd166')
+        text = pygame.font.Font('data/font.otf', screen.get_height() // 10).render('Bark and Battle', True, '#FAFAFA')
         surface.blit(text, (screen.get_width() // 2 - text.get_width() / 2, 100))
 
         # Отрисовываем кнопки

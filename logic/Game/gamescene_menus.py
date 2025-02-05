@@ -64,10 +64,10 @@ class EndGame:  # Класс меню окончания уровня
         self.tex_box.update()
         text_box_surf = self.tex_box.draw()
         self.screen2.blit(text_box_surf, (
-        self.screen2.get_width() // 2 - text_box_surf.get_width() // 2 - 5, render_text.get_height() + 50))
+            self.screen2.get_width() // 2 - text_box_surf.get_width() // 2 - 5, render_text.get_height() + 50))
         self.tex_box.x, self.tex_box.y = (
-        self.screen2.get_width() // 2 - text_box_surf.get_width() // 2 - 5 + screen.get_width() * 0.25,
-        render_text.get_height() + 50 + screen.get_height() * 0.25)
+            self.screen2.get_width() // 2 - text_box_surf.get_width() // 2 - 5 + screen.get_width() * 0.25,
+            render_text.get_height() + 50 + screen.get_height() * 0.25)
         surface.blit(self.screen2, (screen.get_width() * 0.25, screen.get_height() * 0.25))
 
     def update(self, mouse_pos: tuple[int, int]) -> None or str:

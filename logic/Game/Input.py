@@ -2,7 +2,6 @@ import pygame
 
 import data.globals
 from data.languages import english, russian
-from logic.seting import screen
 
 
 class Button(pygame.sprite.Sprite):  # Класс кнопки для меню уровней
@@ -69,7 +68,8 @@ class TextBox:
     def update(self):
         """Обновление отрисовки текста, прямоугольника и фонового текста"""
         self.text_render = self.font.render(self.text, True, 'white')  # Отрисовка текста
-        self.back_text_render = self.font.render(self.language[data.globals.LANGUAGE], True, 'white')  # Отрисовка фонового текста
+        self.back_text_render = self.font.render(self.language[data.globals.LANGUAGE], True,
+                                                 'white')  # Отрисовка фонового текста
 
         # Создание прямоугольника текстового поля
         self.rect = pygame.Rect(
@@ -87,7 +87,8 @@ class TextBox:
             self.ind = 0  # Сброс индекса мигания
 
         self.ind += 0.1  # Изменение индекса для мигания курсора
-        surf = pygame.surface.Surface((self.back_text_render.get_width() + self.rect.width + 7, self.rect.height), pygame.SRCALPHA)
+        surf = pygame.surface.Surface((self.back_text_render.get_width() + self.rect.width + 7, self.rect.height),
+                                      pygame.SRCALPHA)
         surf.blit(self.back_text_render, (0, 5))
         surf.blit(self.text_render, (3 + self.back_text_render.get_width(), 5))
         pygame.draw.rect(surf, self.rect_color, self.rect, 2)
