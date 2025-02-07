@@ -1,6 +1,7 @@
 import pygame
 
 import data.globals
+from data.languages.language import game_elements
 from logic.Game.Input import Button, TextBox
 from logic.seting import screen
 
@@ -40,7 +41,7 @@ class EndGame:  # Класс меню окончания уровня
         self.button_next = Button(self.screen2.get_width() * 0.5 - self.screen2.get_width() * 0.35,
                                   self.screen2.get_height() * 0.6, 'map', self.screen2)
         self.tex_box = TextBox(0, 0, pygame.font.Font('data\\font.otf', screen.get_width() // 30),
-                               'Player', ['Your name: ', 'Ваше имя: '])
+                               'Player')
 
     def draw(self, surface: pygame.Surface):
         self.screen2 = pygame.Surface((screen.get_width() // 2, screen.get_height() // 2))
@@ -50,11 +51,8 @@ class EndGame:  # Класс меню окончания уровня
                                   self.screen2.get_height() * 0.55,
                                   'map', self.screen2)
         self.button_next.draw(self.screen2)
-        if data.globals.LANGUAGE:
-            text = 'Победа!'
-        else:
-            text = 'You win!'
 
+        text = game_elements['win'][data.globals.LANGUAGE_INDEX]
         render_text = pygame.font.Font('data\\font.otf', screen.get_width() // 15).render(text, True,
                                                                                           pygame.Color('white'))
         self.screen2.blit(render_text, (

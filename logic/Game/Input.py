@@ -1,20 +1,16 @@
 import pygame
 
 import data.globals
-from data.languages import english, russian
+from data.languages.language import game_elements
 
 
 class Button(pygame.sprite.Sprite):  # Класс кнопки для меню уровней
     def __init__(self, pos_x: float, pos_y: float, text: str, surface: pygame.Surface):
         super().__init__()
-        if data.globals.LANGUAGE:
-            lang = russian.rus
-        else:
-            lang = english.eng
         font = pygame.font.Font('data/font.otf', 30)
         self.button = pygame.Surface((surface.get_width() // 1.3, surface.get_height() // 3), pygame.SRCALPHA)
         pygame.draw.rect(self.button, (60, 60, 60), self.button.get_rect(), 0, 20)
-        text_surf = font.render(lang[text], False, 'White')
+        text_surf = font.render(game_elements[text][data.globals.LANGUAGE_INDEX], False, 'White')
         self.button.blit(text_surf, (self.button.get_width() // 2 - text_surf.get_width() // 2,
                                      self.button.get_height() // 2 - text_surf.get_height() // 2))
         self.pos_x = pos_x
@@ -26,13 +22,12 @@ class Button(pygame.sprite.Sprite):  # Класс кнопки для меню �
 
 
 class TextBox:
-    def __init__(self, x, y, font, text, back_text):
+    def __init__(self, x, y, font, text):
         """
         :param x: Координата X
         :param y: Координата Y
         :param text: Текущий вводимый текст
         :param font: Шрифт текста
-        :param back_text: Текст перед TextBox
         """
         # ['Your name', 'Ваше имя']
         self.max_len = 10  # Максимальная длина вводимого текста
@@ -41,7 +36,6 @@ class TextBox:
         self.y = y
         self.text = text
         self.font = font
-        self.language = back_text  # Поддержка разных языков
         self.select = False  # Флаг выбора (активно ли поле)
         self.rect_color = None  # Цвет рамки текстового поля
         self.text_render = None  # Отрисованный текст
@@ -62,14 +56,13 @@ class TextBox:
     def update_select(self, pos):
         """Проверяет, было ли нажатие мыши на текстовое поле"""
         pos = pos[0] - self.x, pos[1] - self.y
-        print(pos, self.rect)
         self.select = self.rect.collidepoint(pos)  # Устанавливает флаг выбора
 
     def update(self):
         """Обновление отрисовки текста, прямоугольника и фонового текста"""
         self.text_render = self.font.render(self.text, True, 'white')  # Отрисовка текста
-        self.back_text_render = self.font.render(self.language[data.globals.LANGUAGE], True,
-                                                 'white')  # Отрисовка фонового текста
+        # Отрисовка фонового текста
+        self.back_text_render = self.font.render(game_elements['text_box'][data.globals.LANGUAGE_INDEX], True, 'white')
 
         # Создание прямоугольника текстового поля
         self.rect = pygame.Rect(

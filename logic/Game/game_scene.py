@@ -5,6 +5,7 @@ from pytmx import load_pygame
 
 import data.globals
 import logic.seting as setting
+from data.languages.language import game_elements
 from logic.Game.Entity.Enemy import EnemiesGroup
 from logic.Game.Entity.Players import Player
 from logic.Game.Field.Field import Field, DrawField
@@ -53,7 +54,7 @@ class Game:
         self.player_group.draw(screen)
         self.draw_obj.draw()
         screen.blit(pygame.font.Font('data/font.otf', screen.get_width() // 35).render(
-            f'{["The enemy remained", "Осталось врагов"][data.globals.LANGUAGE]}: {len(self.enemies.sprites())}', True,
+            f'{game_elements['enemy'][data.globals.LANGUAGE_INDEX]}: {len(self.enemies.sprites())}', True,
             'black'), (0, 0))
 
     def center_camera(self):
@@ -95,7 +96,7 @@ def save_progress(timer, name):
         file.write(''.join(data_file))
 
     # Запись времени прохождения игры в БД
-    con = sqlite3.connect('statictic.sqlite')
+    con = sqlite3.connect('data\\statictic.sqlite')
     cur = con.cursor()
     cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
                 (name, (pygame.time.get_ticks() - timer) // 1000, level))
@@ -148,10 +149,13 @@ def game_scene(switch_scene):
                 elif result[0] == 'map':
                     running = False
                     switch_scene('world_map_scene')
+                    pygame.mixer.music.pause()
                 elif result[0] == 'map_end' and end_game.tex_box.text != '':
                     save_progress(timer, end_game.tex_box.text)
                     running = False
                     switch_scene('world_map_scene')
+                    pygame.mixer.music.pause()
+
                 if isinstance(result[1], EndGame):
                     end_game.tex_box.update_select(event.pos)
 
