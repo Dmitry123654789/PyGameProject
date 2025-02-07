@@ -14,7 +14,7 @@ class MenuButton(pygame.sprite.Sprite):
         self.text = text  # eng, rus
         self.lang = self.text[0]
         self.font = pygame.font.Font('data\\font.otf', screen.get_height() // 100 * 5)
-        self.image = self.font.render(self.lang, True, '#ffd166')
+        self.image = self.font.render(self.lang, True, '#FAFAFA')
         self.rect = self.image.get_rect(topleft=pos)
 
     def collision(self, pos):
@@ -24,7 +24,7 @@ class MenuButton(pygame.sprite.Sprite):
 
     def update(self):
         self.font = pygame.font.Font('data\\font.otf', screen.get_height() // 100 * 5)
-        self.image = self.font.render(self.lang, True, '#ffd166')
+        self.image = self.font.render(self.lang, True, '#FAFAFA')
         self.rect = self.image.get_rect()
         self.rect.x = screen.get_width() // 2 - self.rect.width // 2
         self.rect.y = screen.get_height() // 3.2 + 40 + (self.font.get_height() + 40) * self.namb

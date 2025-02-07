@@ -47,7 +47,7 @@ class Menu(pygame.sprite.Group):
         surface.blit(pygame.transform.scale(image, screen.get_size()), (0, 0))
 
         # Вывод названия игры
-        text = pygame.font.Font('data/font.otf', screen.get_height() // 10).render('Bark and Battle', True, '#ffd166')
+        text = pygame.font.Font('data/font.otf', screen.get_height() // 10).render('Bark and Battle', True, '#FAFAFA')
         surface.blit(text, (screen.get_width() // 2 - text.get_width() / 2, 100))
 
         # Отрисовываем кнопки
