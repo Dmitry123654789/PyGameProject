@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 
 import data.globals
@@ -78,7 +80,7 @@ def open_smth(elem, menu, switch_scene):
             menu.text = not menu.text
             menu.buttons_tasks = menu.language()
         elif elem == menu.sprites()[4]:  # выход из игры через кнопку
-            exit(1)
+            sys.exit()
         elif elem == menu.sprites()[5]:  # выключает музыку
             if menu.sprites()[5].update_value():
                 data.globals.is_music_play = False
@@ -96,7 +98,7 @@ def main_menu_scene(switch_scene):
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # выход из игры по крестику окна
-                exit(1)
+                sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # проверка нажатия мыши
                 res = check_coords(event.pos, menu)
                 if res:
