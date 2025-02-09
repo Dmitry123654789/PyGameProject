@@ -54,8 +54,8 @@ class Game:
         self.player_group.draw(screen)
         self.draw_obj.draw()
         screen.blit(pygame.font.Font('data/font.otf', screen.get_width() // 35).render(
-            f'{game_elements['enemy'][data.globals.LANGUAGE_INDEX]}: {len(self.enemies.sprites())}', True,
-            'black'), (0, 0))
+            f'{game_elements['enemy'][data.globals.LANGUAGE_INDEX]}: {len(self.enemies.sprites())}',
+            True, 'black'), (0, 0))
 
     def center_camera(self):
         """Двигаем поле и игрока, что бы они всегда оставались на экране"""
@@ -99,9 +99,17 @@ def save_progress(timer, name):
     con = sqlite3.connect('data\\statictic.sqlite')
     cur = con.cursor()
     cur.execute('INSERT INTO GameStat (Name, Time, Level) VALUES (?, ?, ?)',
-                (name, (pygame.time.get_ticks() - timer) // 1000, level))
+                (name, timer // 1000, level))
     con.commit()
     con.close()
+
+def draw_timer(timer):
+    timer //= 1000
+    hours = timer // 60 // 60
+    minutes = timer // 60 % 60
+    text = f'{game_elements["time"][data.globals.LANGUAGE_INDEX]}: {str(hours).zfill(2)}.{str(minutes).zfill(2)}.{str(timer % 60).zfill(2)}'
+    render_text = pygame.font.Font('data/font.otf', screen.get_width() // 35).render(text, True, 'black')
+    screen.blit(render_text, (screen.get_width() - render_text.get_width() - 10, 10))
 
 
 def game_scene(switch_scene):
@@ -168,11 +176,15 @@ def game_scene(switch_scene):
             game.update_sprites()
             game.draw_sprites()
 
-        if game.end_game() and write:
-            write = False
-            end_game = EndGame()  # Вызов окна окончания игры
+        if game.end_game():
+            pygame.font.Font('data/font.otf', screen.get_width() // 35)
+            if write:
+                write = False
+                end_game = EndGame()  # Вызов окна окончания игры
+                timer = pygame.time.get_ticks() - timer
+            draw_timer(timer)
         if game.player.hp <= 0:
-            dead_scene = DeadScene()  # Вызов окна смерти игрока=
+            dead_scene = DeadScene()  # Вызов окна смерти игрока
         # Отладочная информация
         # pygame.draw.line(screen, pygame.Color('black'), (0, screen.get_height() / 2), (screen.get_width(), screen.get_height() / 2))
         # pygame.draw.line(screen, pygame.Color('black'), (screen.get_width() / 2, 0), (screen.get_width() / 2, screen.get_height()))

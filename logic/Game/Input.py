@@ -30,7 +30,7 @@ class TextBox:
         :param font: Шрифт текста
         """
         # ['Your name', 'Ваше имя']
-        self.max_len = 10  # Максимальная длина вводимого текста
+        self.max_len = 15  # Максимальная длина вводимого текста
         self.ind = 0  # Индекс для мигания курсора
         self.x = x
         self.y = y
@@ -88,7 +88,7 @@ class TextBox:
         # Отрисовка мигающего курсора
         pygame.draw.rect(
             surf, ['black', 'white'][int(self.ind) % 2],
-            (self.text_render.get_width() + self.back_text_render.get_width() + 5,
+            (self.text_render.get_width() + self.back_text_render.get_width() + 3,
              7, 2, self.font.get_linesize() - 5)
         )
         return surf

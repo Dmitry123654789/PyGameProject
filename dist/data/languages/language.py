@@ -9,11 +9,12 @@ menu_button = {'start_game': ['Начать игру', 'Start game'],
 
 # Язык для элементов игрового процесса
 game_elements = {'continue': ['Продолжить', 'Continue'],
-                'map': ['Вернуться к карте', 'Return to map'],
-                'reset': ['Начать заново', 'Start again'],
-                'text_box': ['Ваше имя: ', 'Your name: '],
-                'enemy': ['Осталось врагов', 'The enemy remained'],
-                 'win': ['Победа!', 'You win!']}
+                 'map': ['Вернуться к карте', 'Return to map'],
+                 'reset': ['Начать заново', 'Start again'],
+                 'text_box': ['Ваше имя: ', 'Your name: '],
+                 'enemy': ['Осталось врагов', 'The enemy remained'],
+                 'win': ['Победа!', 'You win!'],
+                 'time': ['Времени было затрачено', 'The time was spent']}
 
 management = [['     Для постановки игры на паузу или для выхода в', 'To pause the game or exit to'],
               ['главное меню с карты мира нажмите клавишу Esc.', 'the main menu from the world map, press the Esc key.'],

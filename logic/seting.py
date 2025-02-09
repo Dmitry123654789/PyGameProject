@@ -28,6 +28,6 @@ volume_sound_background = 0.1
 pygame.init()
 virtual_surface = pygame.Surface(
     (2560, 1440), pygame.SRCALPHA)  # поверхность, на которой отрисовывается все изначально
-pygame.display.set_caption('Castle')
+pygame.display.set_caption('Bark and Batle')
 screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
 screen.fill(pygame.Color('black'))

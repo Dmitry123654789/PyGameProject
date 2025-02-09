@@ -126,7 +126,7 @@ class Statistics(pygame.sprite.Group):
                     else:
                         hours = result[i][0] // 60 // 60
                         minutes = result[i][0] // 60 % 60
-                        text = (f'{i + 1}. {result[i][1]}: {"".ljust(10 - len(result[i][1]))}'
+                        text = (f'{i + 1}. {result[i][1]}: '
                                 f'{str(hours).zfill(2)}.{str(minutes).zfill(2)}.{str(result[i][0] % 60).zfill(2)}')
 
                     font_size = screen.get_height() // 100 * 5 - 10
