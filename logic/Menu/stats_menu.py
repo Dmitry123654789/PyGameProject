@@ -14,7 +14,7 @@ def window(surf, delta_x=0, delta_y=0):
     screen2.fill(pygame.color.Color('white'))
 
     screen2.blit(
-        pygame.font.Font('data/font.otf', 25).render(f'{menu_button['back'][data.globals.LANGUAGE_INDEX]}: Esc', True,
+        pygame.font.Font('data/font.otf', 25).render(f'{menu_button["back"][data.globals.LANGUAGE_INDEX]}: Esc', True,
                                                      pygame.Color('black')),
         (20, 10))
 

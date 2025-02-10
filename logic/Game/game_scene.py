@@ -54,7 +54,7 @@ class Game:
         self.player_group.draw(screen)
         self.draw_obj.draw()
         screen.blit(pygame.font.Font('data/font.otf', screen.get_width() // 35).render(
-            f'{game_elements['enemy'][data.globals.LANGUAGE_INDEX]}: {len(self.enemies.sprites())}',
+            f'{game_elements["enemy"][data.globals.LANGUAGE_INDEX]}: {len(self.enemies.sprites())}',
             True, 'black'), (0, 0))
 
     def center_camera(self):
